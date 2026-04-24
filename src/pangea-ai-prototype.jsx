@@ -358,6 +358,486 @@ const scenarioC = {
   },
 };
 
+// Scenario C10 — 10-second variant of Scenario C
+const scenarioC10 = {
+  id: "C10",
+  label: "Scenario C (10s)",
+  title: "M1: Insight + Feedback (10s sync)",
+  desc: "Maria — Grocery trend, faster generation",
+  tags: ["Milestone 1", "Feedback UI", "Sync (~10s)"],
+  tagColor: C.navy,
+  tagBg: "#E5E7EB",
+  icon: "⚡",
+  milestone: "M1",
+  speed: "sync",
+  generationMs: 10000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 4500 },
+    { text: "Preparing your insight...", ms: 10000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
+// UI Pattern explorations — all reuse scenarioC data with uiPattern field
+const scenarioRC = {
+  id: "RC",
+  label: "Report Card",
+  title: "Report Card UI Pattern",
+  desc: "Maria — Grocery trend, report card layout",
+  tags: ["Report Card", "M1", "Async (~20s)"],
+  tagColor: "#6366F1",
+  tagBg: "#EEF2FF",
+  icon: "📊",
+  milestone: "M1",
+  uiPattern: "reportCard",
+  speed: "async",
+  generationMs: 20000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 6500 },
+    { text: "Finding patterns in your spending...", ms: 13000 },
+    { text: "Preparing your insight...", ms: 20000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
+const scenarioMT = {
+  id: "MT",
+  label: "Message Thread",
+  title: "Message Thread UI Pattern",
+  desc: "Maria — Grocery trend, chat message style",
+  tags: ["Message Thread", "M1", "Async (~20s)"],
+  tagColor: "#6366F1",
+  tagBg: "#EEF2FF",
+  icon: "💬",
+  milestone: "M1",
+  uiPattern: "messageThread",
+  speed: "async",
+  generationMs: 20000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 6500 },
+    { text: "Finding patterns in your spending...", ms: 13000 },
+    { text: "Preparing your insight...", ms: 20000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
+const scenarioBS = {
+  id: "BS",
+  label: "Bottom Sheet",
+  title: "Bottom Sheet UI Pattern",
+  desc: "Maria — Grocery trend, bottom sheet overlay",
+  tags: ["Bottom Sheet", "M1", "Async (~20s)"],
+  tagColor: "#6366F1",
+  tagBg: "#EEF2FF",
+  icon: "📋",
+  milestone: "M1",
+  uiPattern: "bottomSheet",
+  speed: "async",
+  generationMs: 20000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 6500 },
+    { text: "Finding patterns in your spending...", ms: 13000 },
+    { text: "Preparing your insight...", ms: 20000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
+const scenarioCA = {
+  id: "CA",
+  label: "Contextual Annotation",
+  title: "Contextual Annotation UI Pattern",
+  desc: "Maria — Grocery trend, inline annotations",
+  tags: ["Annotation", "M1", "Async (~20s)"],
+  tagColor: "#6366F1",
+  tagBg: "#EEF2FF",
+  icon: "🏷️",
+  milestone: "M1",
+  uiPattern: "contextAnnotation",
+  speed: "async",
+  generationMs: 20000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 6500 },
+    { text: "Finding patterns in your spending...", ms: 13000 },
+    { text: "Preparing your insight...", ms: 20000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
+const scenarioSV = {
+  id: "SV",
+  label: "Split View",
+  title: "Split View UI Pattern",
+  desc: "Maria — Grocery trend, expandable inline card",
+  tags: ["Split View", "M1", "Async (~20s)"],
+  tagColor: "#6366F1",
+  tagBg: "#EEF2FF",
+  icon: "📐",
+  milestone: "M1",
+  uiPattern: "splitView",
+  speed: "async",
+  generationMs: 20000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 6500 },
+    { text: "Finding patterns in your spending...", ms: 13000 },
+    { text: "Preparing your insight...", ms: 20000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
 // ── SHARED COMPONENTS ──
 
 const PhoneFrame = ({ children }) => (
@@ -721,7 +1201,7 @@ const ProgressBar = ({ pct, warn }) => (
 
 // ── FX CALCULATOR SCREEN ──
 
-const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait }) => {
+const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight }) => {
   const s = scenario;
   const hasInsight = insightState === "ready";
   const bellUnread = hasInsight && !insightViewed;
@@ -805,54 +1285,164 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
             idle    = prior insight (ambient, no badge)
             loading = generating the next one
             ready   = new one just finished ("New" until viewed) */}
-        {insightState === "idle" && (
-          <>
-            <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
-              Your latest insight
-            </div>
-            <InsightWidget
-              headline={s.fxWidget.headline}
-              body={s.fxWidget.body}
-              cta={s.fxWidget.cta}
-              alert={s.id === "B"}
-              onClick={onInsight}
-            />
-          </>
-        )}
-        {insightState === "loading" && (
-          <>
-            <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
-              Preparing your insight
-            </div>
-            <InsightLoadingCard
-              stage={loadingStage}
-              progress={loadingProgress}
-              alert={s.id === "B"}
-              onSkip={s.speed === "async" ? onSkipWait : null}
-            />
-          </>
-        )}
-        {insightState === "ready" && (
-          <>
-            <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
-              {insightViewed ? "Your latest insight" : "New insight ready"}
-            </div>
-            <InsightWidget
-              headline={s.fxWidget.headline}
-              body={s.fxWidget.body}
-              cta={s.fxWidget.cta}
-              alert={s.id === "B"}
-              onClick={onInsight}
-              fresh={!insightViewed}
-            />
-          </>
-        )}
+        {(() => {
+          const pat = s.uiPattern;
+          // Context annotation on FX Calc: show a teal banner instead of insight card
+          if (pat === "contextAnnotation") {
+            if (insightState === "loading") {
+              return (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                    Preparing your insight
+                  </div>
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                </>
+              );
+            }
+            if (insightState === "ready" || insightState === "idle") {
+              return (
+                <div onClick={onInsight} style={{
+                  margin: "14px 16px", padding: "10px 14px",
+                  background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+                  borderRadius: 10, border: `1px solid ${C.teal}25`,
+                  cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
+                  animation: insightState === "ready" && !insightViewed ? "fadeIn 0.4s ease" : "none",
+                }}>
+                  <span style={{ fontSize: 12, color: C.teal }}>✦</span>
+                  <span style={{ fontSize: 12, color: C.tealDark, fontWeight: 500 }}>New insight about your grocery transfers</span>
+                </div>
+              );
+            }
+            return null;
+          }
+
+          // Report card widget
+          if (pat === "reportCard") {
+            if (insightState === "loading") {
+              return (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                </>
+              );
+            }
+            if (insightState === "ready" || insightState === "idle") {
+              return (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                    {insightState === "ready" && !insightViewed ? "New insight ready" : "Your latest insight"}
+                  </div>
+                  <ReportCardWidget scenario={s} onClick={onInsight} fresh={insightState === "ready" && !insightViewed} />
+                </>
+              );
+            }
+            return null;
+          }
+
+          // Message thread widget
+          if (pat === "messageThread") {
+            if (insightState === "loading") {
+              return (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                </>
+              );
+            }
+            if (insightState === "ready" || insightState === "idle") {
+              return <MessageWidget scenario={s} onClick={onInsight} fresh={insightState === "ready" && !insightViewed} />;
+            }
+            return null;
+          }
+
+          // Split view widget
+          if (pat === "splitView") {
+            if (insightState === "loading") {
+              return (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                </>
+              );
+            }
+            if (insightState === "ready" || insightState === "idle") {
+              return (
+                <SplitViewWidget
+                  scenario={s}
+                  expanded={splitExpanded}
+                  onToggle={onSplitToggle}
+                  onFullDetail={onSplitDetail}
+                  fresh={insightState === "ready" && !insightViewed}
+                />
+              );
+            }
+            return null;
+          }
+
+          // Bottom sheet — loading shows inline, ready shows strip at bottom (handled below)
+          if (pat === "bottomSheet") {
+            if (insightState === "loading") {
+              return (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                </>
+              );
+            }
+            // strip is rendered outside the scroll area, below
+            return null;
+          }
+
+          // Default insight zone (scenarioC, scenarioC10, scenarioA, scenarioB)
+          return (
+            <>
+              {insightState === "idle" && (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                    Your latest insight
+                  </div>
+                  <InsightWidget headline={s.fxWidget.headline} body={s.fxWidget.body} cta={s.fxWidget.cta} alert={s.id === "B"} onClick={onInsight} />
+                </>
+              )}
+              {insightState === "loading" && (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                    Preparing your insight
+                  </div>
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={s.id === "B"} onSkip={s.speed === "async" ? onSkipWait : null} />
+                </>
+              )}
+              {insightState === "ready" && (
+                <>
+                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                    {insightViewed ? "Your latest insight" : "New insight ready"}
+                  </div>
+                  <InsightWidget headline={s.fxWidget.headline} body={s.fxWidget.body} cta={s.fxWidget.cta} alert={s.id === "B"} onClick={onInsight} fresh={!insightViewed} />
+                </>
+              )}
+            </>
+          );
+        })()}
 
         <div style={{ margin: "0 16px 16px", fontSize: 10, color: C.textMuted, lineHeight: 1.4 }}>
           * Transfer fee listed does not include credit card transaction fees, transfers scheduled in advance, or exchange rate gains.
         </div>
       </div>
+      {/* Bottom sheet strip — sits between scroll area and bottom nav */}
+      {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle") && (
+        <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} />
+      )}
       <BottomNav active="send" onNav={onNav} />
+      {/* Bottom sheet overlay */}
+      {s.uiPattern === "bottomSheet" && showBottomSheet && (
+        <BottomSheetOverlay
+          scenario={s}
+          feedback={feedback}
+          onFeedback={onFeedback}
+          onDismiss={onBottomSheetDismiss}
+          onFullInsight={() => { onBottomSheetDismiss(); onAnnotationFullInsight(); }}
+        />
+      )}
     </>
   );
 };
@@ -1168,7 +1758,7 @@ const CategorizeSuccessModal = ({ scenario, onSeeDashboard }) => {
 
 // ── DASHBOARD SCREEN ──
 
-const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait }) => {
+const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight }) => {
   const s = scenario;
   const d = s.dashboard;
   const maxChart = Math.max(...d.monthlyChart);
@@ -1230,31 +1820,61 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
         </div>
 
         {/* AI INSIGHT CARD — Always anchored at top of Dashboard */}
-        {insightState === "loading" && (
-          <InsightLoadingCard
-            stage={loadingStage}
-            progress={loadingProgress}
-            alert={s.id === "B"}
-            onSkip={s.speed === "async" ? onSkipWait : null}
-          />
-        )}
-        {insightState === "ready" && (
-          <InsightWidget
-            headline={s.dashWidget.headline}
-            body={s.dashWidget.body}
-            alert={s.id === "B"}
-            onClick={onInsight}
-            fresh={!insightViewed}
-          />
-        )}
-        {insightState === "idle" && (
-          <InsightWidget
-            headline={s.dashWidget.headline}
-            body={s.dashWidget.body}
-            alert={s.id === "B"}
-            onClick={onInsight}
-          />
-        )}
+        {(() => {
+          const pat = s.uiPattern;
+
+          // Context annotation: no insight card on Dashboard — annotations go inline below
+          if (pat === "contextAnnotation") {
+            if (insightState === "loading") {
+              return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            }
+            return null;
+          }
+
+          // Report card widget
+          if (pat === "reportCard") {
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "ready" || insightState === "idle") return <ReportCardWidget scenario={s} onClick={onInsight} fresh={insightState === "ready" && !insightViewed} />;
+            return null;
+          }
+
+          // Message thread widget
+          if (pat === "messageThread") {
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "ready" || insightState === "idle") return <MessageWidget scenario={s} onClick={onInsight} fresh={insightState === "ready" && !insightViewed} />;
+            return null;
+          }
+
+          // Split view widget
+          if (pat === "splitView") {
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "ready" || insightState === "idle") {
+              return <SplitViewWidget scenario={s} expanded={splitExpanded} onToggle={onSplitToggle} onFullDetail={onSplitDetail} fresh={insightState === "ready" && !insightViewed} />;
+            }
+            return null;
+          }
+
+          // Bottom sheet — loading inline, ready is strip below
+          if (pat === "bottomSheet") {
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            return null;
+          }
+
+          // Default
+          return (
+            <>
+              {insightState === "loading" && (
+                <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={s.id === "B"} onSkip={s.speed === "async" ? onSkipWait : null} />
+              )}
+              {insightState === "ready" && (
+                <InsightWidget headline={s.dashWidget.headline} body={s.dashWidget.body} alert={s.id === "B"} onClick={onInsight} fresh={!insightViewed} />
+              )}
+              {insightState === "idle" && (
+                <InsightWidget headline={s.dashWidget.headline} body={s.dashWidget.body} alert={s.id === "B"} onClick={onInsight} />
+              )}
+            </>
+          );
+        })()}
 
         {/* Monthly Summary */}
         <div style={{ margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
@@ -1270,29 +1890,55 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
         </div>
 
         {/* Receivers */}
-        <div style={{ margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+        <div style={{
+          margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
+          border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
+        }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 16 }}>👤</span> Your Receivers
             <span style={{ marginLeft: "auto", fontSize: 12, color: C.textMuted, fontWeight: 500 }}>Amount</span>
           </div>
-          {d.receivers.map((r, i) => (
-            <div key={i} style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              padding: "11px 0",
-              borderBottom: i < d.receivers.length - 1 ? `1px solid ${C.borderLight}` : "none",
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{ width: 34, height: 34, borderRadius: 17, background: C.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>{r.flag || "🇲🇽"}</div>
-                <span style={{ fontSize: 14, fontWeight: 500, color: C.navy }}>{r.name}</span>
+          {d.receivers.map((r, i) => {
+            const isAnnotated = s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && r.name.includes("Rosa");
+            return (
+              <div key={i} onClick={isAnnotated ? () => onAnnotationTap(1, "receiver") : undefined} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "11px 0",
+                borderBottom: i < d.receivers.length - 1 ? `1px solid ${C.borderLight}` : "none",
+                borderLeft: isAnnotated ? `3px solid ${C.teal}` : "none",
+                paddingLeft: isAnnotated ? 10 : 0,
+                cursor: isAnnotated ? "pointer" : "default",
+                transition: "all 0.2s ease",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div style={{ width: 34, height: 34, borderRadius: 17, background: C.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>{r.flag || "🇲🇽"}</div>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: C.navy }}>{r.name}</span>
+                  {isAnnotated && (
+                    <span style={{
+                      fontSize: 10, fontWeight: 600, color: C.teal,
+                      background: C.tealLight, padding: "2px 7px", borderRadius: 6,
+                    }}>Trending ↑</span>
+                  )}
+                </div>
+                <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{r.amount} USD</span>
               </div>
-              <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{r.amount} USD</span>
-            </div>
-          ))}
+            );
+          })}
           <Feedback small />
+          {annotationPopover && annotationPopover.area === "receiver" && (
+            <AnnotationPopover
+              finding={s.insightDetail.findings[annotationPopover.findingIdx]}
+              onSeeFullInsight={onAnnotationFullInsight}
+              onDismiss={onAnnotationDismiss}
+            />
+          )}
         </div>
 
         {/* Categories */}
-        <div style={{ margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+        <div style={{
+          margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
+          border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
+        }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 16 }}>📂</span> Your Categories
           </div>
@@ -1301,28 +1947,62 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
               <div key={i} style={{ width: `${cat.pct}%`, background: `linear-gradient(135deg, ${cat.color}, ${cat.color}CC)` }} />
             ))}
           </div>
-          {d.categories.map((cat, i) => (
-            <div key={i} style={{
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-              padding: "9px 0",
-              borderBottom: i < d.categories.length - 1 ? `1px solid ${C.borderLight}` : "none",
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ width: 12, height: 12, borderRadius: 3, background: cat.color }} />
-                <span style={{ fontSize: 14 }}>{cat.icon}</span>
-                <span style={{ fontSize: 14, color: C.navy }}>{cat.name}</span>
+          {d.categories.map((cat, i) => {
+            const isAnnotated = s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && cat.name === "Groceries";
+            return (
+              <div key={i} onClick={isAnnotated ? () => onAnnotationTap(1, "category") : undefined} style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                padding: "9px 0",
+                borderBottom: i < d.categories.length - 1 ? `1px solid ${C.borderLight}` : "none",
+                cursor: isAnnotated ? "pointer" : "default",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div style={{ width: 12, height: 12, borderRadius: 3, background: cat.color }} />
+                  <span style={{ fontSize: 14 }}>{cat.icon}</span>
+                  <span style={{ fontSize: 14, color: C.navy }}>{cat.name}</span>
+                  {isAnnotated && (
+                    <div style={{
+                      width: 8, height: 8, borderRadius: 4, background: C.teal,
+                      animation: "pulse 1.6s ease-in-out infinite",
+                    }} />
+                  )}
+                </div>
+                <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{cat.amount} USD</span>
               </div>
-              <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{cat.amount} USD</span>
-            </div>
-          ))}
+            );
+          })}
           <div style={{ marginTop: 12, fontSize: 13, fontWeight: 600, color: C.teal, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}>
             Categorize Transfers <span style={{ fontSize: 16 }}>→</span>
           </div>
           <Feedback small />
+          {annotationPopover && annotationPopover.area === "category" && (
+            <AnnotationPopover
+              finding={s.insightDetail.findings[annotationPopover.findingIdx]}
+              onSeeFullInsight={onAnnotationFullInsight}
+              onDismiss={onAnnotationDismiss}
+            />
+          )}
         </div>
 
         {/* Monthly Chart */}
-        <div style={{ margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
+        <div style={{
+          margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
+          border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
+        }}>
+          {/* Annotation callout above chart */}
+          {s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && (
+            <div onClick={() => onAnnotationTap(0, "chart")} style={{
+              margin: "0 0 12px", padding: "8px 12px",
+              background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+              borderRadius: 10, border: `1px solid ${C.teal}30`,
+              fontSize: 12, fontWeight: 600, color: C.tealDark,
+              display: "flex", alignItems: "center", gap: 6,
+              cursor: "pointer",
+              animation: "fadeIn 0.4s ease",
+            }}>
+              <span style={{ color: C.teal }}>↑23%</span> over 3 months
+            </div>
+          )}
           <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
             <span style={{ fontSize: 16 }}>📊</span> Transfer Summary — USD
           </div>
@@ -1345,11 +2025,32 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
             })}
           </div>
           <Feedback small />
+          {annotationPopover && annotationPopover.area === "chart" && (
+            <AnnotationPopover
+              finding={s.insightDetail.findings[annotationPopover.findingIdx]}
+              onSeeFullInsight={onAnnotationFullInsight}
+              onDismiss={onAnnotationDismiss}
+            />
+          )}
         </div>
 
         <div style={{ height: 16 }} />
       </div>
+      {/* Bottom sheet strip for dashboard */}
+      {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle") && (
+        <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} />
+      )}
       <BottomNav active="dashboard" onNav={onNav} />
+      {/* Bottom sheet overlay on dashboard */}
+      {s.uiPattern === "bottomSheet" && showBottomSheet && (
+        <BottomSheetOverlay
+          scenario={s}
+          feedback={feedback}
+          onFeedback={onFeedback}
+          onDismiss={onBottomSheetDismiss}
+          onFullInsight={onAnnotationFullInsight}
+        />
+      )}
     </>
   );
 };
@@ -1808,6 +2509,754 @@ const InsightView = ({ scenario, feedback, onFeedback, onBack }) => {
   );
 };
 
+// ── REPORT CARD PATTERN ──
+
+const ReportCardWidget = ({ scenario, onClick, fresh }) => {
+  const insight = scenario.insightDetail;
+  return (
+    <div onClick={onClick} style={{
+      margin: "14px 16px",
+      padding: "22px 20px",
+      background: C.white,
+      borderRadius: 16,
+      border: `1px solid ${C.border}`,
+      cursor: "pointer",
+      boxShadow: fresh ? `0 4px 18px ${C.teal}40` : C.shadow,
+      transition: "all 0.4s ease",
+      animation: fresh ? "reveal 0.6s ease" : "none",
+      position: "relative",
+    }}>
+      {fresh && (
+        <div style={{
+          position: "absolute", top: -8, right: 14,
+          background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+          color: C.white, fontSize: 10, fontWeight: 700,
+          padding: "3px 10px", borderRadius: 10,
+          letterSpacing: 0.5, textTransform: "uppercase",
+          boxShadow: `0 2px 8px ${C.teal}50`,
+        }}>New</div>
+      )}
+      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 6 }}>
+        <span style={{ fontSize: 32, fontWeight: 800, color: C.navy }}>$357/mo</span>
+        <span style={{
+          fontSize: 12, fontWeight: 700, color: C.white,
+          background: C.teal, padding: "3px 8px", borderRadius: 8,
+        }}>↑23%</span>
+      </div>
+      <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.5, marginBottom: 14 }}>
+        {insight.hook}
+      </div>
+      <div style={{ fontSize: 13, fontWeight: 600, color: C.teal, display: "flex", alignItems: "center", gap: 4 }}>
+        View report <span style={{ fontSize: 16 }}>→</span>
+      </div>
+    </div>
+  );
+};
+
+const ReportCardView = ({ scenario, feedback, onFeedback, onBack }) => {
+  const insight = scenario.insightDetail;
+  const [showReasons, setShowReasons] = useState(feedback?.sentiment === "down" && !feedback?.submitted);
+  const [comment, setComment] = useState(feedback?.comment || "");
+  const submitted = feedback?.submitted;
+  const sentiment = feedback?.sentiment;
+  const selectedReasons = feedback?.reasons || [];
+
+  const handleThumb = (dir) => {
+    if (submitted) return;
+    if (dir === "up") {
+      onFeedback({ sentiment: "up", reasons: [], comment: "", submitted: true });
+      setShowReasons(false);
+    } else {
+      if (sentiment === "down" && !submitted) {
+        onFeedback(null);
+        setShowReasons(false);
+        return;
+      }
+      onFeedback({ sentiment: "down", reasons: [], comment: "", submitted: false });
+      setShowReasons(true);
+    }
+  };
+
+  const toggleReason = (r) => {
+    const next = selectedReasons.includes(r)
+      ? selectedReasons.filter(x => x !== r)
+      : [...selectedReasons, r];
+    onFeedback({ ...feedback, reasons: next });
+  };
+
+  const submitDown = () => {
+    onFeedback({ sentiment: "down", reasons: selectedReasons, comment, submitted: true });
+    setShowReasons(false);
+  };
+
+  return (
+    <>
+      <Header title="Transfer Insights" showBack onBack={onBack} />
+      <div style={{ flex: 1, overflow: "auto", padding: "20px 16px", background: C.white }}>
+        <div style={{ fontSize: 22, fontWeight: 700, color: C.navy, marginBottom: 20, lineHeight: 1.3 }}>
+          Your Transfer Insights
+        </div>
+
+        {/* Hero stat block */}
+        <div style={{
+          display: "flex", gap: 12, marginBottom: 24,
+          padding: "18px 20px",
+          background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+          borderRadius: 14,
+          border: `1px solid ${C.teal}20`,
+        }}>
+          {insight.keyStats.map((stat, i) => (
+            <div key={i} style={{ flex: 1, textAlign: "center" }}>
+              <div style={{
+                fontSize: 26, fontWeight: 800, color: C.navy,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+              }}>
+                {stat.value}
+                {stat.direction === "up" && <span style={{ fontSize: 16, color: C.teal }}>↑</span>}
+                {stat.direction === "down" && <span style={{ fontSize: 16, color: C.orange }}>↓</span>}
+              </div>
+              <div style={{ fontSize: 12, color: C.textMuted, marginTop: 4, fontWeight: 500 }}>
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Findings as prose paragraphs */}
+        {insight.findings.map((f, i) => (
+          <div key={i} style={{
+            marginBottom: 20,
+            paddingLeft: 16,
+            borderLeft: `3px solid ${C.teal}`,
+          }}>
+            <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.7 }}>
+              <Txt>{f.text}</Txt>
+            </div>
+            {f.question && (
+              <div style={{
+                fontSize: 13, color: C.textMuted, lineHeight: 1.55,
+                fontStyle: "italic", marginTop: 8,
+              }}>
+                {f.question}
+              </div>
+            )}
+          </div>
+        ))}
+
+        {/* Feedback panel */}
+        <div style={{
+          marginTop: 28, padding: 16,
+          background: C.offWhite, borderRadius: 14,
+          border: `1px solid ${C.borderLight}`,
+        }}>
+          {!submitted ? (
+            <>
+              <div style={{ fontSize: 13, fontWeight: 600, color: C.navy, marginBottom: 10 }}>
+                Was this insight helpful?
+              </div>
+              <div style={{ display: "flex", gap: 10, marginBottom: showReasons ? 14 : 0 }}>
+                <button onClick={() => handleThumb("up")} style={{
+                  flex: 1, padding: "10px 14px",
+                  background: sentiment === "up" ? C.greenBg : C.white,
+                  border: `1.5px solid ${sentiment === "up" ? C.green + "60" : C.border}`,
+                  borderRadius: 12, cursor: "pointer",
+                  fontSize: 14, fontWeight: 600, color: sentiment === "up" ? C.green : C.navy,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  transition: "all 0.15s ease",
+                }}>
+                  <span style={{ fontSize: 16 }}>👍</span> Helpful
+                </button>
+                <button onClick={() => handleThumb("down")} style={{
+                  flex: 1, padding: "10px 14px",
+                  background: sentiment === "down" ? C.redBg : C.white,
+                  border: `1.5px solid ${sentiment === "down" ? C.red + "60" : C.border}`,
+                  borderRadius: 12, cursor: "pointer",
+                  fontSize: 14, fontWeight: 600, color: sentiment === "down" ? C.red : C.navy,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  transition: "all 0.15s ease",
+                }}>
+                  <span style={{ fontSize: 16 }}>👎</span> Not helpful
+                </button>
+              </div>
+              {showReasons && sentiment === "down" && (
+                <div style={{ animation: "fadeIn 0.25s ease" }}>
+                  <div style={{ fontSize: 12, color: C.textSecondary, marginBottom: 8 }}>
+                    What didn't work? (select any that apply)
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+                    {FEEDBACK_REASONS.map(r => {
+                      const on = selectedReasons.includes(r);
+                      return (
+                        <button key={r} onClick={() => toggleReason(r)} style={{
+                          padding: "7px 12px",
+                          background: on ? C.navy : C.white,
+                          color: on ? C.white : C.navy,
+                          border: `1.5px solid ${on ? C.navy : C.border}`,
+                          borderRadius: 16, cursor: "pointer",
+                          fontSize: 12, fontWeight: 500,
+                          transition: "all 0.15s ease",
+                        }}>
+                          {on && <span style={{ marginRight: 4 }}>✓</span>}{r}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Anything else you'd like us to know? (optional)"
+                    rows={2}
+                    style={{
+                      width: "100%", padding: "10px 12px",
+                      borderRadius: 10, border: `1.5px solid ${C.border}`,
+                      fontSize: 13, color: C.navy, background: C.white,
+                      outline: "none", resize: "none",
+                      fontFamily: "inherit", marginBottom: 12,
+                    }}
+                  />
+                  <button onClick={submitDown} style={{
+                    width: "100%", padding: 12,
+                    background: C.navy, color: C.white,
+                    border: "none", borderRadius: 12,
+                    fontSize: 14, fontWeight: 600, cursor: "pointer",
+                  }}>
+                    Submit feedback
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div style={{ animation: "fadeIn 0.3s ease" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                <div style={{
+                  width: 28, height: 28, borderRadius: 14,
+                  background: sentiment === "up" ? C.greenBg : C.redBg,
+                  border: `1px solid ${sentiment === "up" ? C.green + "40" : C.red + "40"}`,
+                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14,
+                }}>
+                  {sentiment === "up" ? "👍" : "👎"}
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: C.navy }}>
+                  Thanks — your feedback helps us improve
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div style={{ height: 20 }} />
+      </div>
+    </>
+  );
+};
+
+// ── MESSAGE THREAD PATTERN ──
+
+const MessageWidget = ({ scenario, onClick, fresh }) => {
+  const insight = scenario.insightDetail;
+  return (
+    <div onClick={onClick} style={{
+      margin: "14px 16px",
+      display: "flex", alignItems: "flex-start", gap: 10,
+      cursor: "pointer",
+      animation: fresh ? "fadeIn 0.5s ease" : "none",
+    }}>
+      <div style={{
+        width: 24, height: 24, borderRadius: 12, flexShrink: 0,
+        background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        color: C.white, fontSize: 11, fontWeight: 700, marginTop: 4,
+      }}>✦</div>
+      <div style={{ flex: 1 }}>
+        <div style={{
+          background: C.white, borderRadius: "4px 16px 16px 16px",
+          padding: "12px 14px",
+          border: `1px solid ${C.border}`,
+          boxShadow: fresh ? `0 3px 12px ${C.teal}30` : C.shadow,
+          position: "relative",
+        }}>
+          {fresh && (
+            <div style={{
+              position: "absolute", top: -7, right: 10,
+              background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+              color: C.white, fontSize: 9, fontWeight: 700,
+              padding: "2px 8px", borderRadius: 8, letterSpacing: 0.5,
+            }}>NEW</div>
+          )}
+          <div style={{ fontSize: 14, color: C.navy, lineHeight: 1.5 }}>
+            {insight.hook}
+          </div>
+        </div>
+        <div style={{ fontSize: 10, color: C.textMuted, marginTop: 4, marginLeft: 4 }}>
+          Just now
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MessageThreadView = ({ scenario, feedback, onFeedback, onBack }) => {
+  const insight = scenario.insightDetail;
+  const [feedbackSel, setFeedbackSel] = useState(feedback?.sentiment || null);
+
+  const handleInlineThumb = (dir) => {
+    if (feedback?.submitted) return;
+    setFeedbackSel(dir);
+    if (dir === "up") {
+      onFeedback({ sentiment: "up", reasons: [], comment: "", submitted: true });
+    } else {
+      onFeedback({ sentiment: "down", reasons: [], comment: "", submitted: true });
+    }
+  };
+
+  const renderBubble = (content, i, isLast) => (
+    <div key={i} style={{
+      marginBottom: 14,
+      animation: `fadeIn 0.4s ease ${0.15 * i}s both`,
+    }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+        {i === 0 ? (
+          <div style={{
+            width: 28, height: 28, borderRadius: 14, flexShrink: 0,
+            background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: C.white, fontSize: 12, fontWeight: 700,
+          }}>✦</div>
+        ) : (
+          <div style={{ width: 28, flexShrink: 0 }} />
+        )}
+        <div style={{
+          flex: 1, background: C.white, borderRadius: "4px 16px 16px 16px",
+          padding: "14px 16px", border: `1px solid ${C.border}`, boxShadow: C.shadow,
+        }}>
+          <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.65 }}>
+            <Txt>{content}</Txt>
+          </div>
+          {isLast && (
+            <div style={{
+              display: "flex", alignItems: "center", gap: 6,
+              marginTop: 10, paddingTop: 8,
+              borderTop: `1px solid ${C.borderLight}`,
+            }}>
+              <span style={{ fontSize: 11, color: C.textMuted }}>Helpful?</span>
+              {["👍", "👎"].map(e => (
+                <button key={e} onClick={() => handleInlineThumb(e === "👍" ? "up" : "down")} style={{
+                  background: (feedbackSel === "up" && e === "👍") || (feedbackSel === "down" && e === "👎")
+                    ? (e === "👍" ? C.greenBg : C.redBg) : "transparent",
+                  border: (feedbackSel === "up" && e === "👍") || (feedbackSel === "down" && e === "👎")
+                    ? `1px solid ${e === "👍" ? C.green + "30" : C.red + "30"}` : "1px solid transparent",
+                  fontSize: 14, cursor: "pointer", borderRadius: 8, padding: "3px 8px",
+                  transition: "all 0.15s ease",
+                }}>{e}</button>
+              ))}
+              {feedback?.submitted && (
+                <span style={{ fontSize: 10, color: C.textMuted, marginLeft: 4 }}>Thanks!</span>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const allBubbles = [insight.hook].concat(insight.findings.map(f => f.text));
+
+  return (
+    <>
+      <Header title="AI Insights" showBack onBack={onBack} />
+      <div style={{ flex: 1, overflow: "auto", padding: 16, background: C.cream }}>
+        {allBubbles.map((text, i) => renderBubble(text, i, i === allBubbles.length - 1))}
+
+        {/* Suggested reply chips for questions */}
+        {insight.findings.filter(f => f.question).length > 0 && (
+          <div style={{
+            display: "flex", flexWrap: "wrap", gap: 8,
+            marginTop: 8, marginLeft: 36, animation: `fadeIn 0.4s ease ${0.15 * allBubbles.length}s both`,
+          }}>
+            {insight.findings.filter(f => f.question).map((f, i) => (
+              <button key={i} onClick={() => {}} style={{
+                padding: "8px 14px", borderRadius: 20,
+                background: C.white, border: `1.5px solid ${C.border}`,
+                fontSize: 12, color: C.textSecondary, cursor: "pointer",
+                position: "relative",
+                transition: "all 0.15s ease",
+              }}
+              title="💬 Coming soon"
+              >
+                {f.question.length > 50 ? f.question.slice(0, 50) + "..." : f.question}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div style={{ height: 20 }} />
+      </div>
+    </>
+  );
+};
+
+// ── BOTTOM SHEET PATTERN ──
+
+const BottomSheetStrip = ({ scenario, onClick, fresh }) => {
+  const insight = scenario.insightDetail;
+  return (
+    <div onClick={onClick} style={{
+      margin: "0 0 0 0",
+      padding: "10px 16px",
+      background: C.white,
+      borderTop: `1px solid ${C.border}`,
+      display: "flex", alignItems: "center", gap: 10,
+      cursor: "pointer",
+      animation: fresh ? "fadeIn 0.4s ease" : "none",
+    }}>
+      <span style={{
+        width: 22, height: 22, borderRadius: 11,
+        background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        color: C.white, fontSize: 10, fontWeight: 700, flexShrink: 0,
+      }}>✦</span>
+      <div style={{
+        flex: 1, fontSize: 13, color: C.navy, fontWeight: 500,
+        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+      }}>
+        {insight.hook}
+      </div>
+      <span style={{ fontSize: 16, color: C.textMuted, flexShrink: 0, transform: "rotate(180deg)" }}>⌄</span>
+    </div>
+  );
+};
+
+const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullInsight }) => {
+  const insight = scenario.insightDetail;
+  const [expandedIdx, setExpandedIdx] = useState(-1);
+  const [showReasons, setShowReasons] = useState(feedback?.sentiment === "down" && !feedback?.submitted);
+  const [comment, setComment] = useState(feedback?.comment || "");
+  const submitted = feedback?.submitted;
+  const sentiment = feedback?.sentiment;
+  const selectedReasons = feedback?.reasons || [];
+
+  const handleThumb = (dir) => {
+    if (submitted) return;
+    if (dir === "up") {
+      onFeedback({ sentiment: "up", reasons: [], comment: "", submitted: true });
+      setShowReasons(false);
+    } else {
+      if (sentiment === "down" && !submitted) {
+        onFeedback(null);
+        setShowReasons(false);
+        return;
+      }
+      onFeedback({ sentiment: "down", reasons: [], comment: "", submitted: false });
+      setShowReasons(true);
+    }
+  };
+
+  const toggleReason = (r) => {
+    const next = selectedReasons.includes(r)
+      ? selectedReasons.filter(x => x !== r)
+      : [...selectedReasons, r];
+    onFeedback({ ...feedback, reasons: next });
+  };
+
+  const submitDown = () => {
+    onFeedback({ sentiment: "down", reasons: selectedReasons, comment, submitted: true });
+    setShowReasons(false);
+  };
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div onClick={onDismiss} style={{
+        position: "absolute", top: 0, left: 0, right: 0, bottom: 74,
+        background: "rgba(0,0,0,0.3)", zIndex: 20,
+        animation: "fadeIn 0.2s ease",
+      }} />
+      {/* Sheet */}
+      <div style={{
+        position: "absolute", left: 0, right: 0, bottom: 74,
+        maxHeight: "60%", overflow: "auto",
+        background: C.white, borderRadius: "20px 20px 0 0",
+        boxShadow: "0 -8px 30px rgba(0,0,0,0.15)",
+        zIndex: 21, padding: "0 16px 16px",
+        animation: "slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+      }}>
+        {/* Drag handle */}
+        <div style={{ display: "flex", justifyContent: "center", padding: "10px 0 14px" }}>
+          <div style={{ width: 36, height: 4, borderRadius: 2, background: C.border }} />
+        </div>
+
+        {/* Hook */}
+        <div style={{ fontSize: 15, color: C.navy, lineHeight: 1.6, fontWeight: 500, marginBottom: 14 }}>
+          <Txt>{insight.hook}</Txt>
+        </div>
+
+        {/* Stat block */}
+        {insight.keyStats && (
+          <div style={{
+            display: "flex", gap: 12, marginBottom: 16,
+            padding: "12px 14px",
+            background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+            borderRadius: 12, border: `1px solid ${C.teal}20`,
+          }}>
+            {insight.keyStats.map((stat, i) => (
+              <div key={i} style={{ flex: 1, textAlign: "center" }}>
+                <div style={{ fontSize: 20, fontWeight: 700, color: C.navy, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
+                  {stat.value}
+                  {stat.direction === "up" && <span style={{ fontSize: 12, color: C.teal }}>↑</span>}
+                </div>
+                <div style={{ fontSize: 10, color: C.textMuted, marginTop: 2 }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Accordion findings */}
+        {insight.findings.map((f, i) => {
+          const isOpen = expandedIdx === i;
+          const previewText = f.text.replace(/\*\*/g, "").slice(0, 60) + "...";
+          return (
+            <div key={i} style={{
+              borderTop: i > 0 ? `1px solid ${C.borderLight}` : "none",
+            }}>
+              <div onClick={() => setExpandedIdx(isOpen ? -1 : i)} style={{
+                padding: "12px 0", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "space-between",
+              }}>
+                <span style={{ fontSize: 13, color: C.navy, fontWeight: 500, flex: 1 }}>
+                  {isOpen ? <Txt>{f.text}</Txt> : previewText}
+                </span>
+                <span style={{
+                  fontSize: 14, color: C.textMuted, flexShrink: 0, marginLeft: 8,
+                  transform: isOpen ? "rotate(180deg)" : "rotate(0)",
+                  transition: "transform 0.2s ease",
+                }}>⌄</span>
+              </div>
+              {isOpen && f.question && (
+                <div style={{
+                  fontSize: 12, color: C.textMuted, fontStyle: "italic",
+                  padding: "0 0 12px", lineHeight: 1.5,
+                  animation: "fadeIn 0.2s ease",
+                }}>
+                  {f.question}
+                </div>
+              )}
+            </div>
+          );
+        })}
+
+        {/* Compact feedback */}
+        <div style={{
+          marginTop: 12, padding: "12px 0 0",
+          borderTop: `1px solid ${C.borderLight}`,
+        }}>
+          {!submitted ? (
+            <>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: showReasons ? 10 : 0 }}>
+                <span style={{ fontSize: 12, color: C.textMuted }}>Helpful?</span>
+                <button onClick={() => handleThumb("up")} style={{
+                  padding: "6px 12px", borderRadius: 10, cursor: "pointer",
+                  background: sentiment === "up" ? C.greenBg : C.white,
+                  border: `1px solid ${sentiment === "up" ? C.green + "40" : C.border}`,
+                  fontSize: 13, color: sentiment === "up" ? C.green : C.navy,
+                }}>👍</button>
+                <button onClick={() => handleThumb("down")} style={{
+                  padding: "6px 12px", borderRadius: 10, cursor: "pointer",
+                  background: sentiment === "down" ? C.redBg : C.white,
+                  border: `1px solid ${sentiment === "down" ? C.red + "40" : C.border}`,
+                  fontSize: 13, color: sentiment === "down" ? C.red : C.navy,
+                }}>👎</button>
+              </div>
+              {showReasons && sentiment === "down" && (
+                <div style={{ animation: "fadeIn 0.25s ease" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
+                    {FEEDBACK_REASONS.map(r => {
+                      const on = selectedReasons.includes(r);
+                      return (
+                        <button key={r} onClick={() => toggleReason(r)} style={{
+                          padding: "5px 10px", background: on ? C.navy : C.white,
+                          color: on ? C.white : C.navy,
+                          border: `1px solid ${on ? C.navy : C.border}`,
+                          borderRadius: 14, cursor: "pointer", fontSize: 11,
+                        }}>
+                          {on && "✓ "}{r}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button onClick={submitDown} style={{
+                    width: "100%", padding: 10,
+                    background: C.navy, color: C.white,
+                    border: "none", borderRadius: 10,
+                    fontSize: 13, fontWeight: 600, cursor: "pointer",
+                  }}>Submit</button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div style={{ fontSize: 12, color: C.textMuted, display: "flex", alignItems: "center", gap: 6 }}>
+              {sentiment === "up" ? "👍" : "👎"} Thanks for your feedback
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+// ── CONTEXT ANNOTATION PATTERN ──
+
+const AnnotationPopover = ({ finding, onSeeFullInsight, onDismiss }) => (
+  <div style={{
+    position: "absolute", left: 20, right: 20,
+    background: C.white, borderRadius: 14,
+    padding: 16, boxShadow: C.shadowModal,
+    border: `1.5px solid ${C.teal}30`,
+    zIndex: 25,
+    animation: "fadeIn 0.2s ease",
+  }}>
+    {/* Arrow */}
+    <div style={{
+      position: "absolute", top: -8, left: 24,
+      width: 0, height: 0,
+      borderLeft: "8px solid transparent",
+      borderRight: "8px solid transparent",
+      borderBottom: `8px solid ${C.white}`,
+    }} />
+    <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6, marginBottom: 8 }}>
+      <Txt>{finding.text}</Txt>
+    </div>
+    {finding.question && (
+      <div style={{ fontSize: 12, color: C.textMuted, fontStyle: "italic", marginBottom: 10 }}>
+        {finding.question}
+      </div>
+    )}
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <button onClick={onSeeFullInsight} style={{
+        background: "none", border: "none", cursor: "pointer",
+        fontSize: 13, fontWeight: 600, color: C.teal,
+      }}>
+        See full insight →
+      </button>
+      <button onClick={onDismiss} style={{
+        background: "none", border: "none", cursor: "pointer",
+        fontSize: 12, color: C.textMuted,
+      }}>
+        Dismiss
+      </button>
+    </div>
+  </div>
+);
+
+// ── SPLIT VIEW PATTERN ──
+
+const SplitViewWidget = ({ scenario, expanded, onToggle, onFullDetail, fresh }) => {
+  const insight = scenario.insightDetail;
+  return (
+    <div style={{
+      margin: "14px 16px",
+      background: C.white, borderRadius: 14,
+      border: `1.5px solid ${expanded ? C.teal + "40" : C.border}`,
+      boxShadow: fresh ? `0 4px 18px ${C.teal}40` : C.shadow,
+      overflow: "hidden",
+      transition: "all 0.35s ease",
+      animation: fresh ? "reveal 0.6s ease" : "none",
+      position: "relative",
+    }}>
+      {fresh && !expanded && (
+        <div style={{
+          position: "absolute", top: -8, right: 14,
+          background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+          color: C.white, fontSize: 10, fontWeight: 700,
+          padding: "3px 10px", borderRadius: 10,
+          letterSpacing: 0.5, textTransform: "uppercase",
+          boxShadow: `0 2px 8px ${C.teal}50`,
+        }}>✦ New</div>
+      )}
+      {/* Compact header — always visible */}
+      <div onClick={onToggle} style={{
+        padding: "14px 16px",
+        display: "flex", alignItems: "center", gap: 10,
+        cursor: "pointer",
+      }}>
+        <span style={{
+          width: 22, height: 22, borderRadius: 11, flexShrink: 0,
+          background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          color: C.white, fontSize: 10, fontWeight: 700,
+        }}>✦</span>
+        <div style={{ flex: 1, fontSize: 14, color: C.navy, fontWeight: 600, lineHeight: 1.4 }}>
+          {insight.hook.length > 70 ? insight.hook.slice(0, 70) + "..." : insight.hook}
+        </div>
+        <span style={{
+          fontSize: 16, color: C.textMuted, flexShrink: 0,
+          transform: expanded ? "rotate(180deg)" : "rotate(0)",
+          transition: "transform 0.25s ease",
+        }}>⌄</span>
+      </div>
+
+      {/* Expanded content */}
+      {expanded && (
+        <div style={{
+          padding: "0 16px 16px",
+          animation: "expandCard 0.3s ease",
+        }}>
+          {/* Full hook text */}
+          <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6, marginBottom: 14 }}>
+            <Txt>{insight.hook}</Txt>
+          </div>
+
+          {/* Stat block */}
+          {insight.keyStats && (
+            <div style={{
+              display: "flex", gap: 12, marginBottom: 16,
+              padding: "12px 14px",
+              background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+              borderRadius: 12, border: `1px solid ${C.teal}20`,
+            }}>
+              {insight.keyStats.map((stat, i) => (
+                <div key={i} style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{
+                    fontSize: 20, fontWeight: 700, color: C.navy,
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+                  }}>
+                    {stat.value}
+                    {stat.direction === "up" && <span style={{ fontSize: 12, color: C.teal }}>↑</span>}
+                  </div>
+                  <div style={{ fontSize: 10, color: C.textMuted, marginTop: 2 }}>{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Findings */}
+          {insight.findings.map((f, i) => (
+            <div key={i} style={{
+              paddingLeft: 12,
+              borderLeft: `3px solid ${C.teal}40`,
+              marginBottom: 12,
+            }}>
+              <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.6 }}>
+                <Txt>{f.text}</Txt>
+              </div>
+            </div>
+          ))}
+
+          {/* Link to full detail for feedback */}
+          <button onClick={onFullDetail} style={{
+            width: "100%", padding: 12, marginTop: 4,
+            background: C.offWhite, border: `1.5px solid ${C.border}`,
+            borderRadius: 12, cursor: "pointer",
+            fontSize: 13, fontWeight: 600, color: C.teal,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          }}>
+            See full detail + give feedback <span style={{ fontSize: 14 }}>→</span>
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // ── POST-TRANSFER SCREEN ──
 
 const PostTransferScreen = ({ scenario, onBack, onNav }) => {
@@ -1869,14 +3318,14 @@ const Picker = ({ onSelect }) => (
       <div style={{ fontSize: 13, color: C.textSecondary }}>Choose a scenario to explore</div>
     </div>
 
-    {/* M1 — near-term reality */}
+    {/* M1 — near-term reality — current design */}
     <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, letterSpacing: 1, marginBottom: 8, textTransform: "uppercase" }}>
-      Near-term (Milestone 1)
+      Near-term (Milestone 1) — Current Design
     </div>
-    {[scenarioC].map(s => (
+    {[scenarioC, scenarioC10].map(s => (
       <div key={s.id} onClick={() => onSelect(s)} style={{
         background: C.white, borderRadius: 16, padding: 20,
-        border: `2px solid ${C.teal}30`, marginBottom: 16, cursor: "pointer",
+        border: `2px solid ${C.teal}30`, marginBottom: 12, cursor: "pointer",
         boxShadow: C.shadow, position: "relative",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
@@ -1894,8 +3343,33 @@ const Picker = ({ onSelect }) => (
       </div>
     ))}
 
+    {/* UI Pattern Explorations */}
+    <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, letterSpacing: 1, marginBottom: 8, marginTop: 8, textTransform: "uppercase" }}>
+      UI Pattern Explorations
+    </div>
+    {[scenarioRC, scenarioMT, scenarioBS, scenarioCA, scenarioSV].map(s => (
+      <div key={s.id} onClick={() => onSelect(s)} style={{
+        background: C.white, borderRadius: 16, padding: 18,
+        border: `1.5px solid ${s.tagColor}30`, marginBottom: 10, cursor: "pointer",
+        boxShadow: C.shadow,
+      }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+          <span style={{ fontSize: 24 }}>{s.icon}</span>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: C.navy }}>{s.label}</div>
+            <div style={{ fontSize: 11, color: C.textSecondary, marginTop: 2 }}>{s.desc}</div>
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+          {s.tags.map(t => (
+            <span key={t} style={{ fontSize: 10, background: s.tagBg, color: s.tagColor, padding: "3px 9px", borderRadius: 9, fontWeight: 500, border: `1px solid ${s.tagColor}15` }}>{t}</span>
+          ))}
+        </div>
+      </div>
+    ))}
+
     {/* Future state — with chat */}
-    <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, letterSpacing: 1, marginBottom: 8, textTransform: "uppercase" }}>
+    <div style={{ fontSize: 10, fontWeight: 700, color: C.textMuted, letterSpacing: 1, marginBottom: 8, marginTop: 8, textTransform: "uppercase" }}>
       Future state (with conversation)
     </div>
     {[scenarioA, scenarioB].map(s => (
@@ -1925,6 +3399,7 @@ const Picker = ({ onSelect }) => (
 
 export default function PangeaAIPrototype() {
   // Screens: picker | fxCalc | confirm | categorize | dashboard | chat | insightView | post
+  //          | reportCardView | messageThreadView
   const [screen, setScreen] = useState("picker");
   const [scenario, setScenario] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -1936,6 +3411,10 @@ export default function PangeaAIPrototype() {
   const [insightViewed, setInsightViewed] = useState(false);
   // M1 — feedback state { sentiment, reasons, comment, submitted }
   const [feedback, setFeedback] = useState(null);
+  // UI pattern states
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [splitExpanded, setSplitExpanded] = useState(false);
+  const [annotationPopover, setAnnotationPopover] = useState(null); // { findingIdx, area }
   const loadingTimers = useRef([]);
 
   const clearLoadingTimers = () => {
@@ -1984,6 +3463,9 @@ export default function PangeaAIPrototype() {
     setShowSuccessModal(false);
     setInsightViewed(false);
     setFeedback(null);
+    setShowBottomSheet(false);
+    setSplitExpanded(false);
+    setAnnotationPopover(null);
   };
 
   const restart = () => {
@@ -1994,6 +3476,9 @@ export default function PangeaAIPrototype() {
     setShowSuccessModal(false);
     setInsightViewed(false);
     setFeedback(null);
+    setShowBottomSheet(false);
+    setSplitExpanded(false);
+    setAnnotationPopover(null);
   };
 
   const handleCategorize = () => {
@@ -2014,7 +3499,19 @@ export default function PangeaAIPrototype() {
   const openInsight = () => {
     if (insightState === "loading") return;
     setInsightViewed(true);
-    if (scenario?.milestone === "M1") {
+    const pat = scenario?.uiPattern;
+    if (pat === "reportCard") {
+      setScreen("reportCardView");
+    } else if (pat === "messageThread") {
+      setScreen("messageThreadView");
+    } else if (pat === "bottomSheet") {
+      setShowBottomSheet(true);
+    } else if (pat === "splitView") {
+      setSplitExpanded(!splitExpanded);
+    } else if (pat === "contextAnnotation") {
+      // For context annotation, tapping bell goes to standard InsightView
+      setScreen("insightView");
+    } else if (scenario?.milestone === "M1") {
       setScreen("insightView");
     } else {
       setScreen("chat");
@@ -2045,6 +3542,9 @@ export default function PangeaAIPrototype() {
         @keyframes shimmerBg { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
         @keyframes modalPop { 0% { opacity: 0; transform: scale(0.85); } 100% { opacity: 1; transform: scale(1); } }
         @keyframes reveal { 0% { opacity: 0; transform: scale(0.95) translateY(10px); } 60% { transform: scale(1.02); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes slideUp { 0% { transform: translateY(100%); } 100% { transform: translateY(0); } }
+        @keyframes accordionExpand { 0% { max-height: 0; opacity: 0; } 100% { max-height: 500px; opacity: 1; } }
+        @keyframes expandCard { 0% { opacity: 0; max-height: 0; } 100% { opacity: 1; max-height: 800px; } }
         * { box-sizing: border-box; margin: 0; -webkit-tap-highlight-color: transparent; }
         button:hover { opacity: 0.92; }
         button:active { transform: scale(0.98); }
@@ -2066,6 +3566,18 @@ export default function PangeaAIPrototype() {
             onGetStarted={() => setScreen("confirm")}
             onInsight={openInsight}
             onNav={nav}
+            splitExpanded={splitExpanded}
+            onSplitToggle={() => { setInsightViewed(true); setSplitExpanded(!splitExpanded); }}
+            onSplitDetail={() => { setInsightViewed(true); setScreen("insightView"); }}
+            showBottomSheet={showBottomSheet}
+            onBottomSheetOpen={() => { setInsightViewed(true); setShowBottomSheet(true); }}
+            onBottomSheetDismiss={() => setShowBottomSheet(false)}
+            feedback={feedback}
+            onFeedback={setFeedback}
+            annotationPopover={annotationPopover}
+            onAnnotationTap={(idx, area) => setAnnotationPopover({ findingIdx: idx, area })}
+            onAnnotationDismiss={() => setAnnotationPopover(null)}
+            onAnnotationFullInsight={() => { setAnnotationPopover(null); setInsightViewed(true); setScreen("insightView"); }}
           />
         )}
 
@@ -2097,6 +3609,18 @@ export default function PangeaAIPrototype() {
               onSkipWait={skipWait}
               onInsight={openInsight}
               onNav={nav}
+              splitExpanded={splitExpanded}
+              onSplitToggle={() => { setInsightViewed(true); setSplitExpanded(!splitExpanded); }}
+              onSplitDetail={() => { setInsightViewed(true); setScreen("insightView"); }}
+              showBottomSheet={showBottomSheet}
+              onBottomSheetOpen={() => { setInsightViewed(true); setShowBottomSheet(true); }}
+              onBottomSheetDismiss={() => setShowBottomSheet(false)}
+              feedback={feedback}
+              onFeedback={setFeedback}
+              annotationPopover={annotationPopover}
+              onAnnotationTap={(idx, area) => setAnnotationPopover({ findingIdx: idx, area })}
+              onAnnotationDismiss={() => setAnnotationPopover(null)}
+              onAnnotationFullInsight={() => { setAnnotationPopover(null); setInsightViewed(true); setScreen("insightView"); }}
             />
             {showSuccessModal && (
               <CategorizeSuccessModal
@@ -2118,6 +3642,24 @@ export default function PangeaAIPrototype() {
 
         {screen === "insightView" && scenario && (
           <InsightView
+            scenario={scenario}
+            feedback={feedback}
+            onFeedback={setFeedback}
+            onBack={() => setScreen("dashboard")}
+          />
+        )}
+
+        {screen === "reportCardView" && scenario && (
+          <ReportCardView
+            scenario={scenario}
+            feedback={feedback}
+            onFeedback={setFeedback}
+            onBack={() => setScreen("dashboard")}
+          />
+        )}
+
+        {screen === "messageThreadView" && scenario && (
+          <MessageThreadView
             scenario={scenario}
             feedback={feedback}
             onFeedback={setFeedback}
@@ -2148,7 +3690,9 @@ export default function PangeaAIPrototype() {
             border: `1px solid ${scenario.milestone === "M1" ? "rgba(0,180,166,0.35)" : "rgba(255,255,255,0.08)"}`,
             borderRadius: 8, display: "inline-block",
           }}>
-            {scenario.milestone === "M1" ? "🚩 M1: insight + feedback only" : "◇ Future state: with conversation"}
+            {scenario.uiPattern
+              ? `🎨 Pattern: ${scenario.label}`
+              : scenario.milestone === "M1" ? "🚩 M1: insight + feedback only" : "◇ Future state: with conversation"}
           </div>
         )}
         {[
@@ -2161,16 +3705,41 @@ export default function PangeaAIPrototype() {
           { id: "dashboard-ready", label: "7. Dashboard (Ready)", desc: "AI card reveals with 'New' badge" },
           { id: "fxCalc-delivered", label: "7b. FX Calc (Delivered)", desc: "Bell + widget show on return to FX Calc" },
           {
-            id: scenario?.milestone === "M1" ? "insightView" : "chat",
-            label: scenario?.milestone === "M1" ? "8. Insight + Feedback" : "8. AI Chat",
-            desc: scenario?.milestone === "M1"
-              ? "Pseudo-chat: insight + 👍👎 + reasons"
-              : "Deep-dive conversation",
+            id: (() => {
+              const pat = scenario?.uiPattern;
+              if (pat === "reportCard") return "reportCardView";
+              if (pat === "messageThread") return "messageThreadView";
+              if (pat === "bottomSheet") return "bottomSheet-overlay";
+              if (pat === "splitView") return "splitView-expand";
+              if (pat === "contextAnnotation") return "annotation-tap";
+              return scenario?.milestone === "M1" ? "insightView" : "chat";
+            })(),
+            label: (() => {
+              const pat = scenario?.uiPattern;
+              if (pat === "reportCard") return "8. Report Card View";
+              if (pat === "messageThread") return "8. Message Thread";
+              if (pat === "bottomSheet") return "8. Bottom Sheet";
+              if (pat === "splitView") return "8. Expand Card";
+              if (pat === "contextAnnotation") return "8. Tap Annotation";
+              return scenario?.milestone === "M1" ? "8. Insight + Feedback" : "8. AI Chat";
+            })(),
+            desc: (() => {
+              const pat = scenario?.uiPattern;
+              if (pat === "reportCard") return "Full-page article layout + feedback";
+              if (pat === "messageThread") return "Thread of message bubbles";
+              if (pat === "bottomSheet") return "Half-screen overlay with accordions";
+              if (pat === "splitView") return "Card expands inline with all detail";
+              if (pat === "contextAnnotation") return "Popovers on annotated sections";
+              return scenario?.milestone === "M1" ? "Pseudo-chat: insight + 👍👎 + reasons" : "Deep-dive conversation";
+            })(),
           },
           { id: "post", label: "9. Post-Transfer", desc: "Transfer details + follow-up insight", futureOnly: true },
         ].filter(item => !(item.futureOnly && scenario?.milestone === "M1")).map(item => {
           let active = false;
           if (item.id === screen) active = true;
+          if (item.id === "bottomSheet-overlay" && showBottomSheet) active = true;
+          if (item.id === "splitView-expand" && splitExpanded) active = true;
+          if (item.id === "annotation-tap" && annotationPopover) active = true;
           if (item.id === "dashboard-modal" && screen === "dashboard" && showSuccessModal) active = true;
           if (item.id === "dashboard-loading" && screen === "dashboard" && !showSuccessModal && insightState === "loading") active = true;
           if (item.id === "dashboard-ready" && screen === "dashboard" && !showSuccessModal && insightState === "ready") active = true;
