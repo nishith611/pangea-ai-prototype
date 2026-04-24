@@ -443,14 +443,14 @@ const scenarioRC = {
   label: "Report Card",
   title: "Report Card UI Pattern",
   desc: "Maria — Grocery trend, report card layout",
-  tags: ["Report Card", "M1", "Async (~20s)"],
+  tags: ["Report Card", "M1", "Sync (~10s)"],
   tagColor: "#6366F1",
   tagBg: "#EEF2FF",
   icon: "📊",
   milestone: "M1",
   uiPattern: "reportCard",
-  speed: "async",
-  generationMs: 20000,
+  speed: "sync",
+  generationMs: 10000,
   fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
   confirmTransfer: {
     amount: "100.00",
@@ -472,9 +472,8 @@ const scenarioRC = {
     emoji: "🛒",
   },
   loadingStages: [
-    { text: "Analyzing your recent transfers...", ms: 6500 },
-    { text: "Finding patterns in your spending...", ms: 13000 },
-    { text: "Preparing your insight...", ms: 20000 },
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
   ],
   fxWidget: {
     headline: "Your grocery support is trending up",
@@ -523,14 +522,14 @@ const scenarioMT = {
   label: "Message Thread",
   title: "Message Thread UI Pattern",
   desc: "Maria — Grocery trend, chat message style",
-  tags: ["Message Thread", "M1", "Async (~20s)"],
+  tags: ["Message Thread", "M1", "Sync (~10s)"],
   tagColor: "#6366F1",
   tagBg: "#EEF2FF",
   icon: "💬",
   milestone: "M1",
   uiPattern: "messageThread",
-  speed: "async",
-  generationMs: 20000,
+  speed: "sync",
+  generationMs: 10000,
   fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
   confirmTransfer: {
     amount: "100.00",
@@ -552,9 +551,8 @@ const scenarioMT = {
     emoji: "🛒",
   },
   loadingStages: [
-    { text: "Analyzing your recent transfers...", ms: 6500 },
-    { text: "Finding patterns in your spending...", ms: 13000 },
-    { text: "Preparing your insight...", ms: 20000 },
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
   ],
   fxWidget: {
     headline: "Your grocery support is trending up",
@@ -603,14 +601,14 @@ const scenarioBS = {
   label: "Bottom Sheet",
   title: "Bottom Sheet UI Pattern",
   desc: "Maria — Grocery trend, bottom sheet overlay",
-  tags: ["Bottom Sheet", "M1", "Async (~20s)"],
+  tags: ["Bottom Sheet", "M1", "Sync (~10s)"],
   tagColor: "#6366F1",
   tagBg: "#EEF2FF",
   icon: "📋",
   milestone: "M1",
   uiPattern: "bottomSheet",
-  speed: "async",
-  generationMs: 20000,
+  speed: "sync",
+  generationMs: 10000,
   fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
   confirmTransfer: {
     amount: "100.00",
@@ -632,9 +630,8 @@ const scenarioBS = {
     emoji: "🛒",
   },
   loadingStages: [
-    { text: "Analyzing your recent transfers...", ms: 6500 },
-    { text: "Finding patterns in your spending...", ms: 13000 },
-    { text: "Preparing your insight...", ms: 20000 },
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
   ],
   fxWidget: {
     headline: "Your grocery support is trending up",
@@ -683,14 +680,14 @@ const scenarioCA = {
   label: "Contextual Annotation",
   title: "Contextual Annotation UI Pattern",
   desc: "Maria — Grocery trend, inline annotations",
-  tags: ["Annotation", "M1", "Async (~20s)"],
+  tags: ["Annotation", "M1", "Sync (~10s)"],
   tagColor: "#6366F1",
   tagBg: "#EEF2FF",
   icon: "🏷️",
   milestone: "M1",
   uiPattern: "contextAnnotation",
-  speed: "async",
-  generationMs: 20000,
+  speed: "sync",
+  generationMs: 10000,
   fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
   confirmTransfer: {
     amount: "100.00",
@@ -712,9 +709,8 @@ const scenarioCA = {
     emoji: "🛒",
   },
   loadingStages: [
-    { text: "Analyzing your recent transfers...", ms: 6500 },
-    { text: "Finding patterns in your spending...", ms: 13000 },
-    { text: "Preparing your insight...", ms: 20000 },
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
   ],
   fxWidget: {
     headline: "Your grocery support is trending up",
@@ -763,14 +759,14 @@ const scenarioSV = {
   label: "Split View",
   title: "Split View UI Pattern",
   desc: "Maria — Grocery trend, expandable inline card",
-  tags: ["Split View", "M1", "Async (~20s)"],
+  tags: ["Split View", "M1", "Sync (~10s)"],
   tagColor: "#6366F1",
   tagBg: "#EEF2FF",
   icon: "📐",
   milestone: "M1",
   uiPattern: "splitView",
-  speed: "async",
-  generationMs: 20000,
+  speed: "sync",
+  generationMs: 10000,
   fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
   confirmTransfer: {
     amount: "100.00",
@@ -792,9 +788,8 @@ const scenarioSV = {
     emoji: "🛒",
   },
   loadingStages: [
-    { text: "Analyzing your recent transfers...", ms: 6500 },
-    { text: "Finding patterns in your spending...", ms: 13000 },
-    { text: "Preparing your insight...", ms: 20000 },
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
   ],
   fxWidget: {
     headline: "Your grocery support is trending up",
@@ -1039,7 +1034,7 @@ const InsightWidget = ({ headline, body, cta, alert, onClick, fresh }) => (
   </div>
 );
 
-const InsightLoadingCard = ({ stage, progress, alert, onSkip }) => (
+const InsightLoadingCard = ({ stage, progress, alert, onSkip, generationMs }) => (
   <div style={{
     margin: "14px 16px",
     padding: "18px 18px 16px",
@@ -1115,7 +1110,7 @@ const InsightLoadingCard = ({ stage, progress, alert, onSkip }) => (
 
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
       <span style={{ fontSize: 11, color: C.textMuted }}>
-        {progress < 100 ? "Takes ~20 seconds" : "Almost ready..."}
+        {progress < 100 ? `Takes ~${Math.round((generationMs || 20000) / 1000)} seconds` : "Almost ready..."}
       </span>
       {onSkip && (
         <button onClick={onSkip} style={{
@@ -1295,7 +1290,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
                   <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
                     Preparing your insight
                   </div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
                 </>
               );
             }
@@ -1322,7 +1317,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
               return (
                 <>
                   <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
                 </>
               );
             }
@@ -1345,7 +1340,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
               return (
                 <>
                   <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
                 </>
               );
             }
@@ -1361,7 +1356,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
               return (
                 <>
                   <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
                 </>
               );
             }
@@ -1385,7 +1380,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
               return (
                 <>
                   <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
                 </>
               );
             }
@@ -1409,7 +1404,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
                   <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
                     Preparing your insight
                   </div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={s.id === "B"} onSkip={s.speed === "async" ? onSkipWait : null} />
+                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={s.id === "B"} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
                 </>
               )}
               {insightState === "ready" && (
@@ -1826,28 +1821,28 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           // Context annotation: no insight card on Dashboard — annotations go inline below
           if (pat === "contextAnnotation") {
             if (insightState === "loading") {
-              return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+              return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
             }
             return null;
           }
 
           // Report card widget
           if (pat === "reportCard") {
-            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
             if (insightState === "ready" || insightState === "idle") return <ReportCardWidget scenario={s} onClick={onInsight} fresh={insightState === "ready" && !insightViewed} />;
             return null;
           }
 
           // Message thread widget
           if (pat === "messageThread") {
-            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
             if (insightState === "ready" || insightState === "idle") return <MessageWidget scenario={s} onClick={onInsight} fresh={insightState === "ready" && !insightViewed} />;
             return null;
           }
 
           // Split view widget
           if (pat === "splitView") {
-            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
             if (insightState === "ready" || insightState === "idle") {
               return <SplitViewWidget scenario={s} expanded={splitExpanded} onToggle={onSplitToggle} onFullDetail={onSplitDetail} fresh={insightState === "ready" && !insightViewed} />;
             }
@@ -1856,7 +1851,7 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
 
           // Bottom sheet — loading inline, ready is strip below
           if (pat === "bottomSheet") {
-            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} />;
+            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
             return null;
           }
 
@@ -1864,7 +1859,7 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           return (
             <>
               {insightState === "loading" && (
-                <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={s.id === "B"} onSkip={s.speed === "async" ? onSkipWait : null} />
+                <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={s.id === "B"} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
               )}
               {insightState === "ready" && (
                 <InsightWidget headline={s.dashWidget.headline} body={s.dashWidget.body} alert={s.id === "B"} onClick={onInsight} fresh={!insightViewed} />
