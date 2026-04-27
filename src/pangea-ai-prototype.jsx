@@ -1282,16 +1282,48 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
             ready   = new one just finished ("New" until viewed) */}
         {(() => {
           const pat = s.uiPattern;
-          // Context annotation on FX Calc: show a teal banner instead of insight card
+          // Context annotation on FX Calc: prominent inline loading banner
           if (pat === "contextAnnotation") {
             if (insightState === "loading") {
               return (
-                <>
-                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>
-                    Preparing your insight
+                <div style={{
+                  margin: "14px 16px", padding: "14px 16px",
+                  background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+                  borderRadius: 12,
+                  border: `1.5px solid ${C.teal}30`,
+                  position: "relative", overflow: "hidden",
+                }}>
+                  {/* Animated shimmer sweep */}
+                  <div style={{
+                    position: "absolute", top: 0, left: 0, right: 0, height: 3,
+                    background: `linear-gradient(90deg, transparent, ${C.teal}, transparent)`,
+                    backgroundSize: "200% 100%",
+                    animation: "shimmer 1.8s linear infinite",
+                  }} />
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: 14,
+                      background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      flexShrink: 0,
+                    }}>
+                      <div style={{
+                        width: 12, height: 12, borderRadius: 6,
+                        border: `2px solid rgba(255,255,255,0.4)`,
+                        borderTopColor: C.white,
+                        animation: "spin 0.8s linear infinite",
+                      }} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 2 }}>
+                        Preparing Insights
+                      </div>
+                      <div style={{ fontSize: 12, color: C.tealDark }}>
+                        {loadingStage || "Analyzing your transfers..."}
+                      </div>
+                    </div>
                   </div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
-                </>
+                </div>
               );
             }
             if (insightState === "ready" || insightState === "idle") {
@@ -1374,17 +1406,8 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
             return null;
           }
 
-          // Bottom sheet — loading shows inline, ready shows strip at bottom (handled below)
+          // Bottom sheet — loading AND ready both show in the footer strip (rendered below scroll area)
           if (pat === "bottomSheet") {
-            if (insightState === "loading") {
-              return (
-                <>
-                  <div style={{ margin: "14px 16px 4px", fontSize: 11, fontWeight: 600, color: C.textMuted, textTransform: "uppercase", letterSpacing: 0.8 }}>Preparing your insight</div>
-                  <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />
-                </>
-              );
-            }
-            // strip is rendered outside the scroll area, below
             return null;
           }
 
@@ -1423,9 +1446,9 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
           * Transfer fee listed does not include credit card transaction fees, transfers scheduled in advance, or exchange rate gains.
         </div>
       </div>
-      {/* Bottom sheet strip — sits between scroll area and bottom nav */}
-      {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle") && (
-        <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} />
+      {/* Bottom sheet strip — sits between scroll area and bottom nav, shows during loading AND ready */}
+      {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle" || insightState === "loading") && (
+        <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} insightState={insightState} loadingStage={loadingStage} loadingProgress={loadingProgress} />
       )}
       <BottomNav active="send" onNav={onNav} />
       {/* Bottom sheet overlay */}
@@ -1818,11 +1841,8 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
         {(() => {
           const pat = s.uiPattern;
 
-          // Context annotation: no insight card on Dashboard — annotations go inline below
+          // Context annotation: no separate insight card — loading indicators appear inline within each section
           if (pat === "contextAnnotation") {
-            if (insightState === "loading") {
-              return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
-            }
             return null;
           }
 
@@ -1849,9 +1869,8 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
             return null;
           }
 
-          // Bottom sheet — loading inline, ready is strip below
+          // Bottom sheet — loading AND ready both show in footer strip
           if (pat === "bottomSheet") {
-            if (insightState === "loading") return <InsightLoadingCard stage={loadingStage} progress={loadingProgress} alert={false} onSkip={s.speed === "async" ? onSkipWait : null} generationMs={s.generationMs} />;
             return null;
           }
 
@@ -1895,13 +1914,16 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           </div>
           {d.receivers.map((r, i) => {
             const isAnnotated = s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && r.name.includes("Rosa");
+            const isAnnotationLoading = s.uiPattern === "contextAnnotation" && insightState === "loading" && r.name.includes("Rosa");
             return (
               <div key={i} onClick={isAnnotated ? () => onAnnotationTap(1, "receiver") : undefined} style={{
                 display: "flex", justifyContent: "space-between", alignItems: "center",
                 padding: "11px 0",
                 borderBottom: i < d.receivers.length - 1 ? `1px solid ${C.borderLight}` : "none",
-                borderLeft: isAnnotated ? `3px solid ${C.teal}` : "none",
-                paddingLeft: isAnnotated ? 10 : 0,
+                borderLeft: isAnnotated ? `3px solid ${C.teal}` : isAnnotationLoading ? `3px solid ${C.teal}50` : "none",
+                paddingLeft: (isAnnotated || isAnnotationLoading) ? 10 : 0,
+                background: isAnnotationLoading ? `${C.tealLight}80` : "transparent",
+                borderRadius: isAnnotationLoading ? 6 : 0,
                 cursor: isAnnotated ? "pointer" : "default",
                 transition: "all 0.2s ease",
               }}>
@@ -1911,8 +1933,26 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
                   {isAnnotated && (
                     <span style={{
                       fontSize: 10, fontWeight: 600, color: C.teal,
-                      background: C.tealLight, padding: "2px 7px", borderRadius: 6,
-                    }}>Trending ↑</span>
+                      background: C.tealLight, padding: "3px 8px", borderRadius: 8,
+                      border: `1px solid ${C.teal}30`,
+                      display: "flex", alignItems: "center", gap: 3,
+                    }}>Trending ↑ <span style={{ fontSize: 11 }}>›</span></span>
+                  )}
+                  {isAnnotationLoading && (
+                    <span style={{
+                      fontSize: 10, fontWeight: 600, color: C.teal,
+                      background: C.white, padding: "2px 8px", borderRadius: 6,
+                      border: `1px solid ${C.teal}30`,
+                      display: "flex", alignItems: "center", gap: 4,
+                    }}>
+                      <span style={{
+                        width: 8, height: 8, borderRadius: 4,
+                        border: `1.5px solid ${C.teal}40`,
+                        borderTopColor: C.teal,
+                        animation: "spin 0.8s linear infinite",
+                      }} />
+                      Analyzing...
+                    </span>
                   )}
                 </div>
                 <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{r.amount} USD</span>
@@ -1944,6 +1984,7 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           </div>
           {d.categories.map((cat, i) => {
             const isAnnotated = s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && cat.name === "Groceries";
+            const isCatLoading = s.uiPattern === "contextAnnotation" && insightState === "loading" && cat.name === "Groceries";
             return (
               <div key={i} onClick={isAnnotated ? () => onAnnotationTap(1, "category") : undefined} style={{
                 display: "flex", justifyContent: "space-between", alignItems: "center",
@@ -1956,10 +1997,28 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
                   <span style={{ fontSize: 14 }}>{cat.icon}</span>
                   <span style={{ fontSize: 14, color: C.navy }}>{cat.name}</span>
                   {isAnnotated && (
-                    <div style={{
-                      width: 8, height: 8, borderRadius: 4, background: C.teal,
-                      animation: "pulse 1.6s ease-in-out infinite",
-                    }} />
+                    <span style={{
+                      fontSize: 10, fontWeight: 600, color: C.teal,
+                      background: C.tealLight, padding: "3px 8px", borderRadius: 8,
+                      border: `1px solid ${C.teal}30`,
+                      display: "flex", alignItems: "center", gap: 3,
+                      cursor: "pointer",
+                    }}>Insight <span style={{ fontSize: 11 }}>›</span></span>
+                  )}
+                  {isCatLoading && (
+                    <span style={{
+                      fontSize: 10, fontWeight: 600, color: C.teal,
+                      background: C.tealLight, padding: "2px 8px", borderRadius: 6,
+                      display: "flex", alignItems: "center", gap: 4,
+                    }}>
+                      <span style={{
+                        width: 8, height: 8, borderRadius: 4,
+                        border: `1.5px solid ${C.teal}40`,
+                        borderTopColor: C.teal,
+                        animation: "spin 0.8s linear infinite",
+                      }} />
+                      Analyzing...
+                    </span>
                   )}
                 </div>
                 <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>{cat.amount} USD</span>
@@ -1984,18 +2043,51 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
           border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
         }}>
+          {/* Annotation: prominent loading indicator above chart */}
+          {s.uiPattern === "contextAnnotation" && insightState === "loading" && (
+            <div style={{
+              margin: "0 0 12px", padding: "10px 14px",
+              background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+              borderRadius: 10,
+              border: `1.5px solid ${C.teal}25`,
+              display: "flex", alignItems: "center", gap: 8,
+              position: "relative", overflow: "hidden",
+            }}>
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0, height: 2,
+                background: `linear-gradient(90deg, transparent, ${C.teal}, transparent)`,
+                backgroundSize: "200% 100%",
+                animation: "shimmer 1.8s linear infinite",
+              }} />
+              <div style={{
+                width: 18, height: 18, borderRadius: 9,
+                border: `2.5px solid ${C.teal}40`,
+                borderTopColor: C.teal,
+                animation: "spin 0.8s linear infinite",
+                flexShrink: 0,
+              }} />
+              <span style={{ fontSize: 12, fontWeight: 600, color: C.tealDark }}>
+                Analyzing trend data...
+              </span>
+            </div>
+          )}
           {/* Annotation callout above chart */}
           {s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && (
             <div onClick={() => onAnnotationTap(0, "chart")} style={{
-              margin: "0 0 12px", padding: "8px 12px",
+              margin: "0 0 12px", padding: "10px 14px",
               background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
-              borderRadius: 10, border: `1px solid ${C.teal}30`,
-              fontSize: 12, fontWeight: 600, color: C.tealDark,
-              display: "flex", alignItems: "center", gap: 6,
+              borderRadius: 10, border: `1.5px solid ${C.teal}30`,
+              display: "flex", alignItems: "center", justifyContent: "space-between",
               cursor: "pointer",
               animation: "fadeIn 0.4s ease",
             }}>
-              <span style={{ color: C.teal }}>↑23%</span> over 3 months
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: C.teal }}>↑23%</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: C.tealDark }}>over 3 months</span>
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 600, color: C.teal, display: "flex", alignItems: "center", gap: 3 }}>
+                Details <span style={{ fontSize: 13 }}>→</span>
+              </span>
             </div>
           )}
           <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
@@ -2031,9 +2123,9 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
 
         <div style={{ height: 16 }} />
       </div>
-      {/* Bottom sheet strip for dashboard */}
-      {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle") && (
-        <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} />
+      {/* Bottom sheet strip for dashboard — shows during loading AND ready */}
+      {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle" || insightState === "loading") && (
+        <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} insightState={insightState} loadingStage={loadingStage} loadingProgress={loadingProgress} />
       )}
       <BottomNav active="dashboard" onNav={onNav} />
       {/* Bottom sheet overlay on dashboard */}
@@ -2778,8 +2870,14 @@ const MessageWidget = ({ scenario, onClick, fresh }) => {
               padding: "2px 8px", borderRadius: 8, letterSpacing: 0.5,
             }}>NEW</div>
           )}
-          <div style={{ fontSize: 14, color: C.navy, lineHeight: 1.5 }}>
+          <div style={{ fontSize: 14, color: C.navy, lineHeight: 1.5, marginBottom: 8 }}>
             {insight.hook}
+          </div>
+          <div style={{
+            fontSize: 12, fontWeight: 600, color: C.teal,
+            display: "flex", alignItems: "center", gap: 4,
+          }}>
+            Tap to read <span style={{ fontSize: 14 }}>→</span>
           </div>
         </div>
         <div style={{ fontSize: 10, color: C.textMuted, marginTop: 4, marginLeft: 4 }}>
@@ -2892,31 +2990,87 @@ const MessageThreadView = ({ scenario, feedback, onFeedback, onBack }) => {
 
 // ── BOTTOM SHEET PATTERN ──
 
-const BottomSheetStrip = ({ scenario, onClick, fresh }) => {
+const BottomSheetStrip = ({ scenario, onClick, fresh, insightState, loadingStage, loadingProgress }) => {
   const insight = scenario.insightDetail;
+  const isLoading = insightState === "loading";
   return (
-    <div onClick={onClick} style={{
-      margin: "0 0 0 0",
-      padding: "10px 16px",
+    <div onClick={isLoading ? undefined : onClick} style={{
+      margin: 0,
+      padding: isLoading ? "12px 16px 14px" : "14px 16px 16px",
       background: C.white,
-      borderTop: `1px solid ${C.border}`,
-      display: "flex", alignItems: "center", gap: 10,
-      cursor: "pointer",
+      borderTop: `1.5px solid ${isLoading ? C.teal + "40" : C.border}`,
+      cursor: isLoading ? "default" : "pointer",
       animation: fresh ? "fadeIn 0.4s ease" : "none",
+      position: "relative",
+      overflow: "hidden",
     }}>
-      <span style={{
-        width: 22, height: 22, borderRadius: 11,
-        background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        color: C.white, fontSize: 10, fontWeight: 700, flexShrink: 0,
-      }}>✦</span>
-      <div style={{
-        flex: 1, fontSize: 13, color: C.navy, fontWeight: 500,
-        whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
-      }}>
-        {insight.hook}
-      </div>
-      <span style={{ fontSize: 16, color: C.textMuted, flexShrink: 0, transform: "rotate(180deg)" }}>⌄</span>
+      {/* Shimmer bar at top during loading */}
+      {isLoading && (
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 2,
+          background: `linear-gradient(90deg, transparent, ${C.teal}, transparent)`,
+          backgroundSize: "200% 100%",
+          animation: "shimmer 1.8s linear infinite",
+        }} />
+      )}
+
+      {isLoading ? (
+        <>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+            <div style={{
+              width: 16, height: 16, borderRadius: 8,
+              border: `2px solid ${C.teal}40`,
+              borderTopColor: C.teal,
+              animation: "spin 0.8s linear infinite",
+              flexShrink: 0,
+            }} />
+            <span style={{ fontSize: 11, fontWeight: 600, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8 }}>
+              Generating Insight
+            </span>
+          </div>
+          <div style={{ fontSize: 12, color: C.textSecondary, fontStyle: "italic" }}>
+            {loadingStage}
+          </div>
+          {/* Progress bar */}
+          <div style={{
+            width: "100%", height: 3, background: C.creamDark,
+            borderRadius: 2, overflow: "hidden", marginTop: 8,
+          }}>
+            <div style={{
+              width: `${loadingProgress}%`, height: "100%",
+              background: `linear-gradient(90deg, ${C.teal}, ${C.tealAccent})`,
+              transition: "width 0.4s ease",
+            }} />
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{
+              width: 24, height: 24, borderRadius: 12,
+              background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: C.white, fontSize: 11, fontWeight: 700, flexShrink: 0,
+            }}>✦</span>
+            <div style={{
+              flex: 1, fontSize: 13, color: C.navy, fontWeight: 500,
+              overflow: "hidden", textOverflow: "ellipsis",
+              display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+            }}>
+              {insight.hook}
+            </div>
+            <span style={{ fontSize: 16, color: C.textMuted, flexShrink: 0, transform: "rotate(180deg)" }}>⌄</span>
+          </div>
+          {fresh && (
+            <div style={{
+              marginTop: 6, marginLeft: 34,
+              fontSize: 11, fontWeight: 600, color: C.teal,
+            }}>
+              Swipe up to read →
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };
@@ -3039,27 +3193,37 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
           );
         })}
 
-        {/* Compact feedback */}
+        {/* Feedback — prominent full-width buttons */}
         <div style={{
-          marginTop: 12, padding: "12px 0 0",
+          marginTop: 14, padding: "14px 0 0",
           borderTop: `1px solid ${C.borderLight}`,
         }}>
           {!submitted ? (
             <>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: showReasons ? 10 : 0 }}>
-                <span style={{ fontSize: 12, color: C.textMuted }}>Helpful?</span>
+              <div style={{ fontSize: 13, fontWeight: 600, color: C.navy, marginBottom: 10 }}>
+                Was this insight helpful?
+              </div>
+              <div style={{ display: "flex", gap: 10, marginBottom: showReasons ? 14 : 0 }}>
                 <button onClick={() => handleThumb("up")} style={{
-                  padding: "6px 12px", borderRadius: 10, cursor: "pointer",
+                  flex: 1, padding: "11px 14px",
                   background: sentiment === "up" ? C.greenBg : C.white,
-                  border: `1px solid ${sentiment === "up" ? C.green + "40" : C.border}`,
-                  fontSize: 13, color: sentiment === "up" ? C.green : C.navy,
-                }}>👍</button>
+                  border: `1.5px solid ${sentiment === "up" ? C.green + "60" : C.border}`,
+                  borderRadius: 12, cursor: "pointer",
+                  fontSize: 14, fontWeight: 600, color: sentiment === "up" ? C.green : C.navy,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                }}>
+                  <span style={{ fontSize: 16 }}>👍</span> Helpful
+                </button>
                 <button onClick={() => handleThumb("down")} style={{
-                  padding: "6px 12px", borderRadius: 10, cursor: "pointer",
+                  flex: 1, padding: "11px 14px",
                   background: sentiment === "down" ? C.redBg : C.white,
-                  border: `1px solid ${sentiment === "down" ? C.red + "40" : C.border}`,
-                  fontSize: 13, color: sentiment === "down" ? C.red : C.navy,
-                }}>👎</button>
+                  border: `1.5px solid ${sentiment === "down" ? C.red + "60" : C.border}`,
+                  borderRadius: 12, cursor: "pointer",
+                  fontSize: 14, fontWeight: 600, color: sentiment === "down" ? C.red : C.navy,
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                }}>
+                  <span style={{ fontSize: 16 }}>👎</span> Not helpful
+                </button>
               </div>
               {showReasons && sentiment === "down" && (
                 <div style={{ animation: "fadeIn 0.25s ease" }}>
@@ -3068,10 +3232,10 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
                       const on = selectedReasons.includes(r);
                       return (
                         <button key={r} onClick={() => toggleReason(r)} style={{
-                          padding: "5px 10px", background: on ? C.navy : C.white,
+                          padding: "6px 11px", background: on ? C.navy : C.white,
                           color: on ? C.white : C.navy,
-                          border: `1px solid ${on ? C.navy : C.border}`,
-                          borderRadius: 14, cursor: "pointer", fontSize: 11,
+                          border: `1.5px solid ${on ? C.navy : C.border}`,
+                          borderRadius: 14, cursor: "pointer", fontSize: 11, fontWeight: 500,
                         }}>
                           {on && "✓ "}{r}
                         </button>
@@ -3079,17 +3243,23 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
                     })}
                   </div>
                   <button onClick={submitDown} style={{
-                    width: "100%", padding: 10,
+                    width: "100%", padding: 11,
                     background: C.navy, color: C.white,
                     border: "none", borderRadius: 10,
                     fontSize: 13, fontWeight: 600, cursor: "pointer",
-                  }}>Submit</button>
+                  }}>Submit feedback</button>
                 </div>
               )}
             </>
           ) : (
-            <div style={{ fontSize: 12, color: C.textMuted, display: "flex", alignItems: "center", gap: 6 }}>
-              {sentiment === "up" ? "👍" : "👎"} Thanks for your feedback
+            <div style={{
+              display: "flex", alignItems: "center", gap: 8,
+              padding: "10px 14px", borderRadius: 10,
+              background: sentiment === "up" ? C.greenBg : C.redBg,
+              border: `1px solid ${sentiment === "up" ? C.green + "30" : C.red + "30"}`,
+            }}>
+              <span style={{ fontSize: 16 }}>{sentiment === "up" ? "👍" : "👎"}</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: C.navy }}>Thanks — your feedback helps us improve</span>
             </div>
           )}
         </div>
@@ -3148,39 +3318,38 @@ const SplitViewWidget = ({ scenario, expanded, onToggle, onFullDetail, fresh }) 
   const insight = scenario.insightDetail;
   return (
     <div style={{
-      margin: "14px 16px",
+      margin: "20px 16px 14px",
       background: C.white, borderRadius: 14,
       border: `1.5px solid ${expanded ? C.teal + "40" : C.border}`,
       boxShadow: fresh ? `0 4px 18px ${C.teal}40` : C.shadow,
-      overflow: "hidden",
+      overflow: "visible",
       transition: "all 0.35s ease",
       animation: fresh ? "reveal 0.6s ease" : "none",
       position: "relative",
     }}>
       {fresh && !expanded && (
         <div style={{
-          position: "absolute", top: -8, right: 14,
+          position: "absolute", top: -10, right: 14,
           background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
           color: C.white, fontSize: 10, fontWeight: 700,
           padding: "3px 10px", borderRadius: 10,
           letterSpacing: 0.5, textTransform: "uppercase",
           boxShadow: `0 2px 8px ${C.teal}50`,
+          zIndex: 1,
         }}>✦ New</div>
       )}
-      {/* Compact header — always visible */}
+      {/* Header label + collapse toggle */}
       <div onClick={onToggle} style={{
-        padding: "14px 16px",
-        display: "flex", alignItems: "center", gap: 10,
+        padding: "14px 16px 0",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
         cursor: "pointer",
       }}>
-        <span style={{
-          width: 22, height: 22, borderRadius: 11, flexShrink: 0,
-          background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          color: C.white, fontSize: 10, fontWeight: 700,
-        }}>✦</span>
-        <div style={{ flex: 1, fontSize: 14, color: C.navy, fontWeight: 600, lineHeight: 1.4 }}>
-          {insight.hook.length > 70 ? insight.hook.slice(0, 70) + "..." : insight.hook}
+        <div style={{
+          fontSize: 10, fontWeight: 700, color: C.teal,
+          textTransform: "uppercase", letterSpacing: 1.2,
+          display: "flex", alignItems: "center", gap: 4,
+        }}>
+          <span style={{ fontSize: 12 }}>✦</span> AI Insight
         </div>
         <span style={{
           fontSize: 16, color: C.textMuted, flexShrink: 0,
@@ -3188,63 +3357,82 @@ const SplitViewWidget = ({ scenario, expanded, onToggle, onFullDetail, fresh }) 
           transition: "transform 0.25s ease",
         }}>⌄</span>
       </div>
+      {/* Hook text — always visible */}
+      <div onClick={onToggle} style={{
+        padding: "8px 16px 0",
+        cursor: "pointer",
+      }}>
+        <div style={{ fontSize: 14, color: C.navy, fontWeight: 600, lineHeight: 1.5 }}>
+          {expanded ? insight.hook : (insight.hook.length > 80 ? insight.hook.slice(0, 80) + "..." : insight.hook)}
+        </div>
+      </div>
 
-      {/* Expanded content */}
+      {/* Stat block — always visible */}
+      {insight.keyStats && (
+        <div onClick={onToggle} style={{
+          margin: "12px 16px 0", cursor: "pointer",
+          display: "flex", gap: 12,
+          padding: "12px 14px",
+          background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+          borderRadius: 12, border: `1px solid ${C.teal}20`,
+        }}>
+          {insight.keyStats.map((stat, i) => (
+            <div key={i} style={{ flex: 1, textAlign: "center" }}>
+              <div style={{
+                fontSize: 20, fontWeight: 700, color: C.navy,
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
+              }}>
+                {stat.value}
+                {stat.direction === "up" && <span style={{ fontSize: 12, color: C.teal }}>↑</span>}
+              </div>
+              <div style={{ fontSize: 10, color: C.textMuted, marginTop: 2 }}>{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Expand invitation — only when collapsed */}
+      {!expanded && (
+        <div onClick={onToggle} style={{
+          padding: "12px 16px 14px",
+          cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+        }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: C.teal }}>
+            See what's driving this
+          </span>
+          <span style={{ fontSize: 14, color: C.teal, animation: "pulse 1.6s ease-in-out infinite" }}>↓</span>
+        </div>
+      )}
+
+      {/* Expanded content — first finding + CTA */}
       {expanded && (
         <div style={{
-          padding: "0 16px 16px",
+          padding: "12px 16px 16px",
           animation: "expandCard 0.3s ease",
         }}>
-          {/* Full hook text */}
-          <div style={{ fontSize: 14, color: C.textSecondary, lineHeight: 1.6, marginBottom: 14 }}>
-            <Txt>{insight.hook}</Txt>
-          </div>
-
-          {/* Stat block */}
-          {insight.keyStats && (
+          {/* Top finding only — keeps expanded state compact */}
+          {insight.findings.length > 0 && (
             <div style={{
-              display: "flex", gap: 12, marginBottom: 16,
-              padding: "12px 14px",
-              background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
-              borderRadius: 12, border: `1px solid ${C.teal}20`,
+              paddingLeft: 12,
+              borderLeft: `3px solid ${C.teal}40`,
+              marginBottom: 14,
             }}>
-              {insight.keyStats.map((stat, i) => (
-                <div key={i} style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{
-                    fontSize: 20, fontWeight: 700, color: C.navy,
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
-                  }}>
-                    {stat.value}
-                    {stat.direction === "up" && <span style={{ fontSize: 12, color: C.teal }}>↑</span>}
-                  </div>
-                  <div style={{ fontSize: 10, color: C.textMuted, marginTop: 2 }}>{stat.label}</div>
-                </div>
-              ))}
+              <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.6 }}>
+                <Txt>{insight.findings[0].text}</Txt>
+              </div>
             </div>
           )}
 
-          {/* Findings */}
-          {insight.findings.map((f, i) => (
-            <div key={i} style={{
-              paddingLeft: 12,
-              borderLeft: `3px solid ${C.teal}40`,
-              marginBottom: 12,
-            }}>
-              <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.6 }}>
-                <Txt>{f.text}</Txt>
-              </div>
-            </div>
-          ))}
-
-          {/* Link to full detail for feedback */}
+          {/* Link to full detail for all findings + feedback */}
           <button onClick={onFullDetail} style={{
-            width: "100%", padding: 12, marginTop: 4,
+            width: "100%", padding: 12,
             background: C.offWhite, border: `1.5px solid ${C.border}`,
             borderRadius: 12, cursor: "pointer",
             fontSize: 13, fontWeight: 600, color: C.teal,
             display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
           }}>
-            See full detail + give feedback <span style={{ fontSize: 14 }}>→</span>
+            {insight.findings.length > 1 ? `See all ${insight.findings.length} findings + give feedback` : "See full detail + give feedback"} <span style={{ fontSize: 14 }}>→</span>
           </button>
         </div>
       )}
