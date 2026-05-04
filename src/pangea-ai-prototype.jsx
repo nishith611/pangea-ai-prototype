@@ -833,6 +833,171 @@ const scenarioSV = {
   },
 };
 
+const scenarioRec = {
+  id: "REC",
+  label: "Recommended",
+  title: "Bottom Sheet + Persistent Icon",
+  desc: "Maria — Final recommended pattern",
+  tags: ["Recommended", "M1", "Sync (~10s)"],
+  tagColor: C.teal,
+  tagBg: C.tealLight,
+  icon: "⭐",
+  milestone: "M1",
+  uiPattern: "recommended",
+  speed: "sync",
+  generationMs: 10000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+};
+
+const scenarioRecChat = {
+  id: "RECCHAT",
+  label: "Recommended: Interactivity",
+  title: "Chat + Bottom Sheet",
+  desc: "Maria — Full interactive chat experience",
+  tags: ["Recommended", "Chat", "Future State"],
+  tagColor: C.teal,
+  tagBg: C.tealLight,
+  icon: "💬",
+  milestone: "future",
+  uiPattern: "recommendedChat",
+  speed: "sync",
+  generationMs: 10000,
+  fx: { send: "100", receive: "2,050", rate: "20.50", crossedRate: "17.85" },
+  confirmTransfer: {
+    amount: "100.00",
+    fee: "0.00",
+    total: "100.00",
+    rate: "20.50",
+    totalMXN: "2,050.00",
+    deliveredBy: "Apr 16, 2026",
+    receiver: "Rosa Garcia",
+    pickup: "BODEGA AURRERA",
+    promoNote: true,
+  },
+  suggestedCategory: "Groceries",
+  categoryIcon: "🛒",
+  categorizeSuccess: {
+    headline: "Nice job!",
+    amountMXN: "2,050",
+    categoryLabel: "Groceries",
+    emoji: "🛒",
+  },
+  loadingStages: [
+    { text: "Analyzing your recent transfers...", ms: 4000 },
+    { text: "Preparing your insight...", ms: 8000 },
+  ],
+  fxWidget: {
+    headline: "Your grocery support is trending up",
+    body: "Transfers to Rosa for groceries grew 23% over the last 3 months.",
+    cta: "See insight",
+  },
+  dashWidget: {
+    headline: "Grocery spending trend",
+    body: "You've sent $395 in groceries this month — up from $320 in January.",
+  },
+  dashboard: {
+    total: "1,185",
+    count: 12,
+    recipients: 1,
+    country: "Mexico",
+    receivers: [{ name: "Rosa (Mom)", amount: "1,185", flag: "🇲🇽" }],
+    categories: [
+      { name: "Groceries", amount: "1,185", pct: 100, color: C.teal, icon: "🛒" },
+    ],
+    monthlyChart: [320, 355, 395],
+    monthLabels: ["Jan", "Feb", "Mar"],
+  },
+  insightDetail: {
+    hook: "This $100 grocery transfer to Rosa fits a steady upward trend in what you're sending for everyday support.",
+    keyStats: [
+      { label: "3-month avg", value: "$357/mo", direction: "up" },
+      { label: "vs January", value: "+23%", direction: "up" },
+    ],
+    findings: [
+      {
+        text: "Your grocery transfers to Rosa have grown steadily — from **$320/mo** in January to **$355** in February to **$395** in March, a **23% increase** over 3 months.",
+      },
+      {
+        text: "At **$395/mo**, groceries now make up 100% of what you send to Rosa. That's within a healthy range for a single-category recipient, but leaves no buffer if she needs emergency support.",
+        question: "Would it help to set a monthly grocery budget so you know when you're trending above your comfort level?",
+      },
+      {
+        text: "Your overall monthly sending has stayed consistent at around **$1,185**, all to one recipient in Mexico. That's a focused pattern — no new recipients or categories in the past 3 months.",
+      },
+    ],
+  },
+  coldStartPills: ["How much have I sent this year?", "Show my spending by category", "Compare my last 3 months", "Who do I send to most?"],
+  deliveryMethodPills: ["Which delivery method is fastest?", "What are the fees for each option?", "Which is best for large amounts?", "Can my receiver get cash today?"],
+  mockResponses: {
+    insight: { question: "Why is my grocery spending going up?", answer: "Based on your transfer history, your grocery transfers to Rosa have increased because you've been sending more frequently — from **2 transfers/month** in January to **3 transfers/month** in March. The average amount stayed ~$130, but the extra transfer each month drives the **23% increase**." },
+    coldStart: { question: "How much have I sent this year?", answer: "In 2026 so far, you've sent **$3,555 USD** across **36 transfers** to Rosa Garcia in Mexico. Monthly: **Jan** $320, **Feb** $355, **Mar** $395. Your sending is up **23%** since January." },
+    deliveryMethod: { question: "Which delivery method is fastest?", answer: "For Mexico transfers, **Cash Pickup** is fastest — available within minutes at BODEGA AURRERA. **Mobile Wallet** takes 1-2 hours. **Debit Card** is same day. **Bank Account** takes 1-3 business days. Since Rosa picks up at BODEGA AURRERA, Cash Pickup is already your fastest option." },
+  },
+};
+
 // ── SHARED COMPONENTS ──
 
 const PhoneFrame = ({ children }) => (
@@ -879,78 +1044,145 @@ const PhoneFrame = ({ children }) => (
   </div>
 );
 
-const Header = ({ title, showBack, onBack, showLogo, showClose, onClose, showBell, bellUnread, onBell }) => (
-  <div style={{
-    height: 52, flexShrink: 0,
-    background: C.white,
-    display: "flex", alignItems: "center", justifyContent: "center",
-    borderBottom: `1px solid ${C.border}`,
-    position: "relative",
-  }}>
-    {showBack && (
-      <button onClick={onBack} style={{
-        position: "absolute", left: 12,
-        background: "none", border: "none",
-        fontSize: 26, cursor: "pointer", color: C.teal,
-        padding: "4px 10px", lineHeight: 1,
-      }}>‹</button>
-    )}
-    {showLogo ? (
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-        <svg width="24" height="24" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="12" fill={C.teal}/>
-          <text x="12" y="16" textAnchor="middle" fill="white" fontSize="13" fontWeight="800" fontFamily="-apple-system, sans-serif">P</text>
-        </svg>
-        <span style={{ fontSize: 20, fontWeight: 700, color: C.navy, letterSpacing: 0.3 }}>pangea</span>
-      </div>
-    ) : (
-      <span style={{ fontSize: 17, fontWeight: 600, color: C.navy }}>{title}</span>
-    )}
-    {showLogo && (
-      <button style={{
-        position: "absolute", left: 14,
-        background: "none", border: "none", cursor: "pointer",
-      }}>
-        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-          <circle cx="11" cy="11" r="10" stroke="#9CA3AF" strokeWidth="1.5"/>
-          <path d="M11 9v6" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round"/>
-          <circle cx="11" cy="7" r="0.75" fill="#9CA3AF"/>
-        </svg>
-      </button>
-    )}
-    {showBell && (
-      <button onClick={onBell} style={{
-        position: "absolute", right: 14,
-        background: "none", border: "none", cursor: "pointer",
-        padding: 4,
-      }}>
-        <div style={{ position: "relative", width: 22, height: 22 }}>
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path d="M11 3a5 5 0 00-5 5v3.5L4.5 14h13L16 11.5V8a5 5 0 00-5-5z"
-              stroke={C.navy} strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
-            <path d="M9 17a2 2 0 004 0" stroke={C.navy} strokeWidth="1.5" strokeLinecap="round"/>
+const Header = ({ title, showBack, onBack, showLogo, showClose, onClose, showBell, bellUnread, onBell, insightIcon, insightIconState, insightIconReceive, onInsightIcon }) => {
+  const [iconHighlight, setIconHighlight] = useState(false);
+
+  const handleInsightIconClick = () => {
+    if (!onInsightIcon) return;
+    // All states are now tappable (muted shows empty state, generating shows loading)
+    setIconHighlight(true);
+    setTimeout(() => {
+      setIconHighlight(false);
+      onInsightIcon();
+    }, 200);
+  };
+
+  const iconColor = insightIconState === "muted" ? "#9CA3AF" : C.teal;
+  const iconBg = insightIconState === "muted"
+    ? "#F3F4F6"
+    : iconHighlight
+      ? C.tealAccent
+      : `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`;
+  const iconCursor = "pointer";
+  // Receive animation plays when sheet is dismissed — icon pulses to show "insight stored here"
+  const receiveAnim = insightIconReceive ? "iconReceive 0.5s ease" : "none";
+
+  return (
+    <div style={{
+      height: 52, flexShrink: 0,
+      background: C.white,
+      display: "flex", alignItems: "center", justifyContent: "center",
+      borderBottom: `1px solid ${C.border}`,
+      position: "relative",
+    }}>
+      {showBack && (
+        <button onClick={onBack} style={{
+          position: "absolute", left: 12,
+          background: "none", border: "none",
+          fontSize: 26, cursor: "pointer", color: C.teal,
+          padding: "4px 10px", lineHeight: 1,
+        }}>‹</button>
+      )}
+      {showLogo ? (
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="12" fill={C.teal}/>
+            <text x="12" y="16" textAnchor="middle" fill="white" fontSize="13" fontWeight="800" fontFamily="-apple-system, sans-serif">P</text>
           </svg>
-          {bellUnread && (
-            <div style={{
-              position: "absolute", top: -1, right: -1,
-              width: 10, height: 10, borderRadius: 5,
-              background: C.teal,
-              border: `2px solid ${C.white}`,
-              boxShadow: `0 0 0 1px ${C.teal}80`,
-              animation: "pulse 1.6s ease-in-out infinite",
-            }} />
-          )}
+          <span style={{ fontSize: 20, fontWeight: 700, color: C.navy, letterSpacing: 0.3 }}>pangea</span>
         </div>
-      </button>
-    )}
-    {showClose && (
-      <button onClick={onClose} style={{
-        position: "absolute", right: 14,
-        background: "none", border: "none", fontSize: 22, cursor: "pointer", color: C.navy,
-      }}>✕</button>
-    )}
-  </div>
-);
+      ) : (
+        <span style={{ fontSize: 17, fontWeight: 600, color: C.navy }}>{title}</span>
+      )}
+      {showLogo && (
+        <button style={{
+          position: "absolute", left: 14,
+          background: "none", border: "none", cursor: "pointer",
+        }}>
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="11" r="10" stroke="#9CA3AF" strokeWidth="1.5"/>
+            <path d="M11 9v6" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round"/>
+            <circle cx="11" cy="7" r="0.75" fill="#9CA3AF"/>
+          </svg>
+        </button>
+      )}
+      {/* Insight icon takes priority over bell when both present */}
+      {insightIcon ? (
+        <button onClick={handleInsightIconClick} style={{
+          position: "absolute", right: 14,
+          background: "none", border: "none", cursor: iconCursor,
+          padding: 0,
+        }}>
+          <div style={{
+            position: "relative",
+            width: 26, height: 26, borderRadius: 13,
+            background: iconBg,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            animation: iconHighlight ? "iconFlash 0.2s ease" : receiveAnim,
+            transition: "background 0.15s ease",
+          }}>
+            {/* Spinning ring for generating state */}
+            {insightIconState === "generating" && (
+              <div style={{
+                position: "absolute", inset: -3,
+                borderRadius: "50%",
+                border: `2px solid ${C.teal}30`,
+                borderTopColor: C.teal,
+                animation: "spin 0.8s linear infinite",
+              }} />
+            )}
+            <span style={{
+              fontSize: 13, fontWeight: 700,
+              color: insightIconState === "muted" ? "#9CA3AF" : C.white,
+              lineHeight: 1,
+            }}>✦</span>
+            {/* Notification dot for ready state */}
+            {insightIconState === "ready" && (
+              <div style={{
+                position: "absolute", top: -2, right: -2,
+                width: 10, height: 10, borderRadius: 5,
+                background: C.teal,
+                border: `2px solid ${C.white}`,
+                boxShadow: `0 0 0 1px ${C.teal}80`,
+                animation: "dotPop 0.3s ease",
+              }} />
+            )}
+          </div>
+        </button>
+      ) : showBell ? (
+        <button onClick={onBell} style={{
+          position: "absolute", right: 14,
+          background: "none", border: "none", cursor: "pointer",
+          padding: 4,
+        }}>
+          <div style={{ position: "relative", width: 22, height: 22 }}>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M11 3a5 5 0 00-5 5v3.5L4.5 14h13L16 11.5V8a5 5 0 00-5-5z"
+                stroke={C.navy} strokeWidth="1.5" strokeLinejoin="round" fill="none"/>
+              <path d="M9 17a2 2 0 004 0" stroke={C.navy} strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            {bellUnread && (
+              <div style={{
+                position: "absolute", top: -1, right: -1,
+                width: 10, height: 10, borderRadius: 5,
+                background: C.teal,
+                border: `2px solid ${C.white}`,
+                boxShadow: `0 0 0 1px ${C.teal}80`,
+                animation: "pulse 1.6s ease-in-out infinite",
+              }} />
+            )}
+          </div>
+        </button>
+      ) : null}
+      {showClose && !insightIcon && (
+        <button onClick={onClose} style={{
+          position: "absolute", right: 14,
+          background: "none", border: "none", fontSize: 22, cursor: "pointer", color: C.navy,
+        }}>✕</button>
+      )}
+    </div>
+  );
+};
 
 const BottomNav = ({ active, onNav }) => (
   <div style={{
@@ -1196,7 +1428,7 @@ const ProgressBar = ({ pct, warn }) => (
 
 // ── FX CALCULATOR SCREEN ──
 
-const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight }) => {
+const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight, insightIconProps, stripDismissed }) => {
   const s = scenario;
   const hasInsight = insightState === "ready";
   const bellUnread = hasInsight && !insightViewed;
@@ -1207,6 +1439,7 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
         showBell
         bellUnread={bellUnread}
         onBell={hasInsight ? onInsight : undefined}
+        {...(insightIconProps || {})}
       />
       <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
         <div style={{
@@ -1411,6 +1644,11 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
             return null;
           }
 
+          // Recommended — insight zone handled by header icon + strip
+          if (pat === "recommended" || pat === "recommendedChat") {
+            return null;
+          }
+
           // Default insight zone (scenarioC, scenarioC10, scenarioA, scenarioB)
           return (
             <>
@@ -1450,15 +1688,30 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
       {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle" || insightState === "loading") && (
         <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} insightState={insightState} loadingStage={loadingStage} loadingProgress={loadingProgress} />
       )}
+      {/* Recommended strip — with fade-out behavior */}
+      {(s.uiPattern === "recommended" || s.uiPattern === "recommendedChat") && (
+        <RecommendedStrip
+          scenario={s}
+          onClick={onBottomSheetOpen}
+          fresh={insightState === "ready" && !insightViewed}
+          insightState={insightState}
+          loadingStage={loadingStage}
+          loadingProgress={loadingProgress}
+          visible={!stripDismissed && (insightState === "loading" || insightState === "ready" || insightState === "idle")}
+        />
+      )}
       <BottomNav active="send" onNav={onNav} />
       {/* Bottom sheet overlay */}
-      {s.uiPattern === "bottomSheet" && showBottomSheet && (
+      {(s.uiPattern === "bottomSheet" || s.uiPattern === "recommended") && showBottomSheet && (
         <BottomSheetOverlay
           scenario={s}
           feedback={feedback}
           onFeedback={onFeedback}
           onDismiss={onBottomSheetDismiss}
           onFullInsight={() => { onBottomSheetDismiss(); onAnnotationFullInsight(); }}
+          insightState={insightState}
+          loadingStage={loadingStage}
+          loadingProgress={loadingProgress}
         />
       )}
     </>
@@ -1467,11 +1720,11 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
 
 // ── CONFIRM TRANSFER SCREEN ──
 
-const ConfirmTransferScreen = ({ scenario, onSend, onBack }) => {
+const ConfirmTransferScreen = ({ scenario, onSend, onBack, insightIconProps }) => {
   const t = scenario.confirmTransfer;
   return (
     <>
-      <Header title="Confirm Transfer Details" showBack onBack={onBack} />
+      <Header title="Confirm Transfer Details" showBack onBack={onBack} {...(insightIconProps || {})} />
       <div style={{ flex: 1, overflow: "auto", background: C.white }}>
         {/* Amount with edit */}
         <div style={{ padding: "20px 20px 12px", borderBottom: `1px solid ${C.borderLight}` }}>
@@ -1593,7 +1846,7 @@ const ConfirmTransferScreen = ({ scenario, onSend, onBack }) => {
 
 // ── CATEGORIZE SCREEN ──
 
-const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel }) => {
+const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel, insightIconProps }) => {
   const suggested = scenario.suggestedCategory;
 
   const recentCategories = [
@@ -1631,7 +1884,7 @@ const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel }) => {
 
   return (
     <>
-      <Header title="Categorize Your Transfer" showBack onBack={onBack} />
+      <Header title="Categorize Your Transfer" showBack onBack={onBack} {...(insightIconProps || {})} />
       <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
         {/* Privacy banner */}
         <div style={{
@@ -1776,14 +2029,14 @@ const CategorizeSuccessModal = ({ scenario, onSeeDashboard }) => {
 
 // ── DASHBOARD SCREEN ──
 
-const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight }) => {
+const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight, insightIconProps, stripDismissed }) => {
   const s = scenario;
   const d = s.dashboard;
   const maxChart = Math.max(...d.monthlyChart);
 
   return (
     <>
-      <Header showLogo />
+      <Header showLogo {...(insightIconProps || {})} />
       <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
         {/* Month tabs */}
         <div style={{
@@ -1871,6 +2124,11 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
 
           // Bottom sheet — loading AND ready both show in footer strip
           if (pat === "bottomSheet") {
+            return null;
+          }
+
+          // Recommended — insight zone handled by header icon + strip
+          if (pat === "recommended" || pat === "recommendedChat") {
             return null;
           }
 
@@ -2127,9 +2385,21 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
       {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle" || insightState === "loading") && (
         <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} insightState={insightState} loadingStage={loadingStage} loadingProgress={loadingProgress} />
       )}
+      {/* Recommended strip for dashboard — with fade-out behavior */}
+      {(s.uiPattern === "recommended" || s.uiPattern === "recommendedChat") && (
+        <RecommendedStrip
+          scenario={s}
+          onClick={onBottomSheetOpen}
+          fresh={insightState === "ready" && !insightViewed}
+          insightState={insightState}
+          loadingStage={loadingStage}
+          loadingProgress={loadingProgress}
+          visible={!stripDismissed && (insightState === "loading" || insightState === "ready" || insightState === "idle")}
+        />
+      )}
       <BottomNav active="dashboard" onNav={onNav} />
       {/* Bottom sheet overlay on dashboard */}
-      {s.uiPattern === "bottomSheet" && showBottomSheet && (
+      {(s.uiPattern === "bottomSheet" || s.uiPattern === "recommended") && showBottomSheet && (
         <BottomSheetOverlay
           scenario={s}
           feedback={feedback}
@@ -3075,7 +3345,110 @@ const BottomSheetStrip = ({ scenario, onClick, fresh, insightState, loadingStage
   );
 };
 
-const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullInsight }) => {
+const RecommendedStrip = ({ scenario, onClick, fresh, insightState, loadingStage, loadingProgress, visible }) => {
+  const [shouldRender, setShouldRender] = useState(visible);
+  const [animatingOut, setAnimatingOut] = useState(false);
+
+  useEffect(() => {
+    if (visible) {
+      setShouldRender(true);
+      setAnimatingOut(false);
+    } else if (shouldRender) {
+      setAnimatingOut(true);
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+        setAnimatingOut(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [visible]);
+
+  if (!shouldRender) return null;
+
+  const insight = scenario.insightDetail;
+  const isLoading = insightState === "loading";
+  return (
+    <div onClick={isLoading ? undefined : onClick} style={{
+      margin: 0,
+      padding: isLoading ? "12px 16px 14px" : "14px 16px 16px",
+      background: C.white,
+      borderTop: `1.5px solid ${isLoading ? C.teal + "40" : C.border}`,
+      cursor: isLoading ? "default" : "pointer",
+      animation: animatingOut ? "fadeOut 0.3s ease forwards" : (fresh ? "fadeIn 0.4s ease" : "none"),
+      position: "relative",
+      overflow: "hidden",
+      transition: "padding 0.3s ease, border-color 0.3s ease",
+    }}>
+      {isLoading && (
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 2,
+          background: `linear-gradient(90deg, transparent, ${C.teal}, transparent)`,
+          backgroundSize: "200% 100%",
+          animation: "shimmer 1.8s linear infinite",
+        }} />
+      )}
+
+      {isLoading ? (
+        <>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+            <div style={{
+              width: 16, height: 16, borderRadius: 8,
+              border: `2px solid ${C.teal}40`,
+              borderTopColor: C.teal,
+              animation: "spin 0.8s linear infinite",
+              flexShrink: 0,
+            }} />
+            <span style={{ fontSize: 11, fontWeight: 600, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8 }}>
+              Generating Insight
+            </span>
+          </div>
+          <div style={{ fontSize: 12, color: C.textSecondary, fontStyle: "italic" }}>
+            {loadingStage}
+          </div>
+          <div style={{
+            width: "100%", height: 3, background: C.creamDark,
+            borderRadius: 2, overflow: "hidden", marginTop: 8,
+          }}>
+            <div style={{
+              width: `${loadingProgress}%`, height: "100%",
+              background: `linear-gradient(90deg, ${C.teal}, ${C.tealAccent})`,
+              transition: "width 0.4s ease",
+            }} />
+          </div>
+        </>
+      ) : (
+        <div style={{ animation: "stripCrossfade 0.4s ease" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{
+              width: 24, height: 24, borderRadius: 12,
+              background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: C.white, fontSize: 11, fontWeight: 700, flexShrink: 0,
+            }}>✦</span>
+            <div style={{
+              flex: 1, fontSize: 13, color: C.navy, fontWeight: 500,
+              overflow: "hidden", textOverflow: "ellipsis",
+              display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+            }}>
+              {insight.hook}
+            </div>
+            <span style={{ fontSize: 16, color: C.textMuted, flexShrink: 0, transform: "rotate(180deg)" }}>⌄</span>
+          </div>
+          {fresh && (
+            <div style={{
+              marginTop: 6, marginLeft: 34,
+              fontSize: 11, fontWeight: 600, color: C.teal,
+            }}>
+              Swipe up to read →
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullInsight, insightState, loadingStage, loadingProgress }) => {
   const insight = scenario.insightDetail;
   const [expandedIdx, setExpandedIdx] = useState(-1);
   const [showReasons, setShowReasons] = useState(feedback?.sentiment === "down" && !feedback?.submitted);
@@ -3129,10 +3502,81 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
         zIndex: 21, padding: "0 16px 16px",
         animation: "slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
       }}>
-        {/* Drag handle */}
-        <div style={{ display: "flex", justifyContent: "center", padding: "10px 0 14px" }}>
+        {/* Drag handle + dismiss chevron */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0 10px", position: "relative" }}>
           <div style={{ width: 36, height: 4, borderRadius: 2, background: C.border }} />
+          <button onClick={onDismiss} style={{
+            position: "absolute", right: 4, top: 6,
+            background: "none", border: "none", cursor: "pointer",
+            width: 28, height: 28, borderRadius: 14,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: C.textMuted, fontSize: 18,
+          }}>⌄</button>
         </div>
+
+        {/* Empty state — no insight yet */}
+        {insightState === "idle" && !insight && (
+          <div style={{ padding: "20px 0", textAlign: "center" }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: 24, margin: "0 auto 14px",
+              background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 22,
+            }}>✦</div>
+            <div style={{ fontSize: 15, fontWeight: 600, color: C.navy, marginBottom: 6 }}>No insights yet</div>
+            <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.5 }}>
+              Send a transfer to get your first AI insight.
+            </div>
+          </div>
+        )}
+
+        {/* Loading state — generating in progress */}
+        {insightState === "loading" && (
+          <div style={{ padding: "16px 0" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+              <div style={{
+                width: 20, height: 20, borderRadius: 10,
+                border: `2.5px solid ${C.teal}40`,
+                borderTopColor: C.teal,
+                animation: "spin 0.8s linear infinite",
+                flexShrink: 0,
+              }} />
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 2 }}>
+                  Generating Insight
+                </div>
+                <div style={{ fontSize: 12, color: C.textSecondary, fontStyle: "italic" }}>
+                  {loadingStage || "Analyzing your transfers..."}
+                </div>
+              </div>
+            </div>
+            {/* Skeleton lines */}
+            <div style={{ marginBottom: 12 }}>
+              {[75, 90, 60].map((w, i) => (
+                <div key={i} style={{
+                  height: 10, width: `${w}%`, marginBottom: 8, borderRadius: 4,
+                  background: `linear-gradient(90deg, ${C.creamDark} 0%, ${C.borderLight} 50%, ${C.creamDark} 100%)`,
+                  backgroundSize: "200% 100%",
+                  animation: `shimmerBg 1.8s ease-in-out infinite ${i * 0.2}s`,
+                }} />
+              ))}
+            </div>
+            {/* Progress bar */}
+            <div style={{
+              width: "100%", height: 4, background: C.creamDark,
+              borderRadius: 2, overflow: "hidden",
+            }}>
+              <div style={{
+                width: `${loadingProgress || 0}%`, height: "100%",
+                background: `linear-gradient(90deg, ${C.teal}, ${C.tealAccent})`,
+                transition: "width 0.4s ease",
+              }} />
+            </div>
+          </div>
+        )}
+
+        {/* Ready/viewed — full insight content (also default when insightState is undefined) */}
+        {(insightState !== "loading" && !(insightState === "idle" && !insight)) && (<>
 
         {/* Hook */}
         <div style={{ fontSize: 15, color: C.navy, lineHeight: 1.6, fontWeight: 500, marginBottom: 14 }}>
@@ -3263,6 +3707,7 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
             </div>
           )}
         </div>
+        </>)}
       </div>
     </>
   );
@@ -3485,6 +3930,314 @@ const PostTransferScreen = ({ scenario, onBack, onNav }) => {
   );
 };
 
+// ── DELIVERY METHOD SCREEN ──
+
+const DeliveryMethodScreen = ({ onSelect, onBack, insightIconProps, onInsightIconTap }) => {
+  const methods = [
+    { icon: "💳", label: "Receiver Debit Card" },
+    { icon: "🏦", label: "Receiver Bank Account" },
+    { icon: "📱", label: "Mobile Wallet Deposit" },
+    { icon: "💵", label: "Cash Pickup" },
+  ];
+  return (
+    <>
+      <Header title="Select Delivery Method" showBack onBack={onBack} {...(insightIconProps || {})} />
+      <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
+        <div style={{ margin: "16px 16px 0" }}>
+          {methods.map((m, i) => (
+            <button key={i} onClick={onSelect} style={{
+              width: "100%", padding: "14px 16px",
+              background: C.white,
+              border: "none",
+              borderBottom: i < methods.length - 1 ? `1px solid ${C.borderLight}` : "none",
+              borderRadius: i === 0 ? "14px 14px 0 0" : i === methods.length - 1 ? "0 0 14px 14px" : 0,
+              display: "flex", alignItems: "center", gap: 14,
+              cursor: "pointer", textAlign: "left",
+            }}>
+              <div style={{
+                width: 50, height: 50, borderRadius: 25,
+                background: C.tealLight,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 22, flexShrink: 0,
+              }}>{m.icon}</div>
+              <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: C.navy }}>{m.label}</span>
+              <span style={{ fontSize: 20, color: C.textMuted }}>›</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <BottomNav active="send" onNav={() => {}} />
+    </>
+  );
+};
+
+// ── CHAT BOTTOM SHEET ──
+
+const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState, feedback, onFeedback }) => {
+  const [chatInput, setChatInput] = useState("");
+  const insight = scenario.insightDetail;
+
+  const handleSubmit = (text) => {
+    if (!text.trim()) return;
+    onSubmitChat(text.trim(), mode);
+    setChatInput("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(chatInput);
+    }
+  };
+
+  const pills = mode === "coldStart" ? scenario.coldStartPills
+    : mode === "contextual" ? scenario.deliveryMethodPills
+    : [];
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div onClick={onDismiss} style={{
+        position: "absolute", top: 0, left: 0, right: 0, bottom: 74,
+        background: "rgba(0,0,0,0.3)", zIndex: 20,
+        animation: "fadeIn 0.2s ease",
+      }} />
+      {/* Sheet */}
+      <div style={{
+        position: "absolute", left: 0, right: 0, bottom: 74,
+        maxHeight: "65%",
+        background: C.white, borderRadius: "20px 20px 0 0",
+        boxShadow: "0 -8px 30px rgba(0,0,0,0.15)",
+        zIndex: 21, padding: "0 16px 12px",
+        animation: "sheetExpand 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+        display: "flex", flexDirection: "column",
+      }}>
+        {/* Drag handle + dismiss chevron */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0 10px", position: "relative", flexShrink: 0 }}>
+          <div style={{ width: 36, height: 4, borderRadius: 2, background: C.border }} />
+          <button onClick={onDismiss} style={{
+            position: "absolute", right: 4, top: 6,
+            background: "none", border: "none", cursor: "pointer",
+            width: 28, height: 28, borderRadius: 14,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: C.textMuted, fontSize: 18,
+          }}>⌄</button>
+        </div>
+
+        <div style={{ flex: 1, overflow: "auto" }}>
+          {mode === "insight" && insight && (
+            <>
+              {/* Compact hook */}
+              <div style={{ fontSize: 14, color: C.navy, lineHeight: 1.55, fontWeight: 500, marginBottom: 12 }}>
+                <Txt>{insight.hook}</Txt>
+              </div>
+              {/* Small stat block */}
+              {insight.keyStats && (
+                <div style={{
+                  display: "flex", gap: 12, marginBottom: 12,
+                  padding: "10px 12px",
+                  background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+                  borderRadius: 10, border: `1px solid ${C.teal}20`,
+                }}>
+                  {insight.keyStats.map((stat, i) => (
+                    <div key={i} style={{ flex: 1, textAlign: "center" }}>
+                      <div style={{ fontSize: 18, fontWeight: 700, color: C.navy, display: "flex", alignItems: "center", justifyContent: "center", gap: 3 }}>
+                        {stat.value}
+                        {stat.direction === "up" && <span style={{ fontSize: 11, color: C.teal }}>↑</span>}
+                      </div>
+                      <div style={{ fontSize: 10, color: C.textMuted, marginTop: 2 }}>{stat.label}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Inline thumbs row */}
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+                <span style={{ fontSize: 12, color: C.textMuted }}>Was this helpful?</span>
+                {["👍", "👎"].map(e => (
+                  <button key={e} onClick={() => onFeedback && onFeedback({ sentiment: e === "👍" ? "up" : "down", reasons: [], comment: "", submitted: true })} style={{
+                    background: feedback?.sentiment === (e === "👍" ? "up" : "down") ? (e === "👍" ? C.greenBg : C.redBg) : "transparent",
+                    border: feedback?.sentiment === (e === "👍" ? "up" : "down") ? `1px solid ${e === "👍" ? C.green + "30" : C.red + "30"}` : "1px solid transparent",
+                    fontSize: 14, cursor: "pointer", borderRadius: 8, padding: "3px 8px",
+                  }}>{e}</button>
+                ))}
+              </div>
+              {/* Divider */}
+              <div style={{ height: 1, background: C.borderLight, marginBottom: 10 }} />
+              {/* Prompt */}
+              <div style={{ fontSize: 13, color: C.textMuted, marginBottom: 12 }}>Ask about this insight</div>
+            </>
+          )}
+
+          {(mode === "coldStart" || mode === "contextual") && (
+            <>
+              {/* Icon + heading */}
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: 16,
+                  background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: C.white, fontSize: 14, fontWeight: 700, flexShrink: 0,
+                }}>✦</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: C.navy }}>
+                  {mode === "coldStart" ? "Ask about your transfers" : "Help with delivery methods"}
+                </div>
+              </div>
+              <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.5, marginBottom: 14 }}>
+                {mode === "coldStart"
+                  ? "I can help you understand your sending patterns, track spending, and more."
+                  : "I can help you choose the right option."}
+              </div>
+              {/* 2x2 pill grid */}
+              <div style={{
+                display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8,
+                marginBottom: 14,
+              }}>
+                {pills.map((p, i) => (
+                  <button key={i} onClick={() => onSubmitChat(p, mode)} style={{
+                    padding: "10px 10px",
+                    borderRadius: 12,
+                    border: `1.5px solid ${C.teal}40`,
+                    background: C.white,
+                    color: C.navy,
+                    fontSize: 12, fontWeight: 500,
+                    cursor: "pointer", textAlign: "left",
+                    lineHeight: 1.35,
+                  }}>{p}</button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Chat input bar */}
+        <div style={{ display: "flex", gap: 8, alignItems: "center", paddingTop: 8, flexShrink: 0, borderTop: `1px solid ${C.borderLight}` }}>
+          <input
+            value={chatInput}
+            onChange={(e) => setChatInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask anything..."
+            style={{
+              flex: 1, padding: "10px 16px",
+              borderRadius: 22, border: `1.5px solid ${C.border}`,
+              fontSize: 14, outline: "none", background: C.offWhite, color: C.navy,
+              fontFamily: "inherit",
+            }}
+          />
+          <button onClick={() => handleSubmit(chatInput)} style={{
+            width: 32, height: 32, borderRadius: 16,
+            background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+            border: "none", color: C.white, fontSize: 14, cursor: "pointer",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexShrink: 0,
+          }}>↑</button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+// ── FULL SCREEN CHAT ──
+
+const FullScreenChat = ({ messages, onSendMessage, onBack, insightIconProps, typing }) => {
+  const [chatInput, setChatInput] = useState("");
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messages, typing]);
+
+  const handleSubmit = (text) => {
+    if (!text.trim()) return;
+    onSendMessage(text.trim());
+    setChatInput("");
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(chatInput);
+    }
+  };
+
+  return (
+    <>
+      <Header title="AI Assistant" showBack onBack={onBack} {...(insightIconProps || {})} />
+      <div ref={scrollRef} style={{ flex: 1, overflow: "auto", padding: 16, background: C.cream }}>
+        {messages.map((msg, i) => {
+          if (msg.role === "user") {
+            return (
+              <div key={i} style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12, animation: "fadeIn 0.3s ease" }}>
+                <div style={{
+                  background: C.navy, color: C.white,
+                  padding: "11px 16px", borderRadius: "18px 18px 4px 18px",
+                  maxWidth: "75%", fontSize: 14, fontWeight: 500,
+                }}>{msg.text}</div>
+              </div>
+            );
+          }
+          return (
+            <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 14, animation: "fadeIn 0.3s ease" }}>
+              <div style={{
+                width: 24, height: 24, borderRadius: 12, flexShrink: 0,
+                background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: C.white, fontSize: 11, fontWeight: 700,
+              }}>✦</div>
+              <div style={{
+                background: C.white, borderRadius: "4px 16px 16px 16px",
+                padding: "12px 14px", border: `1px solid ${C.border}`,
+                maxWidth: "80%", fontSize: 14, color: C.textSecondary, lineHeight: 1.6,
+              }}>
+                <Txt>{msg.text}</Txt>
+              </div>
+            </div>
+          );
+        })}
+        {typing && (
+          <div style={{ display: "flex", alignItems: "flex-start", gap: 8, marginBottom: 14, animation: "fadeIn 0.2s ease" }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: 12, flexShrink: 0,
+              background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: C.white, fontSize: 11, fontWeight: 700,
+            }}>✦</div>
+            <div style={{
+              background: C.white, borderRadius: "4px 16px 16px 16px",
+              padding: "10px 18px", border: `1px solid ${C.border}`,
+              display: "flex", gap: 4, alignItems: "center",
+            }}>
+              {[0, 1, 2].map(j => (
+                <div key={j} style={{ width: 7, height: 7, borderRadius: "50%", background: C.teal, opacity: 0.5, animation: `pulse 1.2s ease-in-out ${j * 0.2}s infinite` }} />
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      <div style={{ padding: "10px 16px 24px", background: C.white, borderTop: `1px solid ${C.border}`, display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>
+        <input
+          value={chatInput}
+          onChange={(e) => setChatInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Ask anything..."
+          style={{
+            flex: 1, padding: "12px 18px",
+            borderRadius: 24, border: `1.5px solid ${C.border}`,
+            fontSize: 14, outline: "none", background: C.offWhite, color: C.navy,
+            fontFamily: "inherit",
+          }}
+        />
+        <button onClick={() => handleSubmit(chatInput)} style={{
+          width: 36, height: 36, borderRadius: 18,
+          background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+          border: "none", color: C.white, fontSize: 16, cursor: "pointer",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0,
+        }}>↑</button>
+      </div>
+    </>
+  );
+};
+
 // ── SCENARIO PICKER ──
 
 const Picker = ({ onSelect }) => (
@@ -3499,6 +4252,47 @@ const Picker = ({ onSelect }) => (
       </div>
       <div style={{ fontSize: 18, fontWeight: 700, color: C.navy, marginBottom: 4 }}>AI Insights Prototype</div>
       <div style={{ fontSize: 13, color: C.textSecondary }}>Choose a scenario to explore</div>
+    </div>
+
+    {/* Recommended */}
+    <div style={{ fontSize: 10, fontWeight: 700, color: C.teal, letterSpacing: 1, marginBottom: 8, textTransform: "uppercase" }}>
+      Recommended
+    </div>
+    <div onClick={() => onSelect(scenarioRec)} style={{
+      background: C.white, borderRadius: 16, padding: 20,
+      border: `2px solid ${C.teal}`, marginBottom: 16, cursor: "pointer",
+      boxShadow: `0 4px 18px ${C.teal}30`, position: "relative",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+        <span style={{ fontSize: 28 }}>{scenarioRec.icon}</span>
+        <div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: C.navy }}>{scenarioRec.label}: {scenarioRec.title}</div>
+          <div style={{ fontSize: 12, color: C.textSecondary, marginTop: 2 }}>{scenarioRec.desc}</div>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {scenarioRec.tags.map(t => (
+          <span key={t} style={{ fontSize: 11, background: scenarioRec.tagBg, color: scenarioRec.tagColor, padding: "4px 10px", borderRadius: 10, fontWeight: 500, border: `1px solid ${scenarioRec.tagColor}15` }}>{t}</span>
+        ))}
+      </div>
+    </div>
+    <div onClick={() => onSelect(scenarioRecChat)} style={{
+      background: C.white, borderRadius: 16, padding: 20,
+      border: `2px solid ${C.teal}`, marginBottom: 16, cursor: "pointer",
+      boxShadow: `0 4px 18px ${C.teal}30`, position: "relative",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+        <span style={{ fontSize: 28 }}>{scenarioRecChat.icon}</span>
+        <div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: C.navy }}>{scenarioRecChat.label}: {scenarioRecChat.title}</div>
+          <div style={{ fontSize: 12, color: C.textSecondary, marginTop: 2 }}>{scenarioRecChat.desc}</div>
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+        {scenarioRecChat.tags.map(t => (
+          <span key={t} style={{ fontSize: 11, background: scenarioRecChat.tagBg, color: scenarioRecChat.tagColor, padding: "4px 10px", borderRadius: 10, fontWeight: 500, border: `1px solid ${scenarioRecChat.tagColor}15` }}>{t}</span>
+        ))}
+      </div>
     </div>
 
     {/* M1 — near-term reality — current design */}
@@ -3582,7 +4376,7 @@ const Picker = ({ onSelect }) => (
 
 export default function PangeaAIPrototype() {
   // Screens: picker | fxCalc | confirm | categorize | dashboard | chat | insightView | post
-  //          | reportCardView | messageThreadView
+  //          | reportCardView | messageThreadView | deliveryMethod | fullChat
   const [screen, setScreen] = useState("picker");
   const [scenario, setScenario] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -3598,6 +4392,16 @@ export default function PangeaAIPrototype() {
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [splitExpanded, setSplitExpanded] = useState(false);
   const [annotationPopover, setAnnotationPopover] = useState(null); // { findingIdx, area }
+  // Recommended pattern states
+  const [stripDismissed, setStripDismissed] = useState(false);
+  const [iconReceive, setIconReceive] = useState(false);
+  // Chat state for recommendedChat pattern
+  const [chatMode, setChatMode] = useState(null);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [chatExpanded, setChatExpanded] = useState(false);
+  const [showChatSheet, setShowChatSheet] = useState(false);
+  const [chatTyping, setChatTyping] = useState(false);
+  const [prevScreen, setPrevScreen] = useState("fxCalc");
   const loadingTimers = useRef([]);
 
   const clearLoadingTimers = () => {
@@ -3639,6 +4443,100 @@ export default function PangeaAIPrototype() {
     setInsightState("ready");
   };
 
+  const getInsightIconState = () => {
+    if (insightState === "loading") return "generating";
+    if (insightState === "ready" && !insightViewed) return "ready";
+    if (insightState === "ready" && insightViewed) return "viewed";
+    // idle — assume prior insight exists for prototype
+    return "viewed";
+  };
+
+  const handleOpenSheetFromIcon = () => {
+    // Works in all states: muted (empty state), generating (loading view), ready/viewed (insight)
+    if (insightState === "ready" || insightState === "idle") {
+      setInsightViewed(true);
+    }
+    setShowBottomSheet(true);
+  };
+
+  const handleDismissSheetRecommended = () => {
+    setShowBottomSheet(false);
+    setStripDismissed(true);
+    // Trigger receive pulse on the header icon
+    setIconReceive(true);
+    setTimeout(() => setIconReceive(false), 600);
+  };
+
+  // Chat handlers for recommendedChat
+  const handleChatIconTap = () => {
+    let mode = "coldStart";
+    if (screen === "fxCalc") mode = "coldStart";
+    else if (screen === "deliveryMethod") mode = "contextual";
+    else if (screen === "dashboard" && insightState === "ready" && !insightViewed) mode = "insight";
+    else mode = "coldStart";
+    setChatMode(mode);
+    setShowChatSheet(true);
+    if (mode === "insight") setInsightViewed(true);
+  };
+
+  const handleChatSubmit = (text, mode) => {
+    let msgs = [];
+    if (mode === "insight" && scenario) {
+      msgs = [
+        { role: "ai", text: scenario.insightDetail.hook },
+        { role: "user", text },
+        { role: "ai", text: scenario.mockResponses.insight.answer },
+      ];
+    } else if (mode === "coldStart" && scenario) {
+      msgs = [
+        { role: "user", text },
+        { role: "ai", text: scenario.mockResponses.coldStart.answer },
+      ];
+    } else if (mode === "contextual" && scenario) {
+      msgs = [
+        { role: "user", text },
+        { role: "ai", text: scenario.mockResponses.deliveryMethod.answer },
+      ];
+    }
+    setChatMessages(msgs);
+    setChatExpanded(true);
+    setShowChatSheet(false);
+    setPrevScreen(screen);
+    setScreen("fullChat");
+  };
+
+  const handleChatSendMore = (text) => {
+    setChatMessages(prev => [...prev, { role: "user", text }]);
+    setChatTyping(true);
+    setTimeout(() => {
+      setChatTyping(false);
+      setChatMessages(prev => [...prev, { role: "ai", text: "That's a great question! Based on your transfer history, I can help with that. Could you tell me more about what specifically you'd like to know?" }]);
+    }, 1500);
+  };
+
+  const handleStripTapChat = () => {
+    if (scenario?.uiPattern === "recommendedChat") {
+      setInsightViewed(true);
+      setChatMode("insight");
+      setShowChatSheet(true);
+    } else {
+      setInsightViewed(true);
+      setShowBottomSheet(true);
+    }
+  };
+
+  const insightIconProps = scenario?.uiPattern === "recommended" ? {
+    insightIcon: true,
+    insightIconState: getInsightIconState(),
+    insightIconReceive: iconReceive,
+    onInsightIcon: handleOpenSheetFromIcon,
+  } : scenario?.uiPattern === "recommendedChat" ? {
+    insightIcon: true,
+    insightIconState: screen === "dashboard" && insightState === "ready" && !insightViewed ? "ready" : "viewed",
+    insightIconReceive: iconReceive,
+    onInsightIcon: handleChatIconTap,
+  } : {};
+
   const selectScenario = (s) => {
     setScenario(s);
     setScreen("fxCalc");
@@ -3649,6 +4547,12 @@ export default function PangeaAIPrototype() {
     setShowBottomSheet(false);
     setSplitExpanded(false);
     setAnnotationPopover(null);
+    setStripDismissed(false);
+    setChatMode(null);
+    setChatMessages([]);
+    setChatExpanded(false);
+    setShowChatSheet(false);
+    setChatTyping(false);
   };
 
   const restart = () => {
@@ -3662,6 +4566,12 @@ export default function PangeaAIPrototype() {
     setShowBottomSheet(false);
     setSplitExpanded(false);
     setAnnotationPopover(null);
+    setStripDismissed(false);
+    setChatMode(null);
+    setChatMessages([]);
+    setChatExpanded(false);
+    setShowChatSheet(false);
+    setChatTyping(false);
   };
 
   const handleCategorize = () => {
@@ -3670,6 +4580,7 @@ export default function PangeaAIPrototype() {
     setShowSuccessModal(true);
     setInsightViewed(false);
     setFeedback(null);
+    setStripDismissed(false);
     setScreen("dashboard");
   };
 
@@ -3689,6 +4600,8 @@ export default function PangeaAIPrototype() {
       setScreen("messageThreadView");
     } else if (pat === "bottomSheet") {
       setShowBottomSheet(true);
+    } else if (pat === "recommended") {
+      setShowBottomSheet(true);
     } else if (pat === "splitView") {
       setSplitExpanded(!splitExpanded);
     } else if (pat === "contextAnnotation") {
@@ -3703,6 +4616,9 @@ export default function PangeaAIPrototype() {
 
   const nav = (tab) => {
     if (!scenario) return;
+    if (scenario.uiPattern === "recommended" || scenario.uiPattern === "recommendedChat") {
+      setStripDismissed(true);
+    }
     if (tab === "send") setScreen("fxCalc");
     else if (tab === "dashboard") setScreen("dashboard");
     else if (tab === "activity") setScreen("dashboard");
@@ -3728,6 +4644,12 @@ export default function PangeaAIPrototype() {
         @keyframes slideUp { 0% { transform: translateY(100%); } 100% { transform: translateY(0); } }
         @keyframes accordionExpand { 0% { max-height: 0; opacity: 0; } 100% { max-height: 500px; opacity: 1; } }
         @keyframes expandCard { 0% { opacity: 0; max-height: 0; } 100% { opacity: 1; max-height: 800px; } }
+        @keyframes iconFlash { 0% { background: #00c8e6; transform: scale(1.15); } 100% { background: #00abc7; transform: scale(1); } }
+        @keyframes iconReceive { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,171,199,0.6); } 30% { transform: scale(1.3); box-shadow: 0 0 0 8px rgba(0,171,199,0.2); } 60% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0,171,199,0); } 100% { transform: scale(1); } }
+        @keyframes stripCrossfade { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(8px); } }
+        @keyframes dotPop { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
+        @keyframes sheetExpand { from { transform: translateY(40%); opacity: 0.8; } to { transform: translateY(0); opacity: 1; } }
         * { box-sizing: border-box; margin: 0; -webkit-tap-highlight-color: transparent; }
         button:hover { opacity: 0.92; }
         button:active { transform: scale(0.98); }
@@ -3746,29 +4668,32 @@ export default function PangeaAIPrototype() {
             loadingProgress={loadingProgress}
             loadingStage={loadingStage}
             onSkipWait={skipWait}
-            onGetStarted={() => setScreen("confirm")}
+            onGetStarted={() => setScreen(scenario?.uiPattern === "recommendedChat" ? "deliveryMethod" : "confirm")}
             onInsight={openInsight}
             onNav={nav}
             splitExpanded={splitExpanded}
             onSplitToggle={() => { setInsightViewed(true); setSplitExpanded(!splitExpanded); }}
             onSplitDetail={() => { setInsightViewed(true); setScreen("insightView"); }}
             showBottomSheet={showBottomSheet}
-            onBottomSheetOpen={() => { setInsightViewed(true); setShowBottomSheet(true); }}
-            onBottomSheetDismiss={() => setShowBottomSheet(false)}
+            onBottomSheetOpen={scenario?.uiPattern === "recommendedChat" ? handleStripTapChat : () => { setInsightViewed(true); setShowBottomSheet(true); }}
+            onBottomSheetDismiss={scenario?.uiPattern === "recommended" ? handleDismissSheetRecommended : () => setShowBottomSheet(false)}
             feedback={feedback}
             onFeedback={setFeedback}
             annotationPopover={annotationPopover}
             onAnnotationTap={(idx, area) => setAnnotationPopover({ findingIdx: idx, area })}
             onAnnotationDismiss={() => setAnnotationPopover(null)}
             onAnnotationFullInsight={() => { setAnnotationPopover(null); setInsightViewed(true); setScreen("insightView"); }}
+            insightIconProps={insightIconProps}
+            stripDismissed={stripDismissed}
           />
         )}
 
         {screen === "confirm" && scenario && (
           <ConfirmTransferScreen
             scenario={scenario}
-            onBack={() => setScreen("fxCalc")}
+            onBack={() => setScreen(scenario?.uiPattern === "recommendedChat" ? "deliveryMethod" : "fxCalc")}
             onSend={() => setScreen("categorize")}
+            insightIconProps={insightIconProps}
           />
         )}
 
@@ -3778,6 +4703,7 @@ export default function PangeaAIPrototype() {
             onBack={() => setScreen("confirm")}
             onCancel={() => setScreen("fxCalc")}
             onCategorize={handleCategorize}
+            insightIconProps={insightIconProps}
           />
         )}
 
@@ -3796,14 +4722,16 @@ export default function PangeaAIPrototype() {
               onSplitToggle={() => { setInsightViewed(true); setSplitExpanded(!splitExpanded); }}
               onSplitDetail={() => { setInsightViewed(true); setScreen("insightView"); }}
               showBottomSheet={showBottomSheet}
-              onBottomSheetOpen={() => { setInsightViewed(true); setShowBottomSheet(true); }}
-              onBottomSheetDismiss={() => setShowBottomSheet(false)}
+              onBottomSheetOpen={scenario?.uiPattern === "recommendedChat" ? handleStripTapChat : () => { setInsightViewed(true); setShowBottomSheet(true); }}
+              onBottomSheetDismiss={scenario?.uiPattern === "recommended" ? handleDismissSheetRecommended : () => setShowBottomSheet(false)}
               feedback={feedback}
               onFeedback={setFeedback}
               annotationPopover={annotationPopover}
               onAnnotationTap={(idx, area) => setAnnotationPopover({ findingIdx: idx, area })}
               onAnnotationDismiss={() => setAnnotationPopover(null)}
               onAnnotationFullInsight={() => { setAnnotationPopover(null); setInsightViewed(true); setScreen("insightView"); }}
+              insightIconProps={insightIconProps}
+              stripDismissed={stripDismissed}
             />
             {showSuccessModal && (
               <CategorizeSuccessModal
@@ -3857,6 +4785,38 @@ export default function PangeaAIPrototype() {
             onNav={nav}
           />
         )}
+
+        {screen === "deliveryMethod" && scenario && (
+          <DeliveryMethodScreen
+            onSelect={() => setScreen("confirm")}
+            onBack={() => setScreen("fxCalc")}
+            insightIconProps={insightIconProps}
+            onInsightIconTap={handleChatIconTap}
+          />
+        )}
+
+        {screen === "fullChat" && scenario && (
+          <FullScreenChat
+            messages={chatMessages}
+            onSendMessage={handleChatSendMore}
+            onBack={() => setScreen(prevScreen)}
+            insightIconProps={{}}
+            typing={chatTyping}
+          />
+        )}
+
+        {/* Chat bottom sheet overlay — renders on any screen for recommendedChat */}
+        {scenario?.uiPattern === "recommendedChat" && showChatSheet && (
+          <ChatBottomSheet
+            scenario={scenario}
+            mode={chatMode}
+            onDismiss={() => { setShowChatSheet(false); setStripDismissed(true); setIconReceive(true); setTimeout(() => setIconReceive(false), 600); }}
+            onSubmitChat={handleChatSubmit}
+            insightState={insightState}
+            feedback={feedback}
+            onFeedback={setFeedback}
+          />
+        )}
       </PhoneFrame>
 
       {/* Side guide */}
@@ -3887,12 +4847,17 @@ export default function PangeaAIPrototype() {
           { id: "dashboard-loading", label: "6. Dashboard (Loading)", desc: "Data immediate; AI card loads" },
           { id: "dashboard-ready", label: "7. Dashboard (Ready)", desc: "AI card reveals with 'New' badge" },
           { id: "fxCalc-delivered", label: "7b. FX Calc (Delivered)", desc: "Bell + widget show on return to FX Calc" },
+          ...(scenario?.uiPattern === "recommendedChat" ? [
+            { id: "deliveryMethod", label: "3b. Delivery Method", desc: "Select delivery → proceed to confirm" },
+          ] : []),
           {
             id: (() => {
               const pat = scenario?.uiPattern;
               if (pat === "reportCard") return "reportCardView";
               if (pat === "messageThread") return "messageThreadView";
               if (pat === "bottomSheet") return "bottomSheet-overlay";
+              if (pat === "recommended") return "recommended-overlay";
+              if (pat === "recommendedChat") return "chatSheet";
               if (pat === "splitView") return "splitView-expand";
               if (pat === "contextAnnotation") return "annotation-tap";
               return scenario?.milestone === "M1" ? "insightView" : "chat";
@@ -3902,6 +4867,8 @@ export default function PangeaAIPrototype() {
               if (pat === "reportCard") return "8. Report Card View";
               if (pat === "messageThread") return "8. Message Thread";
               if (pat === "bottomSheet") return "8. Bottom Sheet";
+              if (pat === "recommended") return "8. Bottom Sheet (Icon)";
+              if (pat === "recommendedChat") return "8. Chat Sheet";
               if (pat === "splitView") return "8. Expand Card";
               if (pat === "contextAnnotation") return "8. Tap Annotation";
               return scenario?.milestone === "M1" ? "8. Insight + Feedback" : "8. AI Chat";
@@ -3911,16 +4878,23 @@ export default function PangeaAIPrototype() {
               if (pat === "reportCard") return "Full-page article layout + feedback";
               if (pat === "messageThread") return "Thread of message bubbles";
               if (pat === "bottomSheet") return "Half-screen overlay with accordions";
+              if (pat === "recommended") return "Persistent header icon + sheet overlay";
+              if (pat === "recommendedChat") return "Tap icon → chat sheet with pills";
               if (pat === "splitView") return "Card expands inline with all detail";
               if (pat === "contextAnnotation") return "Popovers on annotated sections";
               return scenario?.milestone === "M1" ? "Pseudo-chat: insight + 👍👎 + reasons" : "Deep-dive conversation";
             })(),
           },
+          ...(scenario?.uiPattern === "recommendedChat" ? [
+            { id: "fullChat", label: "9. Full Chat", desc: "Expanded AI conversation view" },
+          ] : []),
           { id: "post", label: "9. Post-Transfer", desc: "Transfer details + follow-up insight", futureOnly: true },
         ].filter(item => !(item.futureOnly && scenario?.milestone === "M1")).map(item => {
           let active = false;
           if (item.id === screen) active = true;
           if (item.id === "bottomSheet-overlay" && showBottomSheet) active = true;
+          if (item.id === "recommended-overlay" && showBottomSheet) active = true;
+          if (item.id === "chatSheet" && showChatSheet) active = true;
           if (item.id === "splitView-expand" && splitExpanded) active = true;
           if (item.id === "annotation-tap" && annotationPopover) active = true;
           if (item.id === "dashboard-modal" && screen === "dashboard" && showSuccessModal) active = true;
