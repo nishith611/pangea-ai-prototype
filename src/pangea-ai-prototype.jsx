@@ -3973,20 +3973,57 @@ const DeliveryMethodScreen = ({ onSelect, onBack, insightIconProps, onInsightIco
 
 // ── CHAT BOTTOM SHEET ──
 
-const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState, feedback, onFeedback }) => {
+const ChatBottomSheet = ({ scenario, mode, onDismiss, insightState, feedback, onFeedback }) => {
   const [chatInput, setChatInput] = useState("");
+  const [expanded, setExpanded] = useState(false);
+  const [localMessages, setLocalMessages] = useState([]);
+  const [typing, setTyping] = useState(false);
+  const scrollRef = useRef(null);
   const insight = scenario.insightDetail;
+
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [localMessages, typing]);
+
+  const getMockResponse = (text, m) => {
+    const mr = scenario.mockResponses;
+    if (m === "insight") return mr.insight.answer;
+    if (m === "coldStart") return mr.coldStart.answer;
+    if (m === "contextual") return mr.deliveryMethod.answer;
+    return "Based on your transfer history, I can help you understand your sending patterns better.";
+  };
 
   const handleSubmit = (text) => {
     if (!text.trim()) return;
-    onSubmitChat(text.trim(), mode);
+    const userMsg = { role: "user", text: text.trim() };
+    const contextMsg = mode === "insight" ? { role: "ai", text: insight.hook } : null;
+    const initialMsgs = contextMsg ? [contextMsg, userMsg] : [userMsg];
+    setLocalMessages(initialMsgs);
+    setExpanded(true);
+    setTyping(true);
     setChatInput("");
+    setTimeout(() => {
+      setTyping(false);
+      setLocalMessages(prev => [...prev, { role: "ai", text: getMockResponse(text.trim(), mode) }]);
+    }, 1400);
+  };
+
+  const handleFollowUp = (text) => {
+    if (!text.trim()) return;
+    setLocalMessages(prev => [...prev, { role: "user", text: text.trim() }]);
+    setTyping(true);
+    setChatInput("");
+    setTimeout(() => {
+      setTyping(false);
+      setLocalMessages(prev => [...prev, { role: "ai", text: "That's a great question! Based on your transfer history, I can help with that. Your sending patterns show a consistent upward trend — would you like me to break that down further?" }]);
+    }, 1400);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      handleSubmit(chatInput);
+      if (expanded) handleFollowUp(chatInput);
+      else handleSubmit(chatInput);
     }
   };
 
@@ -4005,36 +4042,95 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState
       {/* Sheet */}
       <div style={{
         position: "absolute", left: 0, right: 0, bottom: 74,
-        maxHeight: "65%",
+        maxHeight: expanded ? "90%" : "65%",
+        transition: "max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
         background: C.white, borderRadius: "20px 20px 0 0",
         boxShadow: "0 -8px 30px rgba(0,0,0,0.15)",
         zIndex: 21, padding: "0 16px 12px",
         animation: "sheetExpand 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
         display: "flex", flexDirection: "column",
       }}>
-        {/* Drag handle + dismiss chevron */}
+        {/* Drag handle + dismiss/collapse button */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0 10px", position: "relative", flexShrink: 0 }}>
           <div style={{ width: 36, height: 4, borderRadius: 2, background: C.border }} />
-          <button onClick={onDismiss} style={{
-            position: "absolute", right: 4, top: 6,
-            background: "none", border: "none", cursor: "pointer",
-            width: 28, height: 28, borderRadius: 14,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            color: C.textMuted, fontSize: 18,
-          }}>⌄</button>
+          <button
+            onClick={expanded ? () => { setExpanded(false); setLocalMessages([]); } : onDismiss}
+            style={{
+              position: "absolute", right: 4, top: 6,
+              background: "none", border: "none", cursor: "pointer",
+              width: 28, height: 28, borderRadius: 14,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: C.textMuted, fontSize: 18,
+            }}>⌄</button>
         </div>
 
-        <div style={{ flex: 1, overflow: "auto" }}>
-          {mode === "insight" && insight && (
+        <div ref={scrollRef} style={{ flex: 1, overflow: "auto" }}>
+
+          {/* ── EXPANDED: inline chat conversation ── */}
+          {expanded && (
+            <div style={{ paddingBottom: 8 }}>
+              {localMessages.map((msg, i) => (
+                msg.role === "user" ? (
+                  <div key={i} style={{ display: "flex", justifyContent: "flex-end", marginBottom: 12, animation: "fadeIn 0.3s ease" }}>
+                    <div style={{
+                      background: C.navy, color: C.white,
+                      padding: "11px 16px", borderRadius: "18px 18px 4px 18px",
+                      maxWidth: "75%", fontSize: 14, fontWeight: 500, lineHeight: 1.45,
+                    }}>{msg.text}</div>
+                  </div>
+                ) : (
+                  <div key={i} style={{ display: "flex", gap: 8, marginBottom: 12, animation: "fadeIn 0.3s ease" }}>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: 14, flexShrink: 0,
+                      background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      color: C.white, fontSize: 11, fontWeight: 700,
+                    }}>✦</div>
+                    <div style={{
+                      background: C.offWhite, border: `1px solid ${C.border}`,
+                      padding: "11px 14px", borderRadius: "4px 18px 18px 18px",
+                      maxWidth: "78%", fontSize: 14, color: C.navy, lineHeight: 1.55,
+                      boxShadow: C.shadow,
+                    }}><Txt>{msg.text}</Txt></div>
+                  </div>
+                )
+              ))}
+              {typing && (
+                <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 14, flexShrink: 0,
+                    background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: C.white, fontSize: 11, fontWeight: 700,
+                  }}>✦</div>
+                  <div style={{
+                    background: C.offWhite, border: `1px solid ${C.border}`,
+                    padding: "13px 16px", borderRadius: "4px 18px 18px 18px",
+                    boxShadow: C.shadow, display: "flex", gap: 5, alignItems: "center",
+                  }}>
+                    {[0, 1, 2].map(d => (
+                      <div key={d} style={{
+                        width: 7, height: 7, borderRadius: "50%", background: C.textMuted,
+                        animation: `dotBounce 1.2s ease-in-out ${d * 0.2}s infinite`,
+                      }} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── COLLAPSED: insight mode ── */}
+          {!expanded && mode === "insight" && insight && (
             <>
               {/* Compact hook */}
               <div style={{ fontSize: 14, color: C.navy, lineHeight: 1.55, fontWeight: 500, marginBottom: 12 }}>
                 <Txt>{insight.hook}</Txt>
               </div>
-              {/* Small stat block */}
+              {/* Stat block */}
               {insight.keyStats && (
                 <div style={{
-                  display: "flex", gap: 12, marginBottom: 12,
+                  display: "flex", gap: 12, marginBottom: 14,
                   padding: "10px 12px",
                   background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
                   borderRadius: 10, border: `1px solid ${C.teal}20`,
@@ -4050,7 +4146,23 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState
                   ))}
                 </div>
               )}
-              {/* Inline thumbs row */}
+              {/* Findings bullets */}
+              {insight.findings && (
+                <div style={{ marginBottom: 14 }}>
+                  {insight.findings.map((f, i) => (
+                    <div key={i} style={{ display: "flex", gap: 9, marginBottom: 9, alignItems: "flex-start" }}>
+                      <div style={{
+                        width: 6, height: 6, borderRadius: "50%", background: C.teal,
+                        marginTop: 5, flexShrink: 0,
+                      }} />
+                      <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.55 }}>
+                        <Txt>{f.text}</Txt>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Thumbs */}
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
                 <span style={{ fontSize: 12, color: C.textMuted }}>Was this helpful?</span>
                 {["👍", "👎"].map(e => (
@@ -4063,14 +4175,13 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState
               </div>
               {/* Divider */}
               <div style={{ height: 1, background: C.borderLight, marginBottom: 10 }} />
-              {/* Prompt */}
               <div style={{ fontSize: 13, color: C.textMuted, marginBottom: 12 }}>Ask about this insight</div>
             </>
           )}
 
-          {(mode === "coldStart" || mode === "contextual") && (
+          {/* ── COLLAPSED: coldStart / contextual mode ── */}
+          {!expanded && (mode === "coldStart" || mode === "contextual") && (
             <>
-              {/* Icon + heading */}
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                 <div style={{
                   width: 32, height: 32, borderRadius: 16,
@@ -4087,21 +4198,14 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState
                   ? "I can help you understand your sending patterns, track spending, and more."
                   : "I can help you choose the right option."}
               </div>
-              {/* 2x2 pill grid */}
-              <div style={{
-                display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8,
-                marginBottom: 14,
-              }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, marginBottom: 14 }}>
                 {pills.map((p, i) => (
-                  <button key={i} onClick={() => onSubmitChat(p, mode)} style={{
-                    padding: "10px 10px",
-                    borderRadius: 12,
+                  <button key={i} onClick={() => handleSubmit(p)} style={{
+                    padding: "10px 10px", borderRadius: 12,
                     border: `1.5px solid ${C.teal}40`,
-                    background: C.white,
-                    color: C.navy,
+                    background: C.white, color: C.navy,
                     fontSize: 12, fontWeight: 500,
-                    cursor: "pointer", textAlign: "left",
-                    lineHeight: 1.35,
+                    cursor: "pointer", textAlign: "left", lineHeight: 1.35,
                   }}>{p}</button>
                 ))}
               </div>
@@ -4115,7 +4219,7 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask anything..."
+            placeholder={expanded ? "Ask a follow-up..." : "Ask anything..."}
             style={{
               flex: 1, padding: "10px 16px",
               borderRadius: 22, border: `1.5px solid ${C.border}`,
@@ -4123,7 +4227,7 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, onSubmitChat, insightState
               fontFamily: "inherit",
             }}
           />
-          <button onClick={() => handleSubmit(chatInput)} style={{
+          <button onClick={() => expanded ? handleFollowUp(chatInput) : handleSubmit(chatInput)} style={{
             width: 32, height: 32, borderRadius: 16,
             background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
             border: "none", color: C.white, fontSize: 14, cursor: "pointer",
@@ -4479,30 +4583,9 @@ export default function PangeaAIPrototype() {
     if (mode === "insight") setInsightViewed(true);
   };
 
-  const handleChatSubmit = (text, mode) => {
-    let msgs = [];
-    if (mode === "insight" && scenario) {
-      msgs = [
-        { role: "ai", text: scenario.insightDetail.hook },
-        { role: "user", text },
-        { role: "ai", text: scenario.mockResponses.insight.answer },
-      ];
-    } else if (mode === "coldStart" && scenario) {
-      msgs = [
-        { role: "user", text },
-        { role: "ai", text: scenario.mockResponses.coldStart.answer },
-      ];
-    } else if (mode === "contextual" && scenario) {
-      msgs = [
-        { role: "user", text },
-        { role: "ai", text: scenario.mockResponses.deliveryMethod.answer },
-      ];
-    }
-    setChatMessages(msgs);
-    setChatExpanded(true);
-    setShowChatSheet(false);
-    setPrevScreen(screen);
-    setScreen("fullChat");
+  const handleChatSubmit = () => {
+    // Chat is now handled fully inside ChatBottomSheet (inline expansion).
+    // This handler is kept for future use but no longer drives navigation.
   };
 
   const handleChatSendMore = (text) => {
@@ -4650,6 +4733,7 @@ export default function PangeaAIPrototype() {
         @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(8px); } }
         @keyframes dotPop { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
         @keyframes sheetExpand { from { transform: translateY(40%); opacity: 0.8; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes dotBounce { 0%, 80%, 100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-5px); opacity: 1; } }
         * { box-sizing: border-box; margin: 0; -webkit-tap-highlight-color: transparent; }
         button:hover { opacity: 0.92; }
         button:active { transform: scale(0.98); }
