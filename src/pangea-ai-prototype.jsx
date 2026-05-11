@@ -2,21 +2,21 @@ import { useState, useEffect, useRef } from "react";
 
 // Pangea brand colors — refined from real app screenshots
 const C = {
-  teal: "#00abc7",
-  tealDark: "#008fa6",
-  tealLight: "#E0F5F9",
-  tealAccent: "#00c8e6",
-  tealBanner: "#D4EEF2",   // Light teal banner bg from screenshots
-  navy: "#1A2E4A",
-  navyDark: "#0F1F35",
-  cream: "#F5F1EB",
-  creamDark: "#EDE8E0",
+  teal: "#12acc3",          // Nav active, links, borders — from Figma
+  tealDark: "#1f8db2",      // Transfer fees, secondary teal text
+  tealLight: "#d6f1f7",     // Light teal backgrounds
+  tealAccent: "#17d7f4",    // Primary button fill, gradient highlights
+  tealBanner: "#a9dff2",    // Promo banner gradient end
+  navy: "#00224b",          // Primary text, input values
+  navyDark: "#00142d",      // Darkest text, button labels on primary
+  cream: "#f0eee9",         // Page background
+  creamDark: "#e8e6e0",
   white: "#FFFFFF",
-  offWhite: "#FAF9F6",
-  border: "#E5E1DA",
-  borderLight: "#F0ECE5",
-  textPrimary: "#1A2E4A",
-  textSecondary: "#6B7280",
+  offWhite: "#f0eee9",      // Input/card secondary bg (same as cream)
+  border: "#e8e6e1",        // Subtle card borders
+  borderLight: "#f0ede8",
+  textPrimary: "#00224b",
+  textSecondary: "#605f5d", // Labels — "You send", "Recipient gets"
   textMuted: "#9CA3AF",
   green: "#22C55E",
   greenBg: "#ECFDF5",
@@ -25,8 +25,8 @@ const C = {
   red: "#EF4444",
   redBg: "#FEF2F2",
   blue: "#3B82F6",
-  shadow: "0 2px 12px rgba(0,0,0,0.06)",
-  shadowLg: "0 8px 30px rgba(0,0,0,0.08)",
+  shadow: "0 2px 8px rgba(0,0,0,0.05)",
+  shadowLg: "0 8px 24px rgba(0,0,0,0.07)",
   shadowModal: "0 20px 60px rgba(0,0,0,0.25)",
 };
 
@@ -1046,10 +1046,21 @@ const PhoneFrame = ({ children }) => (
 
 const Header = ({ title, showBack, onBack, showLogo, showClose, onClose, showBell, bellUnread, onBell, insightIcon, insightIconState, insightIconReceive, onInsightIcon }) => {
   const [iconHighlight, setIconHighlight] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipShown = useRef(false);
+
+  // One-time "Insights" tooltip when the icon first becomes ready
+  useEffect(() => {
+    if (insightIconState === "ready" && !tooltipShown.current) {
+      tooltipShown.current = true;
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 2500);
+    }
+  }, [insightIconState]);
 
   const handleInsightIconClick = () => {
     if (!onInsightIcon) return;
-    // All states are now tappable (muted shows empty state, generating shows loading)
+    setShowTooltip(false);
     setIconHighlight(true);
     setTimeout(() => {
       setIconHighlight(false);
@@ -1084,12 +1095,14 @@ const Header = ({ title, showBack, onBack, showLogo, showClose, onClose, showBel
         }}>‹</button>
       )}
       {showLogo ? (
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="12" fill={C.teal}/>
-            <text x="12" y="16" textAnchor="middle" fill="white" fontSize="13" fontWeight="800" fontFamily="-apple-system, sans-serif">P</text>
+        /* Pangea logo — circular mark + lowercase wordmark, matches Figma */
+        <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="13" fill={C.navy}/>
+            <circle cx="13" cy="13" r="5.5" fill="none" stroke={C.tealAccent} strokeWidth="2.5"/>
+            <circle cx="13" cy="7" r="2" fill={C.tealAccent}/>
           </svg>
-          <span style={{ fontSize: 20, fontWeight: 700, color: C.navy, letterSpacing: 0.3 }}>pangea</span>
+          <span style={{ fontSize: 21, fontWeight: 800, color: C.navy, letterSpacing: -0.3, fontFamily: "inherit" }}>pangea</span>
         </div>
       ) : (
         <span style={{ fontSize: 17, fontWeight: 600, color: C.navy }}>{title}</span>
@@ -1099,56 +1112,72 @@ const Header = ({ title, showBack, onBack, showLogo, showClose, onClose, showBel
           position: "absolute", left: 14,
           background: "none", border: "none", cursor: "pointer",
         }}>
+          {/* Gear/cog icon matching Figma header */}
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <circle cx="11" cy="11" r="10" stroke="#9CA3AF" strokeWidth="1.5"/>
-            <path d="M11 9v6" stroke="#9CA3AF" strokeWidth="1.5" strokeLinecap="round"/>
+            <path d="M11 14a3 3 0 100-6 3 3 0 000 6z" stroke={C.textSecondary} strokeWidth="1.5"/>
+            <path d="M18.1 13.5a1.5 1.5 0 00.3 1.65l.05.06a1.8 1.8 0 010 2.55 1.8 1.8 0 01-2.55 0l-.06-.06a1.5 1.5 0 00-1.65-.3 1.5 1.5 0 00-.91 1.37V19a1.8 1.8 0 01-3.6 0v-.08A1.5 1.5 0 008.7 17.5a1.5 1.5 0 00-1.65.3l-.06.06a1.8 1.8 0 01-2.55-2.55l.06-.06A1.5 1.5 0 004.8 13.6a1.5 1.5 0 00-1.37-.91H3a1.8 1.8 0 010-3.6h.08A1.5 1.5 0 004.5 8.1a1.5 1.5 0 00-.3-1.65l-.06-.06a1.8 1.8 0 012.55-2.55l.06.06A1.5 1.5 0 008.4 4.2a1.5 1.5 0 00.91-1.37V3a1.8 1.8 0 013.6 0v.08a1.5 1.5 0 00.91 1.37 1.5 1.5 0 001.65-.3l.06-.06a1.8 1.8 0 012.55 2.55l-.06.06a1.5 1.5 0 00-.3 1.65 1.5 1.5 0 001.37.91H19a1.8 1.8 0 010 3.6h-.08a1.5 1.5 0 00-1.37.91l.55-.27z" stroke={C.textSecondary} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             <circle cx="11" cy="7" r="0.75" fill="#9CA3AF"/>
           </svg>
         </button>
       )}
       {/* Insight icon takes priority over bell when both present */}
       {insightIcon ? (
-        <button onClick={handleInsightIconClick} style={{
-          position: "absolute", right: 14,
-          background: "none", border: "none", cursor: iconCursor,
-          padding: 0,
-        }}>
-          <div style={{
-            position: "relative",
-            width: 26, height: 26, borderRadius: 13,
-            background: iconBg,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            animation: iconHighlight ? "iconFlash 0.2s ease" : receiveAnim,
-            transition: "background 0.15s ease",
+        <div style={{ position: "absolute", right: 14, display: "flex", alignItems: "center", gap: 6 }}>
+          {/* One-time "Insights" tooltip — educates user on icon purpose */}
+          {showTooltip && (
+            <div style={{
+              background: C.navy, color: C.white,
+              fontSize: 11, fontWeight: 600,
+              padding: "4px 10px", borderRadius: 12,
+              animation: "fadeIn 0.25s ease",
+              whiteSpace: "nowrap",
+              boxShadow: C.shadow,
+              pointerEvents: "none",
+            }}>
+              Insights
+              {/* Small arrow pointing right toward icon */}
+              <span style={{ marginLeft: 4 }}>→</span>
+            </div>
+          )}
+          <button onClick={handleInsightIconClick} style={{
+            background: "none", border: "none", cursor: iconCursor,
+            padding: 0,
           }}>
-            {/* Spinning ring for generating state */}
-            {insightIconState === "generating" && (
-              <div style={{
-                position: "absolute", inset: -3,
-                borderRadius: "50%",
-                border: `2px solid ${C.teal}30`,
-                borderTopColor: C.teal,
-                animation: "spin 0.8s linear infinite",
-              }} />
-            )}
-            <span style={{
-              fontSize: 13, fontWeight: 700,
-              color: insightIconState === "muted" ? "#9CA3AF" : C.white,
-              lineHeight: 1,
-            }}>✦</span>
-            {/* Notification dot for ready state */}
-            {insightIconState === "ready" && (
-              <div style={{
-                position: "absolute", top: -2, right: -2,
-                width: 10, height: 10, borderRadius: 5,
-                background: C.teal,
-                border: `2px solid ${C.white}`,
-                boxShadow: `0 0 0 1px ${C.teal}80`,
-                animation: "dotPop 0.3s ease",
-              }} />
-            )}
-          </div>
-        </button>
+            <div style={{
+              position: "relative",
+              width: 26, height: 26, borderRadius: 13,
+              background: iconBg,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              animation: iconHighlight ? "iconFlash 0.2s ease" : receiveAnim,
+              transition: "background 0.15s ease",
+            }}>
+              {insightIconState === "generating" && (
+                <div style={{
+                  position: "absolute", inset: -3,
+                  borderRadius: "50%",
+                  border: `2px solid ${C.teal}30`,
+                  borderTopColor: C.teal,
+                  animation: "spin 0.8s linear infinite",
+                }} />
+              )}
+              <span style={{
+                fontSize: 13, fontWeight: 700,
+                color: insightIconState === "muted" ? "#9CA3AF" : C.white,
+                lineHeight: 1,
+              }}>✦</span>
+              {insightIconState === "ready" && (
+                <div style={{
+                  position: "absolute", top: -2, right: -2,
+                  width: 10, height: 10, borderRadius: 5,
+                  background: C.teal,
+                  border: `2px solid ${C.white}`,
+                  boxShadow: `0 0 0 1px ${C.teal}80`,
+                  animation: "dotPop 0.3s ease",
+                }} />
+              )}
+            </div>
+          </button>
+        </div>
       ) : showBell ? (
         <button onClick={onBell} style={{
           position: "absolute", right: 14,
@@ -1209,9 +1238,9 @@ const BottomNav = ({ active, onNav }) => (
       <button key={t.id} onClick={() => onNav(t.id)} style={{
         background: "none", border: "none", cursor: "pointer",
         display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-        color: active === t.id ? C.teal : C.textMuted,
+        color: active === t.id ? C.teal : "#605f5d",
         fontSize: 10, fontWeight: active === t.id ? 600 : 400,
-        opacity: active === t.id ? 1 : 0.65,
+        opacity: 1,
         minWidth: 64,
       }}>
         {t.icon(active === t.id)}
@@ -1269,85 +1298,53 @@ const InsightWidget = ({ headline, body, cta, alert, onClick, fresh }) => (
 const InsightLoadingCard = ({ stage, progress, alert, onSkip, generationMs }) => (
   <div style={{
     margin: "14px 16px",
-    padding: "18px 18px 16px",
-    background: C.white,
+    padding: "22px 18px 18px",
+    background: alert
+      ? `linear-gradient(135deg, ${C.orange}, #e08000)`
+      : "linear-gradient(135deg, #17d7f4, #12acc3)",
     borderRadius: 14,
-    border: `1.5px dashed ${alert ? C.orange + "50" : C.teal + "50"}`,
+    border: "none",
     position: "relative",
     overflow: "hidden",
   }}>
-    {/* Shimmer bar at top */}
+    {/* Shimmer sweep — lighter against the gradient */}
     <div style={{
-      position: "absolute", top: 0, left: 0, right: 0, height: 3,
-      background: `linear-gradient(90deg, transparent, ${alert ? C.orange : C.teal}, transparent)`,
-      backgroundSize: "200% 100%",
-      animation: "shimmer 1.8s linear infinite",
+      position: "absolute", top: 0, bottom: 0, left: 0, width: "50%",
+      background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
+      animation: "shimmerSweep 2.2s ease-in-out infinite",
+      pointerEvents: "none", zIndex: 1,
     }} />
 
+    {/* Header row */}
     <div style={{
-      fontSize: 10, fontWeight: 700, color: alert ? C.orange : C.teal,
-      textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 12,
+      fontSize: 10, fontWeight: 700, color: "rgba(255,255,255,0.85)",
+      textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 16,
       display: "flex", alignItems: "center", gap: 6,
     }}>
       <div style={{
         width: 12, height: 12, borderRadius: 6,
-        border: `2px solid ${alert ? C.orange : C.teal}40`,
-        borderTopColor: alert ? C.orange : C.teal,
+        border: "2px solid rgba(255,255,255,0.35)",
+        borderTopColor: "white",
         animation: "spin 0.8s linear infinite",
       }} />
       Generating Insight
     </div>
 
-    {/* Skeleton lines */}
-    <div style={{ marginBottom: 12 }}>
-      <div style={{
-        height: 14, width: "75%", marginBottom: 8, borderRadius: 4,
-        background: `linear-gradient(90deg, ${C.creamDark} 0%, ${C.borderLight} 50%, ${C.creamDark} 100%)`,
-        backgroundSize: "200% 100%",
-        animation: "shimmerBg 1.8s ease-in-out infinite",
-      }} />
-      <div style={{
-        height: 10, width: "90%", marginBottom: 6, borderRadius: 4,
-        background: `linear-gradient(90deg, ${C.creamDark} 0%, ${C.borderLight} 50%, ${C.creamDark} 100%)`,
-        backgroundSize: "200% 100%",
-        animation: "shimmerBg 1.8s ease-in-out infinite 0.2s",
-      }} />
-      <div style={{
-        height: 10, width: "60%", borderRadius: 4,
-        background: `linear-gradient(90deg, ${C.creamDark} 0%, ${C.borderLight} 50%, ${C.creamDark} 100%)`,
-        backgroundSize: "200% 100%",
-        animation: "shimmerBg 1.8s ease-in-out infinite 0.4s",
-      }} />
-    </div>
-
-    <div style={{
-      fontSize: 12, color: C.textSecondary, marginBottom: 10,
-      fontStyle: "italic", minHeight: 16,
-      transition: "opacity 0.3s ease",
+    {/* Stage text */}
+    <div key={stage} style={{
+      fontSize: 14, fontWeight: 500, color: C.white,
+      marginBottom: 18, minHeight: 20, lineHeight: 1.5,
+      animation: "stageIn 0.4s ease",
     }}>
-      {stage}
+      {stage || "Analyzing your recent transfers…"}
     </div>
 
-    {/* Progress bar */}
-    <div style={{
-      width: "100%", height: 4, background: C.creamDark,
-      borderRadius: 2, overflow: "hidden", marginBottom: 10,
-    }}>
-      <div style={{
-        width: `${progress}%`, height: "100%",
-        background: `linear-gradient(90deg, ${alert ? C.orange : C.teal}, ${alert ? C.orange : C.tealAccent})`,
-        transition: "width 0.4s ease",
-      }} />
-    </div>
-
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <span style={{ fontSize: 11, color: C.textMuted }}>
-        {progress < 100 ? `Takes ~${Math.round((generationMs || 20000) / 1000)} seconds` : "Almost ready..."}
-      </span>
+    {/* Footer row — fast-forward only */}
+    <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
       {onSkip && (
         <button onClick={onSkip} style={{
           background: "none", border: "none", cursor: "pointer",
-          fontSize: 11, color: C.teal, fontWeight: 600,
+          fontSize: 11, color: "rgba(255,255,255,0.9)", fontWeight: 600,
         }}>Fast forward →</button>
       )}
     </div>
@@ -1356,21 +1353,37 @@ const InsightLoadingCard = ({ stage, progress, alert, onSkip, generationMs }) =>
 
 const Feedback = ({ small }) => {
   const [sel, setSel] = useState(null);
+  const ThumbUp = ({ active }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path d="M7 22V11M2 13v7a2 2 0 002 2h11.172a2 2 0 001.97-1.672l1.358-8A2 2 0 0016.53 9H13V5a2 2 0 00-2-2h-1l-3 6v2z"
+        stroke={active ? C.teal : C.navy} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+  const ThumbDown = ({ active }) => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ transform: "scaleY(-1)" }}>
+      <path d="M7 22V11M2 13v7a2 2 0 002 2h11.172a2 2 0 001.97-1.672l1.358-8A2 2 0 0016.53 9H13V5a2 2 0 00-2-2h-1l-3 6v2z"
+        stroke={active ? C.red : C.navy} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
   return (
     <div style={{
-      display: "flex", alignItems: "center", gap: 6,
-      justifyContent: small ? "flex-end" : "flex-start",
-      marginTop: small ? 8 : 12, padding: small ? "4px 0" : 0,
+      display: "flex", alignItems: "center", gap: 8,
+      justifyContent: "flex-end",
+      marginTop: small ? 12 : 16, paddingTop: 8, borderTop: `1px solid ${C.borderLight}`,
     }}>
-      <span style={{ fontSize: 11, color: C.textMuted }}>Is this helpful?</span>
-      {["👍", "👎"].map(e => (
-        <button key={e} onClick={() => setSel(e)} style={{
-          background: sel === e ? (e === "👍" ? C.greenBg : C.redBg) : "transparent",
-          border: sel === e ? `1px solid ${e === "👍" ? C.green + "30" : C.red + "30"}` : "1px solid transparent",
-          fontSize: 14, cursor: "pointer", borderRadius: 8, padding: "3px 8px",
-          transition: "all 0.15s ease",
-        }}>{e}</button>
-      ))}
+      <span style={{ fontSize: 12, color: C.navy }}>Is this helpful?</span>
+      <button onClick={() => setSel("up")} style={{
+        background: sel === "up" ? C.tealLight : "none",
+        border: "none", cursor: "pointer", borderRadius: 6, padding: 4,
+        display: "flex", alignItems: "center",
+        transition: "background 0.15s ease",
+      }}><ThumbUp active={sel === "up"} /></button>
+      <button onClick={() => setSel("down")} style={{
+        background: sel === "down" ? C.redBg : "none",
+        border: "none", cursor: "pointer", borderRadius: 6, padding: 4,
+        display: "flex", alignItems: "center",
+        transition: "background 0.15s ease",
+      }}><ThumbDown active={sel === "down"} /></button>
     </div>
   );
 };
@@ -1442,68 +1455,95 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
         {...(insightIconProps || {})}
       />
       <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
+
+        {/* Calculator card — white rounded card, matches Figma 24pt radius, 18px side padding */}
         <div style={{
-          margin: "12px 16px", padding: "14px 16px",
-          background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
-          borderRadius: 14,
-          border: `1.5px solid ${C.teal}25`,
-          display: "flex", alignItems: "center", gap: 12,
+          margin: "12px 10px 0",
+          background: C.white,
+          borderRadius: 24,
+          padding: "24px 18px",
+          display: "flex", flexDirection: "column", gap: 16,
         }}>
-          <span style={{ fontSize: 22 }}>🎁</span>
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 600, color: C.teal }}>Promo rate on your first transfer!</div>
-            <div style={{ fontSize: 14, color: C.navy, marginTop: 2 }}>
-              1 USD = <span style={{ textDecoration: "line-through", color: C.textMuted, fontSize: 13 }}>{s.fx.crossedRate}</span>{" "}
-              <span style={{ fontWeight: 700, color: C.teal, fontSize: 15 }}>{s.fx.rate} MXN</span>
+          {/* Promo banner — gradient from cream to light-teal, 20pt radius */}
+          <div style={{
+            padding: "16px",
+            background: `linear-gradient(105deg, ${C.cream} 0%, ${C.tealBanner} 100%)`,
+            borderRadius: 20,
+            display: "flex", alignItems: "center", gap: 12,
+          }}>
+            <div style={{
+              width: 36, height: 36, borderRadius: 18, flexShrink: 0,
+              background: "#f2bb06",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 18,
+            }}>🎁</div>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "#27b0de", marginBottom: 4 }}>
+                Promo rate on your first transfer!
+              </div>
+              <div style={{ fontSize: 14, color: C.navy, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
+                <span style={{ fontWeight: 500 }}>1 USD =</span>
+                <span style={{ textDecoration: "line-through", color: C.textMuted, fontSize: 13 }}>{s.fx.crossedRate}</span>
+                <span style={{ fontWeight: 700, color: C.navy, fontSize: 16 }}>{s.fx.rate} MXN</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div style={{
-          margin: "0 16px", padding: 20,
-          background: C.white, borderRadius: 16,
-          border: `1px solid ${C.border}`, boxShadow: C.shadow,
-        }}>
-          <div style={{ padding: 16, borderRadius: 12, border: `1.5px solid ${C.border}`, marginBottom: 8 }}>
-            <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 8 }}>You send</div>
+          {/* You send card */}
+          <div style={{ background: C.white, borderRadius: 20, border: `1px solid ${C.border}`, padding: 16 }}>
+            <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 4 }}>You send</div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: 34, fontWeight: 700, color: C.navy }}>{s.fx.send}</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", background: C.offWhite, borderRadius: 22, border: `1px solid ${C.border}` }}>
+              <span style={{ fontSize: 36, fontWeight: 700, color: C.navy, letterSpacing: -0.5 }}>{s.fx.send}</span>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 12px", background: C.cream, borderRadius: 360,
+              }}>
                 <span style={{ fontSize: 16 }}>🇺🇸</span>
-                <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>USD</span>
+                <span style={{ fontSize: 14, fontWeight: 600, color: C.navyDark }}>USD</span>
               </div>
             </div>
           </div>
 
-          <div style={{ textAlign: "center", margin: "-4px 0", position: "relative", zIndex: 1 }}>
-            <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: 18, background: C.white, border: `1.5px solid ${C.border}`, boxShadow: "0 2px 6px rgba(0,0,0,0.06)" }}>
-              <span style={{ fontSize: 16, color: C.navy }}>⇅</span>
+          {/* Swap button */}
+          <div style={{ textAlign: "center", margin: "-8px 0", position: "relative", zIndex: 1 }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              width: 42, height: 42, borderRadius: 21,
+              background: C.white, border: `1px solid ${C.border}`,
+              boxShadow: C.shadow,
+            }}>
+              <span style={{ fontSize: 17, color: C.navy }}>⇅</span>
             </div>
           </div>
 
-          <div style={{ padding: 16, borderRadius: 12, border: `1.5px solid ${C.border}`, marginTop: 8, marginBottom: 16 }}>
-            <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 8 }}>Recipient gets</div>
+          {/* Recipient gets card */}
+          <div style={{ background: C.white, borderRadius: 20, border: `1px solid ${C.border}`, padding: 16 }}>
+            <div style={{ fontSize: 13, color: C.textSecondary, marginBottom: 4 }}>Recipient gets</div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: 34, fontWeight: 700, color: C.navy }}>{s.fx.receive}</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "7px 14px", background: C.offWhite, borderRadius: 22, border: `1px solid ${C.border}` }}>
+              <span style={{ fontSize: 36, fontWeight: 700, color: C.navy, letterSpacing: -0.5 }}>{s.fx.receive}</span>
+              <div style={{
+                display: "flex", alignItems: "center", gap: 6,
+                padding: "8px 12px", background: C.cream, borderRadius: 360,
+              }}>
                 <span style={{ fontSize: 16 }}>🇲🇽</span>
-                <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>MXN</span>
-                <span style={{ color: C.textMuted, fontSize: 12 }}>▾</span>
+                <span style={{ fontSize: 14, fontWeight: 600, color: C.navyDark }}>MXN</span>
+                <span style={{ color: C.textMuted, fontSize: 11 }}>▾</span>
               </div>
             </div>
           </div>
 
-          <div style={{ fontSize: 13, color: C.teal, fontWeight: 500, marginBottom: 16 }}>
+          {/* Transfer fees row */}
+          <div style={{ fontSize: 13, color: C.tealDark, fontWeight: 500, paddingLeft: 4 }}>
             Transfer Fees ⓘ
           </div>
 
+          {/* CTA — flat bright cyan, dark text, 20pt radius, matches Figma button/primary */}
           <button onClick={onGetStarted} style={{
-            width: "100%", padding: 16,
-            background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
-            border: "none", borderRadius: 28,
-            color: C.white, fontSize: 17, fontWeight: 700,
-            cursor: "pointer",
-            boxShadow: `0 4px 16px ${C.teal}40`,
+            width: "100%", padding: "18px 32px",
+            background: C.tealAccent,
+            border: "none", borderRadius: 20,
+            color: C.navyDark, fontSize: 16, fontWeight: 700,
+            cursor: "pointer", letterSpacing: 0.1,
           }}>
             Get Started
           </button>
@@ -1688,18 +1728,6 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
       {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle" || insightState === "loading") && (
         <BottomSheetStrip scenario={s} onClick={onBottomSheetOpen} fresh={insightState === "ready" && !insightViewed} insightState={insightState} loadingStage={loadingStage} loadingProgress={loadingProgress} />
       )}
-      {/* Recommended strip — with fade-out behavior */}
-      {(s.uiPattern === "recommended" || s.uiPattern === "recommendedChat") && (
-        <RecommendedStrip
-          scenario={s}
-          onClick={onBottomSheetOpen}
-          fresh={insightState === "ready" && !insightViewed}
-          insightState={insightState}
-          loadingStage={loadingStage}
-          loadingProgress={loadingProgress}
-          visible={!stripDismissed && (insightState === "loading" || insightState === "ready" || insightState === "idle")}
-        />
-      )}
       <BottomNav active="send" onNav={onNav} />
       {/* Bottom sheet overlay */}
       {(s.uiPattern === "bottomSheet" || s.uiPattern === "recommended") && showBottomSheet && (
@@ -1722,121 +1750,105 @@ const FxCalcScreen = ({ scenario, onGetStarted, onInsight, onNav, insightState, 
 
 const ConfirmTransferScreen = ({ scenario, onSend, onBack, insightIconProps }) => {
   const t = scenario.confirmTransfer;
+  const Row = ({ label, value, valueColor, sub }) => (
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "7px 0" }}>
+      <span style={{ fontSize: 14, color: C.textSecondary }}>{label}</span>
+      <div style={{ textAlign: "right" }}>
+        <span style={{ fontSize: 14, color: valueColor || C.navy, fontWeight: 500 }}>{value}</span>
+        {sub && <div style={{ fontSize: 12, color: C.textSecondary, marginTop: 1 }}>{sub}</div>}
+      </div>
+    </div>
+  );
   return (
     <>
       <Header title="Confirm Transfer Details" showBack onBack={onBack} {...(insightIconProps || {})} />
-      <div style={{ flex: 1, overflow: "auto", background: C.white }}>
-        {/* Amount with edit */}
-        <div style={{ padding: "20px 20px 12px", borderBottom: `1px solid ${C.borderLight}` }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
-            <span style={{ fontSize: 36, fontWeight: 700, color: C.navy }}>${t.amount}</span>
-            <span style={{ fontSize: 18, color: C.teal, cursor: "pointer" }}>✎</span>
+      <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
+
+        {/* Amount + edit — left-aligned, matches Figma */}
+        <div style={{ padding: "20px 20px 14px 20px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <span style={{ fontSize: 32, fontWeight: 500, color: "#30302f" }}>${t.amount}</span>
+            <span style={{ fontSize: 20, color: C.teal, cursor: "pointer" }}>✎</span>
           </div>
-          {t.promoNote && (
-            <div style={{ textAlign: "center", marginTop: 10, fontSize: 13, color: C.teal, fontWeight: 500 }}>
-              ✦ Special offers applied to this transfer
+        </div>
+
+        {/* Special offers banner */}
+        {t.promoNote && (
+          <div style={{
+            margin: "0 20px 4px", padding: "6px 14px",
+            background: "#cffaef", borderRadius: 4,
+            display: "flex", alignItems: "center", gap: 8,
+          }}>
+            <span style={{ fontSize: 14, color: "#00a078" }}>✦</span>
+            <span style={{ fontSize: 14, color: "#00a078", fontWeight: 500 }}>
+              <strong>Special offers</strong> applied to this transfer
+            </span>
+          </div>
+        )}
+
+        {/* Recipient row */}
+        <div style={{ padding: "12px 20px", borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 16, color: C.textSecondary }}>👤</span>
+              <span style={{ fontSize: 14, color: C.textSecondary }}>Recipient</span>
+              <span style={{ fontSize: 14, color: C.teal, cursor: "pointer" }}>✎</span>
             </div>
-          )}
-        </div>
-
-        {/* Receiver info */}
-        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.borderLight}` }}>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Receiver</span>
-            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{t.receiver}</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Cash Pickup</span>
-            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{t.pickup}</span>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{t.receiver}</div>
+              <div style={{ fontSize: 12, color: C.textSecondary }}>Cash Pickup · {t.pickup}</div>
+            </div>
           </div>
         </div>
 
-        {/* Amount breakdown */}
-        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.borderLight}` }}>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Transfer Amount</span>
-            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{t.amount} USD</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Transfer Fee</span>
-            <span style={{ fontSize: 14, color: C.teal, fontWeight: 600 }}>{t.fee} USD</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Total Amount</span>
-            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{t.total} USD</span>
-          </div>
+        {/* Transfer amount breakdown */}
+        <div style={{ padding: "12px 20px", borderBottom: `1px solid ${C.border}` }}>
+          <Row label="Transfer Amount" value={`${t.amount} USD`} />
+          <Row label="Transfer Fee" value={`${t.fee} USD`} valueColor={C.teal} />
+          <Row label="Total Payment" value={`${t.total} USD`} />
         </div>
 
         {/* Exchange rate */}
-        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.borderLight}` }}>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Exchange Rate</span>
-            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>1 USD = {t.rate} MXN</span>
+        <div style={{ padding: "12px 20px", borderBottom: `1px solid ${C.border}` }}>
+          <div style={{ fontSize: 14, color: C.textSecondary, marginBottom: 4 }}>Exchange Rate</div>
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "3px 0 3px 12px" }}>
+            <span style={{ fontSize: 13, color: C.textSecondary }}>Promotional ({t.amount} USD)</span>
+            <span style={{ fontSize: 13, color: C.teal }}>1 USD = {t.rate} MXN</span>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", paddingLeft: 16 }}>
-            <span style={{ fontSize: 12, color: C.textMuted }}>Promotional ($500)</span>
-            <span style={{ fontSize: 12, color: C.teal }}>1 USD = 20.80 MXN</span>
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "3px 0 3px 12px" }}>
+            <span style={{ fontSize: 13, color: C.textSecondary }}>Standard (100 USD)</span>
+            <span style={{ fontSize: 13, color: C.teal }}>1 USD = 19.67 MXN</span>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "4px 0", paddingLeft: 16 }}>
-            <span style={{ fontSize: 12, color: C.textMuted }}>Standard (over $500)</span>
-            <span style={{ fontSize: 12, color: C.teal }}>1 USD = 19.67 MXN</span>
+          <div style={{ display: "flex", justifyContent: "space-between", padding: "7px 0 4px" }}>
+            <span style={{ fontSize: 14, color: C.textSecondary }}>Total to Recipient*</span>
+            <span style={{ fontSize: 14, color: C.navy }}>{t.totalMXN} MXN</span>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0", marginTop: 4 }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Total to Receiver*</span>
-            <span style={{ fontSize: 14, color: C.teal, fontWeight: 600 }}>{t.totalMXN} MXN</span>
-          </div>
-          <div style={{ marginTop: 6, fontSize: 13, color: C.teal, fontWeight: 600, cursor: "pointer" }}>
-            ADD PROMO
+          <div style={{ fontSize: 14, color: C.teal, fontWeight: 500, paddingTop: 4, cursor: "pointer" }}>
+            Add Promo
           </div>
         </div>
 
-        {/* Delivery */}
-        <div style={{ padding: "16px 20px", borderBottom: `1px solid ${C.borderLight}` }}>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Delivered by</span>
-            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{t.deliveredBy}</span>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", padding: "6px 0" }}>
-            <span style={{ fontSize: 14, color: C.textSecondary }}>Total Payment</span>
-            <span style={{ fontSize: 15, color: C.navy, fontWeight: 700 }}>{t.total} USD</span>
-          </div>
+        {/* Total payment summary row — matches Figma bold total */}
+        <div style={{ padding: "14px 20px", borderBottom: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: 15, color: C.navy, fontWeight: 500 }}>Total Payment</span>
+          <span style={{ fontSize: 15, fontWeight: 700, color: C.navy }}>{t.total} USD</span>
         </div>
 
-        {/* Rate guarantee */}
-        <div style={{ margin: "16px 20px", padding: "14px 16px", background: C.tealBanner, borderRadius: 12, display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ fontSize: 22 }}>🕐</span>
-          <div style={{ flex: 1, fontSize: 13, color: C.navy, fontWeight: 500 }}>
-            Exchange rate guaranteed for the next 5 minutes
-          </div>
-          <div style={{ display: "flex", gap: 4 }}>
-            <div style={{ textAlign: "center", minWidth: 32 }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: C.navy }}>4</div>
-              <div style={{ fontSize: 9, color: C.textMuted }}>min</div>
-            </div>
-            <div style={{ textAlign: "center", minWidth: 32 }}>
-              <div style={{ fontSize: 16, fontWeight: 700, color: C.navy }}>28</div>
-              <div style={{ fontSize: 9, color: C.textMuted }}>secs</div>
-            </div>
-          </div>
+        {/* Disclaimer */}
+        <div style={{ padding: "14px 20px 8px", fontSize: 12, color: "#585858", lineHeight: 1.55 }}>
+          You have the right to dispute errors and/or cancel your transfer for a refund. For details click <span style={{ color: C.teal }}>here</span>.{"\n"}* Pangea rounds to the nearest whole peso.
         </div>
 
-        <div style={{ padding: "0 20px 12px", fontSize: 11, color: C.textMuted, lineHeight: 1.5 }}>
-          You have the right to dispute errors and/or cancel your transfer for a refund. For details click <span style={{ color: C.teal }}>here</span>.
-        </div>
-        <div style={{ padding: "0 20px 16px", fontSize: 11, color: C.textMuted }}>
-          * Pangea rounds to the nearest whole peso.
-        </div>
-
-        <div style={{ padding: "0 20px 20px" }}>
+        {/* Send payment button — flat cyan, dark text, matches Figma */}
+        <div style={{ padding: "12px 16px 20px" }}>
           <button onClick={onSend} style={{
-            width: "100%", padding: 16,
-            background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
-            border: "none", borderRadius: 28,
-            color: C.white, fontSize: 17, fontWeight: 700,
+            width: "100%", padding: "18px 32px",
+            background: C.tealAccent,
+            border: "none", borderRadius: 20,
+            color: C.navyDark, fontSize: 16, fontWeight: 500,
             cursor: "pointer",
-            boxShadow: `0 4px 16px ${C.teal}40`,
           }}>
-            Tap to send
+            Send payment
           </button>
         </div>
       </div>
@@ -1863,45 +1875,42 @@ const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel, insightIco
 
   const CategoryRow = ({ cat, highlight }) => (
     <button onClick={() => onCategorize(cat.name)} style={{
-      width: "100%", padding: "14px 18px",
-      background: highlight ? C.tealLight : C.white,
-      border: "none", borderBottom: `1px solid ${C.borderLight}`,
+      width: "100%", padding: "15px 20px",
+      background: C.white,
+      border: "none", borderBottom: `1px solid ${C.border}`,
       display: "flex", alignItems: "center", justifyContent: "space-between",
       cursor: "pointer", textAlign: "left",
     }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <span style={{ fontSize: 20 }}>{cat.icon}</span>
-        <span style={{ fontSize: 15, color: C.navy, fontWeight: 500 }}>{cat.name}</span>
-        {highlight && (
-          <span style={{ fontSize: 10, fontWeight: 700, color: C.teal, background: C.white, padding: "2px 8px", borderRadius: 8, letterSpacing: 0.5, border: `1px solid ${C.teal}30` }}>
-            SUGGESTED
-          </span>
-        )}
+      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        <span style={{ fontSize: 20, width: 24, textAlign: "center" }}>{cat.icon}</span>
+        <span style={{ fontSize: 16, color: C.navy, fontWeight: highlight ? 600 : 400 }}>{cat.name}</span>
       </div>
-      <span style={{ fontSize: 18, color: C.textMuted }}>›</span>
+      <span style={{ fontSize: 20, color: C.textSecondary, fontWeight: 300 }}>›</span>
     </button>
   );
 
   return (
     <>
       <Header title="Categorize Your Transfer" showBack onBack={onBack} {...(insightIconProps || {})} />
-      <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
-        {/* Privacy banner */}
+      <div style={{ flex: 1, overflow: "auto", background: C.white }}>
+
+        {/* Privacy banner — light gray, lock icon, matches Figma */}
         <div style={{
-          margin: "14px 16px", padding: "12px 16px",
-          background: C.creamDark, borderRadius: 10,
-          display: "flex", alignItems: "center", gap: 10,
+          margin: "12px 16px", padding: "12px 16px",
+          background: "#f2f2f2", borderRadius: 10,
+          display: "flex", alignItems: "flex-start", gap: 10,
         }}>
-          <span style={{ fontSize: 16 }}>🔒</span>
-          <span style={{ fontSize: 12, color: C.textSecondary, lineHeight: 1.4 }}>
+          <span style={{ fontSize: 15, marginTop: 1 }}>🔒</span>
+          <span style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.5 }}>
             This data is private and is strictly for you. You'll see this data in your Dashboard.
           </span>
         </div>
 
-        {/* Your Recent Categories section */}
+        {/* Your Recent Categories section header — light teal bg, matches Figma */}
         <div style={{
-          padding: "10px 16px", background: C.tealBanner,
-          fontSize: 13, fontWeight: 700, color: C.navy,
+          padding: "10px 16px",
+          background: C.tealLight,
+          fontSize: 15, fontWeight: 700, color: C.navy,
         }}>
           Your Recent Categories
         </div>
@@ -1911,10 +1920,11 @@ const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel, insightIco
           ))}
         </div>
 
-        {/* More Categories section */}
+        {/* More Categories section header */}
         <div style={{
-          padding: "10px 16px", background: C.tealBanner,
-          fontSize: 13, fontWeight: 700, color: C.navy, marginTop: 8,
+          padding: "10px 16px",
+          background: C.tealLight,
+          fontSize: 15, fontWeight: 700, color: C.navy,
         }}>
           More Categories
         </div>
@@ -1924,24 +1934,21 @@ const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel, insightIco
           ))}
         </div>
 
-        {/* Personalize link */}
-        <div style={{
-          margin: "20px 16px", padding: "12px 16px",
-          background: C.creamDark, borderRadius: 10, textAlign: "center",
-        }}>
-          <div style={{ fontSize: 12, color: C.textSecondary, marginBottom: 4 }}>
+        {/* Personalize link — plain text, no card bg, matches Figma */}
+        <div style={{ padding: "20px 16px", textAlign: "center", borderTop: `1px solid ${C.border}`, marginTop: 8 }}>
+          <div style={{ fontSize: 14, color: C.textSecondary }}>
             Want to add multiple categories, or add a note?
           </div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: C.teal, cursor: "pointer" }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: C.teal, cursor: "pointer", marginTop: 4 }}>
             Personalize Your Transfer
           </div>
         </div>
 
         {/* Cancel */}
-        <div style={{ textAlign: "center", padding: "12px 16px 24px" }}>
+        <div style={{ textAlign: "center", padding: "8px 16px 24px" }}>
           <button onClick={onCancel} style={{
             background: "none", border: "none", cursor: "pointer",
-            fontSize: 14, fontWeight: 600, color: C.navy, letterSpacing: 0.5,
+            fontSize: 13, fontWeight: 700, color: C.navy, letterSpacing: 1,
           }}>CANCEL</button>
         </div>
       </div>
@@ -1954,73 +1961,157 @@ const CategorizeScreen = ({ scenario, onCategorize, onBack, onCancel, insightIco
 const CategorizeSuccessModal = ({ scenario, onSeeDashboard }) => {
   const s = scenario.categorizeSuccess;
   return (
+    /* Full-screen teal bg + white card — slides up from bottom like a native sheet */
     <div style={{
       position: "absolute", inset: 0,
-      background: "rgba(15, 31, 53, 0.55)",
-      backdropFilter: "blur(4px)",
-      display: "flex", alignItems: "center", justifyContent: "center",
-      zIndex: 10, padding: 20,
-      animation: "fadeIn 0.3s ease",
+      background: C.teal,
+      display: "flex", flexDirection: "column",
+      alignItems: "center", justifyContent: "center",
+      zIndex: 10, padding: "0 20px",
+      animation: "slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1)",
     }}>
+      {/* X close button top-right */}
+      <button onClick={onSeeDashboard} style={{
+        position: "absolute", top: 18, right: 18,
+        background: "none", border: "none", cursor: "pointer",
+        color: C.white, fontSize: 22, lineHeight: 1,
+      }}>✕</button>
+
+      {/* White card */}
       <div style={{
-        background: C.white, borderRadius: 20, padding: "28px 24px 24px",
-        width: "100%", maxWidth: 300, textAlign: "center",
-        boxShadow: C.shadowModal,
+        background: C.white, borderRadius: 24,
+        padding: "32px 24px 28px",
+        width: "100%", maxWidth: 354, textAlign: "center",
         animation: "modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
       }}>
-        <div style={{ fontSize: 22, fontWeight: 700, color: C.navy, marginBottom: 18 }}>
-          {s.headline}
+        {/* Checkmark circle */}
+        <div style={{
+          width: 58, height: 58, borderRadius: 29, margin: "0 auto 16px",
+          border: `2.5px solid ${C.navy}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+        }}>
+          <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+            <path d="M2 9L9 16L22 2" stroke={C.navy} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </div>
 
-        {/* Big icon */}
+        <div style={{ fontSize: 20, fontWeight: 700, color: C.navy, lineHeight: 1.3, marginBottom: 6 }}>
+          Your money is on its way!
+        </div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 16 }}>
+          Transfer code: A94538122969
+        </div>
+
+        <div style={{ height: 1, background: C.border, margin: "0 0 16px" }} />
+
+        {/* Top categories this month */}
+        <div style={{ fontSize: 16, fontWeight: 500, color: "#898989", marginBottom: 12 }}>
+          Top Categories This Month
+        </div>
+
+        {/* Stacked bar */}
+        <div style={{ display: "flex", borderRadius: 4, overflow: "hidden", height: 10, marginBottom: 16 }}>
+          <div style={{ flex: 2, background: C.navy }} />
+          <div style={{ flex: 1, background: C.teal }} />
+          <div style={{ flex: 0.5, background: "#d0d0d0" }} />
+        </div>
+
+        {/* Category list */}
+        {[
+          { icon: "🎁", label: `${s.categoryLabel}`, color: C.navy },
+          { icon: "🏥", label: "Medical", color: C.teal },
+          { icon: "❓", label: "Missing", color: "#d0d0d0" },
+        ].map((c, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "5px 0", textAlign: "left" }}>
+            <div style={{ width: 12, height: 12, borderRadius: 2, background: c.color, flexShrink: 0 }} />
+            <span style={{ fontSize: 14 }}>{c.icon}</span>
+            <span style={{ fontSize: 14, color: C.navy, fontWeight: 500 }}>{c.label}</span>
+          </div>
+        ))}
+
+        <div style={{ fontSize: 13, color: "#757575", fontWeight: 700, margin: "14px 0 16px" }}>
+          Your Dashboard is missing information.
+        </div>
+
+        {/* Add a category CTA — flat cyan, dark text */}
+        <button onClick={onSeeDashboard} style={{
+          width: "100%", padding: "18px 32px",
+          background: C.tealAccent,
+          border: "none", borderRadius: 20,
+          color: C.navyDark, fontSize: 16, fontWeight: 500,
+          cursor: "pointer",
+        }}>
+          Add a category
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// ── CATEGORIZE DONE MODAL (shown on dashboard after picking a category) ──
+const CatDoneModal = ({ scenario, onDismiss }) => {
+  const s = scenario.categorizeSuccess;
+  return (
+    <div style={{
+      position: "absolute", inset: 0,
+      background: "rgba(0,20,45,0.5)",
+      backdropFilter: "blur(3px)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      zIndex: 10, padding: "0 24px",
+      animation: "fadeIn 0.25s ease",
+    }}>
+      <div style={{
+        background: C.white, borderRadius: 24,
+        padding: "28px 24px 24px",
+        width: "100%", textAlign: "center",
+        animation: "modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+      }}>
+        {/* Category emoji in a teal circle */}
         <div style={{
-          width: 88, height: 88, borderRadius: 44,
-          background: `linear-gradient(135deg, ${C.tealLight}, ${C.tealBanner})`,
-          margin: "0 auto 20px",
+          width: 72, height: 72, borderRadius: 36, margin: "0 auto 16px",
+          background: C.tealLight,
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 42,
-          border: `3px solid ${C.tealLight}`,
+          fontSize: 36,
         }}>
           {s.emoji}
         </div>
-
+        <div style={{ fontSize: 20, fontWeight: 700, color: C.navy, marginBottom: 6 }}>
+          {s.headline}
+        </div>
         <div style={{ fontSize: 14, color: C.textSecondary, marginBottom: 4 }}>
           You sent
         </div>
-        <div style={{ fontSize: 26, fontWeight: 700, color: C.navy, marginBottom: 4 }}>
+        <div style={{ fontSize: 24, fontWeight: 700, color: C.navy, marginBottom: 4 }}>
           {s.amountMXN} MXN
         </div>
-        <div style={{ fontSize: 14, color: C.textSecondary, marginBottom: 24 }}>
+        <div style={{ fontSize: 14, color: C.textSecondary, marginBottom: 20 }}>
           for <strong style={{ color: C.navy }}>{s.categoryLabel}</strong>
         </div>
 
-        {/* Subtle hint about insight generating */}
+        {/* Preparing insight — pulsing ✦, no spinner */}
         <div style={{
-          background: C.offWhite, borderRadius: 10, padding: "10px 12px",
-          marginBottom: 20, display: "flex", alignItems: "center", gap: 8,
-          border: `1px solid ${C.borderLight}`,
+          background: C.cream, borderRadius: 12, padding: "12px 16px",
+          marginBottom: 20, display: "flex", alignItems: "center", gap: 10,
+          border: `1px solid ${C.border}`,
         }}>
-          <div style={{
-            width: 14, height: 14, borderRadius: 7,
-            border: `2px solid ${C.teal}40`,
-            borderTopColor: C.teal,
-            animation: "spin 0.8s linear infinite",
-            flexShrink: 0,
-          }} />
-          <span style={{ fontSize: 11, color: C.textSecondary, textAlign: "left", lineHeight: 1.4 }}>
-            Preparing a personalized insight based on this transfer
+          <span style={{
+            fontSize: 16, color: C.teal,
+            animation: "pulse 1.8s ease-in-out infinite",
+            display: "inline-block",
+          }}>✦</span>
+          <span style={{ fontSize: 13, color: C.textSecondary, textAlign: "left", lineHeight: 1.45 }}>
+            Preparing a personalized insight for you
           </span>
         </div>
 
-        <button onClick={onSeeDashboard} style={{
-          width: "100%", padding: 14,
-          background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
-          border: "none", borderRadius: 26,
-          color: C.white, fontSize: 14, fontWeight: 700,
-          cursor: "pointer", letterSpacing: 1,
-          boxShadow: `0 4px 14px ${C.teal}40`,
+        <button onClick={onDismiss} style={{
+          width: "100%", padding: "16px 32px",
+          background: C.tealAccent,
+          border: "none", borderRadius: 20,
+          color: C.navyDark, fontSize: 16, fontWeight: 500,
+          cursor: "pointer",
         }}>
-          SEE YOUR DASHBOARD
+          View Dashboard
         </button>
       </div>
     </div>
@@ -2038,56 +2129,52 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
     <>
       <Header showLogo {...(insightIconProps || {})} />
       <div style={{ flex: 1, overflow: "auto", background: C.cream }}>
-        {/* Month tabs */}
-        <div style={{
-          display: "flex", alignItems: "center", gap: 2,
-          padding: "10px 12px", overflowX: "auto",
-        }}>
-          <span style={{ fontSize: 18, color: C.textMuted, cursor: "pointer", padding: "0 4px" }}>‹</span>
-          {[
-            { top: "NOV", bottom: "2025" },
-            { top: "DEC", bottom: "2025" },
-            { top: "2025", bottom: "Report", highlight: true },
-            { top: "JAN", bottom: "2026" },
-          ].map((m, i) => (
-            <div key={i} style={{
-              padding: "6px 10px", borderRadius: 8,
-              fontSize: 11, textAlign: "center",
-              fontWeight: m.highlight ? 600 : 500,
-              color: m.highlight ? C.teal : C.textMuted,
-              lineHeight: 1.3, minWidth: 42,
-            }}>
-              <div>{m.top}</div>
-              <div>{m.bottom}</div>
-            </div>
-          ))}
+        {/* Month selector — white bg strip, active teal, inactive #324670, matches Figma */}
+        <div style={{ background: C.white, borderBottom: `1px solid ${C.border}` }}>
           <div style={{
-            padding: "7px 14px", borderRadius: 10,
-            background: C.navyDark, color: C.white,
-            fontSize: 11, textAlign: "center",
-            fontWeight: 700, lineHeight: 1.3, minWidth: 48,
+            display: "flex", alignItems: "center", gap: 0,
+            padding: "10px 12px", overflowX: "auto",
           }}>
-            <div>MAR</div>
-            <div>2026</div>
+            <span style={{ fontSize: 18, color: C.textMuted, cursor: "pointer", padding: "0 6px", flexShrink: 0 }}>‹</span>
+            {[
+              { top: "NOV", bottom: "2025" },
+              { top: "DEC", bottom: "2025" },
+              { top: "2025", bottom: "Report", highlight: true },
+              { top: "JAN", bottom: "2026" },
+            ].map((m, i) => (
+              <div key={i} style={{
+                padding: "5px 10px", textAlign: "center",
+                lineHeight: 1.3, minWidth: 48, flexShrink: 0,
+              }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: m.highlight ? C.teal : "#324670" }}>{m.top}</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: m.highlight ? C.teal : "#324670" }}>{m.bottom}</div>
+              </div>
+            ))}
+            {/* Active month — teal text only, no pill, matches Figma */}
+            <div style={{
+              padding: "5px 10px", textAlign: "center",
+              lineHeight: 1.3, minWidth: 48, flexShrink: 0,
+            }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: C.teal }}>MAR</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: C.teal }}>2026</div>
+            </div>
+            <span style={{ fontSize: 18, color: C.textMuted, cursor: "pointer", padding: "0 6px", flexShrink: 0 }}>›</span>
           </div>
-          <span style={{ fontSize: 18, color: C.textMuted, cursor: "pointer", padding: "0 4px" }}>›</span>
         </div>
 
-        {/* Country filter */}
-        <div style={{
-          margin: "0 16px 12px", padding: "10px 14px",
-          background: C.white, borderRadius: 12,
-          border: `1px solid ${C.border}`,
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-        }}>
-          <div>
-            <div style={{ fontSize: 11, color: C.textMuted, marginBottom: 2 }}>View Transfers by Country</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <span style={{ fontSize: 14 }}>🇺🇸</span>
-              <span style={{ fontSize: 14, fontWeight: 600, color: C.navy }}>United States</span>
+        {/* Country filter — matches Figma input style, #f6f5f2 bg, cr:5 */}
+        <div style={{ padding: "10px 16px", background: C.white }}>
+          <div style={{
+            padding: "14px 16px",
+            background: "#f6f5f2", borderRadius: 5,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span style={{ fontSize: 16 }}>🇺🇸</span>
+              <span style={{ fontSize: 14, fontWeight: 500, color: C.navy }}>United States</span>
             </div>
+            <span style={{ color: C.textMuted, fontSize: 14 }}>▾</span>
           </div>
-          <span style={{ color: C.textMuted, fontSize: 16 }}>▾</span>
         </div>
 
         {/* AI INSIGHT CARD — Always anchored at top of Dashboard */}
@@ -2148,27 +2235,26 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           );
         })()}
 
-        {/* Monthly Summary */}
-        <div style={{ margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
-          <div style={{ fontSize: 17, fontWeight: 700, color: C.navy, marginBottom: 12 }}>March Summary</div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8 }}>
-            <span style={{ fontSize: 26, fontWeight: 700, color: C.navy }}>{d.total} USD</span>
+        {/* Monthly Summary — white card, 24pt radius, matches Figma */}
+        <div style={{ margin: "8px 8px 0", padding: "16px 16px 14px", background: C.white, borderRadius: 24 }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: C.navy, marginBottom: 10 }}>March Summary</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <span style={{ fontSize: 22, fontWeight: 700, color: C.navy }}>${d.total} USD</span>
             <span style={{ fontSize: 16 }}>🇺🇸</span>
-            <span style={{ fontSize: 13, color: C.textSecondary }}>Sent this month</span>
+            <span style={{ fontSize: 13, color: C.textSecondary, fontWeight: 400 }}>Sent this month</span>
           </div>
-          <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.6 }}>
-            You've sent <strong>{d.total} USD</strong> across <strong>{d.count} transfers</strong> to <strong>{d.recipients} recipient{d.recipients > 1 ? "s" : ""}</strong> in {d.country}.
+          <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.65 }}>
+            You've sent <strong style={{ color: C.navy }}>${d.total} USD</strong> across <strong style={{ color: C.navy }}>{d.count} transfers</strong> to <strong style={{ color: C.navy }}>{d.recipients} recipient{d.recipients > 1 ? "s" : ""}</strong> in {d.country}. Your year-to-date total is <strong style={{ color: C.navy }}>${d.total} USD</strong>.
           </div>
         </div>
 
-        {/* Receivers */}
+        {/* Receivers — white card, 24pt radius, matches Figma */}
         <div style={{
-          margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
-          border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
+          margin: "8px 8px 0", padding: 16, background: C.white, borderRadius: 24, position: "relative",
         }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 16 }}>👤</span> Your Receivers
-            <span style={{ marginLeft: "auto", fontSize: 12, color: C.textMuted, fontWeight: 500 }}>Amount</span>
+          <div style={{ fontSize: 16, fontWeight: 600, color: C.navy, marginBottom: 4, display: "flex", justifyContent: "space-between" }}>
+            <span>Your Receivers</span>
+            <span style={{ fontSize: 16, fontWeight: 500, color: C.navy }}>Amount</span>
           </div>
           {d.receivers.map((r, i) => {
             const isAnnotated = s.uiPattern === "contextAnnotation" && (insightState === "ready" || insightState === "idle") && r.name.includes("Rosa");
@@ -2186,7 +2272,7 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
                 transition: "all 0.2s ease",
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div style={{ width: 34, height: 34, borderRadius: 17, background: C.tealLight, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>{r.flag || "🇲🇽"}</div>
+                  <span style={{ fontSize: 20, lineHeight: 1 }}>{r.flag || "🇲🇽"}</span>
                   <span style={{ fontSize: 14, fontWeight: 500, color: C.navy }}>{r.name}</span>
                   {isAnnotated && (
                     <span style={{
@@ -2227,17 +2313,16 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           )}
         </div>
 
-        {/* Categories */}
+        {/* Categories — white card, 24pt radius, matches Figma */}
         <div style={{
-          margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
-          border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
+          margin: "8px 8px 0", padding: 16, background: C.white, borderRadius: 24, position: "relative",
         }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 14, display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 16 }}>📂</span> Your Categories
+          <div style={{ fontSize: 16, fontWeight: 600, color: C.navy, marginBottom: 12 }}>
+            Your Categories
           </div>
-          <div style={{ display: "flex", height: 12, borderRadius: 6, overflow: "hidden", marginBottom: 16, gap: 2 }}>
+          <div style={{ display: "flex", height: 10, borderRadius: 4, overflow: "hidden", marginBottom: 16 }}>
             {d.categories.map((cat, i) => (
-              <div key={i} style={{ width: `${cat.pct}%`, background: `linear-gradient(135deg, ${cat.color}, ${cat.color}CC)` }} />
+              <div key={i} style={{ width: `${cat.pct}%`, background: cat.color }} />
             ))}
           </div>
           {d.categories.map((cat, i) => {
@@ -2296,10 +2381,9 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           )}
         </div>
 
-        {/* Monthly Chart */}
+        {/* Monthly Chart — white card, 24pt radius, matches Figma */}
         <div style={{
-          margin: "0 16px 12px", padding: 18, background: C.white, borderRadius: 14,
-          border: `1px solid ${C.border}`, boxShadow: C.shadow, position: "relative",
+          margin: "8px 8px 0", padding: 16, background: C.white, borderRadius: 24, position: "relative",
         }}>
           {/* Annotation: prominent loading indicator above chart */}
           {s.uiPattern === "contextAnnotation" && insightState === "loading" && (
@@ -2348,8 +2432,8 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
               </span>
             </div>
           )}
-          <div style={{ fontSize: 14, fontWeight: 700, color: C.navy, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ fontSize: 16 }}>📊</span> Transfer Summary — USD
+          <div style={{ fontSize: 16, fontWeight: 600, color: C.navy, marginBottom: 16 }}>
+            Your 2026 Transfer Summary — USD*
           </div>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 16, height: 90 }}>
             {d.monthlyChart.map((v, i) => {
@@ -2361,10 +2445,10 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
                   <div style={{
                     width: "100%", maxWidth: 40,
                     height: Math.max(8, (v / maxChart) * 55),
-                    background: isAlert ? `linear-gradient(180deg, ${C.orange}, ${C.orange}CC)` : `linear-gradient(180deg, ${C.teal}, ${C.tealDark})`,
-                    borderRadius: 5,
+                    background: isAlert ? C.orange : C.teal,
+                    borderRadius: 4,
                   }} />
-                  <span style={{ fontSize: 11, color: C.textMuted, marginTop: 4 }}>{d.monthLabels[i]}</span>
+                  <span style={{ fontSize: 11, color: C.textSecondary, marginTop: 4 }}>{d.monthLabels[i]}</span>
                 </div>
               );
             })}
@@ -2379,7 +2463,7 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           )}
         </div>
 
-        <div style={{ height: 16 }} />
+        <div style={{ height: 20 }} />
       </div>
       {/* Bottom sheet strip for dashboard — shows during loading AND ready */}
       {s.uiPattern === "bottomSheet" && (insightState === "ready" || insightState === "idle" || insightState === "loading") && (
@@ -2390,6 +2474,7 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
         <RecommendedStrip
           scenario={s}
           onClick={onBottomSheetOpen}
+          onDismiss={() => setStripDismissed(true)}
           fresh={insightState === "ready" && !insightViewed}
           insightState={insightState}
           loadingStage={loadingStage}
@@ -3266,51 +3351,44 @@ const BottomSheetStrip = ({ scenario, onClick, fresh, insightState, loadingStage
   return (
     <div onClick={isLoading ? undefined : onClick} style={{
       margin: 0,
-      padding: isLoading ? "12px 16px 14px" : "14px 16px 16px",
-      background: C.white,
-      borderTop: `1.5px solid ${isLoading ? C.teal + "40" : C.border}`,
+      padding: isLoading ? "14px 16px 16px" : "14px 16px 16px",
+      background: isLoading ? "linear-gradient(135deg, #17d7f4, #12acc3)" : C.white,
+      borderTop: isLoading ? "none" : `1.5px solid ${C.border}`,
       cursor: isLoading ? "default" : "pointer",
       animation: fresh ? "fadeIn 0.4s ease" : "none",
       position: "relative",
       overflow: "hidden",
+      transition: "background 0.4s ease",
     }}>
-      {/* Shimmer bar at top during loading */}
+      {/* Shimmer sweep — subtle against the teal gradient */}
       {isLoading && (
         <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: 2,
-          background: `linear-gradient(90deg, transparent, ${C.teal}, transparent)`,
-          backgroundSize: "200% 100%",
-          animation: "shimmer 1.8s linear infinite",
+          position: "absolute", top: 0, bottom: 0, left: 0, width: "45%",
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
+          animation: "shimmerSweep 2s ease-in-out infinite",
+          pointerEvents: "none", zIndex: 1,
         }} />
       )}
 
       {isLoading ? (
         <>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
             <div style={{
-              width: 16, height: 16, borderRadius: 8,
-              border: `2px solid ${C.teal}40`,
-              borderTopColor: C.teal,
+              width: 14, height: 14, borderRadius: 7,
+              border: "2px solid rgba(255,255,255,0.35)",
+              borderTopColor: "white",
               animation: "spin 0.8s linear infinite",
               flexShrink: 0,
             }} />
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", textTransform: "uppercase", letterSpacing: 0.8 }}>
               Generating Insight
             </span>
           </div>
-          <div style={{ fontSize: 12, color: C.textSecondary, fontStyle: "italic" }}>
-            {loadingStage}
-          </div>
-          {/* Progress bar */}
-          <div style={{
-            width: "100%", height: 3, background: C.creamDark,
-            borderRadius: 2, overflow: "hidden", marginTop: 8,
+          <div key={loadingStage} style={{
+            fontSize: 13, color: C.white, fontWeight: 500,
+            animation: "stageIn 0.4s ease", paddingLeft: 22,
           }}>
-            <div style={{
-              width: `${loadingProgress}%`, height: "100%",
-              background: `linear-gradient(90deg, ${C.teal}, ${C.tealAccent})`,
-              transition: "width 0.4s ease",
-            }} />
+            {loadingStage || "Analyzing your recent transfers…"}
           </div>
         </>
       ) : (
@@ -3345,7 +3423,7 @@ const BottomSheetStrip = ({ scenario, onClick, fresh, insightState, loadingStage
   );
 };
 
-const RecommendedStrip = ({ scenario, onClick, fresh, insightState, loadingStage, loadingProgress, visible }) => {
+const RecommendedStrip = ({ scenario, onClick, onDismiss, fresh, insightState, loadingStage, loadingProgress, visible }) => {
   const [shouldRender, setShouldRender] = useState(visible);
   const [animatingOut, setAnimatingOut] = useState(false);
 
@@ -3370,78 +3448,103 @@ const RecommendedStrip = ({ scenario, onClick, fresh, insightState, loadingStage
   return (
     <div onClick={isLoading ? undefined : onClick} style={{
       margin: 0,
-      padding: isLoading ? "12px 16px 14px" : "14px 16px 16px",
-      background: C.white,
-      borderTop: `1.5px solid ${isLoading ? C.teal + "40" : C.border}`,
+      padding: "14px 16px 16px",
+      background: isLoading ? "linear-gradient(135deg, #17d7f4, #12acc3)" : C.white,
+      borderTop: isLoading ? "none" : `1.5px solid ${C.border}`,
       cursor: isLoading ? "default" : "pointer",
       animation: animatingOut ? "fadeOut 0.3s ease forwards" : (fresh ? "fadeIn 0.4s ease" : "none"),
       position: "relative",
       overflow: "hidden",
-      transition: "padding 0.3s ease, border-color 0.3s ease",
+      transition: "background 0.4s ease",
     }}>
+      {/* Shimmer sweep — subtle against the teal gradient */}
       {isLoading && (
         <div style={{
-          position: "absolute", top: 0, left: 0, right: 0, height: 2,
-          background: `linear-gradient(90deg, transparent, ${C.teal}, transparent)`,
-          backgroundSize: "200% 100%",
-          animation: "shimmer 1.8s linear infinite",
+          position: "absolute", top: 0, bottom: 0, left: 0, width: "45%",
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
+          animation: "shimmerSweep 2s ease-in-out infinite",
+          pointerEvents: "none", zIndex: 1,
         }} />
       )}
 
       {isLoading ? (
         <>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
             <div style={{
-              width: 16, height: 16, borderRadius: 8,
-              border: `2px solid ${C.teal}40`,
-              borderTopColor: C.teal,
+              width: 14, height: 14, borderRadius: 7,
+              border: "2px solid rgba(255,255,255,0.35)",
+              borderTopColor: "white",
               animation: "spin 0.8s linear infinite",
               flexShrink: 0,
             }} />
-            <span style={{ fontSize: 11, fontWeight: 600, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8 }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", textTransform: "uppercase", letterSpacing: 0.8 }}>
               Generating Insight
             </span>
           </div>
-          <div style={{ fontSize: 12, color: C.textSecondary, fontStyle: "italic" }}>
-            {loadingStage}
-          </div>
-          <div style={{
-            width: "100%", height: 3, background: C.creamDark,
-            borderRadius: 2, overflow: "hidden", marginTop: 8,
+          <div key={loadingStage} style={{
+            fontSize: 13, color: C.white, fontWeight: 500,
+            animation: "stageIn 0.4s ease",
+            paddingLeft: 22,
           }}>
-            <div style={{
-              width: `${loadingProgress}%`, height: "100%",
-              background: `linear-gradient(90deg, ${C.teal}, ${C.tealAccent})`,
-              transition: "width 0.4s ease",
-            }} />
+            {loadingStage || "Analyzing your recent transfers…"}
           </div>
         </>
       ) : (
         <div style={{ animation: "stripCrossfade 0.4s ease" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span style={{
-              width: 24, height: 24, borderRadius: 12,
-              background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: C.white, fontSize: 11, fontWeight: 700, flexShrink: 0,
-            }}>✦</span>
-            <div style={{
-              flex: 1, fontSize: 13, color: C.navy, fontWeight: 500,
-              overflow: "hidden", textOverflow: "ellipsis",
-              display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
-            }}>
-              {insight.hook}
+          {/* Label row */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{
+                width: 22, height: 22, borderRadius: 11,
+                background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: C.white, fontSize: 10, fontWeight: 700, flexShrink: 0,
+              }}>✦</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: C.teal, textTransform: "uppercase", letterSpacing: 1 }}>
+                AI Insight
+              </span>
             </div>
-            <span style={{ fontSize: 16, color: C.textMuted, flexShrink: 0, transform: "rotate(180deg)" }}>⌄</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              {fresh && (
+                <span style={{
+                  fontSize: 10, fontWeight: 700, color: C.white,
+                  background: `linear-gradient(135deg, ${C.tealAccent}, ${C.teal})`,
+                  padding: "2px 8px", borderRadius: 8, letterSpacing: 0.5,
+                }}>NEW</span>
+              )}
+              {/* Dismiss button — stops propagation so it doesn't open the sheet */}
+              {onDismiss && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); onDismiss(); }}
+                  style={{
+                    background: "none", border: "none", cursor: "pointer",
+                    width: 24, height: 24, borderRadius: 12,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: C.textMuted, fontSize: 16, lineHeight: 1,
+                    padding: 0,
+                  }}
+                >×</button>
+              )}
+            </div>
           </div>
-          {fresh && (
-            <div style={{
-              marginTop: 6, marginLeft: 34,
-              fontSize: 11, fontWeight: 600, color: C.teal,
-            }}>
-              Swipe up to read →
+          {/* Headline */}
+          <div style={{
+            fontSize: 14, fontWeight: 700, color: C.navy,
+            lineHeight: 1.35, marginBottom: 6,
+          }}>
+            {scenario.fxWidget?.headline || insight.hook}
+          </div>
+          {/* One-line stat preview */}
+          {insight.keyStats && insight.keyStats[0] && (
+            <div style={{ fontSize: 12, color: C.textSecondary, marginBottom: 10 }}>
+              {insight.keyStats[0].value} {insight.keyStats[0].label}
+              {insight.keyStats[1] && ` · ${insight.keyStats[1].value} ${insight.keyStats[1].label}`}
             </div>
           )}
+          {/* CTA — always visible */}
+          <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, display: "flex", alignItems: "center", gap: 4 }}>
+            Tap to read <span style={{ fontSize: 14 }}>→</span>
+          </div>
         </div>
       )}
     </div>
@@ -3493,26 +3596,40 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
         background: "rgba(0,0,0,0.3)", zIndex: 20,
         animation: "fadeIn 0.2s ease",
       }} />
-      {/* Sheet */}
+      {/* Sheet — flex column so header and footer are fixed, content scrolls */}
       <div style={{
         position: "absolute", left: 0, right: 0, bottom: 74,
-        maxHeight: "60%", overflow: "auto",
+        maxHeight: "65%",
         background: C.white, borderRadius: "20px 20px 0 0",
         boxShadow: "0 -8px 30px rgba(0,0,0,0.15)",
-        zIndex: 21, padding: "0 16px 16px",
+        zIndex: 21,
+        overflow: "hidden",
+        display: "flex", flexDirection: "column",
         animation: "slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
       }}>
-        {/* Drag handle + dismiss chevron */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0 10px", position: "relative" }}>
-          <div style={{ width: 36, height: 4, borderRadius: 2, background: C.border }} />
+        {/* Header — teal gradient, full-width, matches Chat sheet */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "12px 14px",
+          background: "linear-gradient(135deg, #17d7f4, #12acc3)",
+          borderRadius: "20px 20px 0 0",
+          flexShrink: 0,
+        }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700 }}>✦</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: C.white, letterSpacing: 0.3 }}>AI Insights</span>
+          </div>
+          <div style={{ width: 32, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.45)" }} />
           <button onClick={onDismiss} style={{
-            position: "absolute", right: 4, top: 6,
             background: "none", border: "none", cursor: "pointer",
-            width: 28, height: 28, borderRadius: 14,
+            width: 32, height: 32, borderRadius: 16,
             display: "flex", alignItems: "center", justifyContent: "center",
-            color: C.textMuted, fontSize: 18,
+            color: "rgba(255,255,255,0.9)", fontSize: 20, lineHeight: 1,
           }}>⌄</button>
         </div>
+
+        {/* Scrollable content area */}
+        <div style={{ flex: 1, overflow: "auto", padding: "16px 16px 0" }}>
 
         {/* Empty state — no insight yet */}
         {insightState === "idle" && !insight && (
@@ -3530,47 +3647,37 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
           </div>
         )}
 
-        {/* Loading state — generating in progress */}
+        {/* Loading state — teal gradient + shimmer + staged text */}
         {insightState === "loading" && (
-          <div style={{ padding: "16px 0" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
+          <div style={{
+            margin: "0 -20px", padding: "16px 20px 20px",
+            background: "linear-gradient(135deg, #17d7f4, #12acc3)",
+            position: "relative", overflow: "hidden",
+          }}>
+            {/* Shimmer sweep */}
+            <div style={{
+              position: "absolute", top: 0, bottom: 0, left: 0, width: "50%",
+              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)",
+              animation: "shimmerSweep 2.2s ease-in-out infinite",
+              pointerEvents: "none",
+            }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
               <div style={{
-                width: 20, height: 20, borderRadius: 10,
-                border: `2.5px solid ${C.teal}40`,
-                borderTopColor: C.teal,
+                width: 18, height: 18, borderRadius: 9,
+                border: "2px solid rgba(255,255,255,0.35)",
+                borderTopColor: "white",
                 animation: "spin 0.8s linear infinite",
                 flexShrink: 0,
               }} />
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 2 }}>
-                  Generating Insight
-                </div>
-                <div style={{ fontSize: 12, color: C.textSecondary, fontStyle: "italic" }}>
-                  {loadingStage || "Analyzing your transfers..."}
-                </div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "rgba(255,255,255,0.85)", textTransform: "uppercase", letterSpacing: 0.8 }}>
+                Generating Insight
               </div>
             </div>
-            {/* Skeleton lines */}
-            <div style={{ marginBottom: 12 }}>
-              {[75, 90, 60].map((w, i) => (
-                <div key={i} style={{
-                  height: 10, width: `${w}%`, marginBottom: 8, borderRadius: 4,
-                  background: `linear-gradient(90deg, ${C.creamDark} 0%, ${C.borderLight} 50%, ${C.creamDark} 100%)`,
-                  backgroundSize: "200% 100%",
-                  animation: `shimmerBg 1.8s ease-in-out infinite ${i * 0.2}s`,
-                }} />
-              ))}
-            </div>
-            {/* Progress bar */}
-            <div style={{
-              width: "100%", height: 4, background: C.creamDark,
-              borderRadius: 2, overflow: "hidden",
+            <div key={loadingStage} style={{
+              fontSize: 14, fontWeight: 500, color: C.white, lineHeight: 1.5,
+              animation: "stageIn 0.4s ease",
             }}>
-              <div style={{
-                width: `${loadingProgress || 0}%`, height: "100%",
-                background: `linear-gradient(90deg, ${C.teal}, ${C.tealAccent})`,
-                transition: "width 0.4s ease",
-              }} />
+              {loadingStage || "Analyzing your recent transfers…"}
             </div>
           </div>
         )}
@@ -3637,77 +3744,83 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
           );
         })}
 
-        {/* Feedback — prominent full-width buttons */}
-        <div style={{
-          marginTop: 14, padding: "14px 0 0",
-          borderTop: `1px solid ${C.borderLight}`,
-        }}>
-          {!submitted ? (
-            <>
-              <div style={{ fontSize: 13, fontWeight: 600, color: C.navy, marginBottom: 10 }}>
-                Was this insight helpful?
-              </div>
-              <div style={{ display: "flex", gap: 10, marginBottom: showReasons ? 14 : 0 }}>
-                <button onClick={() => handleThumb("up")} style={{
-                  flex: 1, padding: "11px 14px",
-                  background: sentiment === "up" ? C.greenBg : C.white,
-                  border: `1.5px solid ${sentiment === "up" ? C.green + "60" : C.border}`,
-                  borderRadius: 12, cursor: "pointer",
-                  fontSize: 14, fontWeight: 600, color: sentiment === "up" ? C.green : C.navy,
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                }}>
-                  <span style={{ fontSize: 16 }}>👍</span> Helpful
-                </button>
-                <button onClick={() => handleThumb("down")} style={{
-                  flex: 1, padding: "11px 14px",
-                  background: sentiment === "down" ? C.redBg : C.white,
-                  border: `1.5px solid ${sentiment === "down" ? C.red + "60" : C.border}`,
-                  borderRadius: 12, cursor: "pointer",
-                  fontSize: 14, fontWeight: 600, color: sentiment === "down" ? C.red : C.navy,
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                }}>
-                  <span style={{ fontSize: 16 }}>👎</span> Not helpful
-                </button>
-              </div>
-              {showReasons && sentiment === "down" && (
-                <div style={{ animation: "fadeIn 0.25s ease" }}>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
-                    {FEEDBACK_REASONS.map(r => {
-                      const on = selectedReasons.includes(r);
-                      return (
-                        <button key={r} onClick={() => toggleReason(r)} style={{
-                          padding: "6px 11px", background: on ? C.navy : C.white,
-                          color: on ? C.white : C.navy,
-                          border: `1.5px solid ${on ? C.navy : C.border}`,
-                          borderRadius: 14, cursor: "pointer", fontSize: 11, fontWeight: 500,
-                        }}>
-                          {on && "✓ "}{r}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <button onClick={submitDown} style={{
-                    width: "100%", padding: 11,
-                    background: C.navy, color: C.white,
-                    border: "none", borderRadius: 10,
-                    fontSize: 13, fontWeight: 600, cursor: "pointer",
-                  }}>Submit feedback</button>
-                </div>
-              )}
-            </>
-          ) : (
-            <div style={{
-              display: "flex", alignItems: "center", gap: 8,
-              padding: "10px 14px", borderRadius: 10,
-              background: sentiment === "up" ? C.greenBg : C.redBg,
-              border: `1px solid ${sentiment === "up" ? C.green + "30" : C.red + "30"}`,
-            }}>
-              <span style={{ fontSize: 16 }}>{sentiment === "up" ? "👍" : "👎"}</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: C.navy }}>Thanks — your feedback helps us improve</span>
-            </div>
-          )}
-        </div>
         </>)}
+        </div>{/* end scrollable content */}
+
+        {/* Feedback footer — pinned, always visible, never cut off */}
+        {(insightState !== "loading" && !(insightState === "idle" && !insight)) && (
+          <div style={{
+            borderTop: `1px solid ${C.border}`,
+            padding: "12px 16px 16px",
+            background: C.white,
+            flexShrink: 0,
+          }}>
+            {!submitted ? (
+              <>
+                <div style={{ fontSize: 13, fontWeight: 600, color: C.navy, marginBottom: 10 }}>
+                  Was this insight helpful?
+                </div>
+                <div style={{ display: "flex", gap: 10, marginBottom: showReasons ? 14 : 0 }}>
+                  <button onClick={() => handleThumb("up")} style={{
+                    flex: 1, padding: "11px 14px",
+                    background: sentiment === "up" ? C.greenBg : C.white,
+                    border: `1.5px solid ${sentiment === "up" ? C.green + "60" : C.border}`,
+                    borderRadius: 12, cursor: "pointer",
+                    fontSize: 14, fontWeight: 600, color: sentiment === "up" ? C.green : C.navy,
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  }}>
+                    <span style={{ fontSize: 16 }}>👍</span> Helpful
+                  </button>
+                  <button onClick={() => handleThumb("down")} style={{
+                    flex: 1, padding: "11px 14px",
+                    background: sentiment === "down" ? C.redBg : C.white,
+                    border: `1.5px solid ${sentiment === "down" ? C.red + "60" : C.border}`,
+                    borderRadius: 12, cursor: "pointer",
+                    fontSize: 14, fontWeight: 600, color: sentiment === "down" ? C.red : C.navy,
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                  }}>
+                    <span style={{ fontSize: 16 }}>👎</span> Not helpful
+                  </button>
+                </div>
+                {showReasons && sentiment === "down" && (
+                  <div style={{ animation: "fadeIn 0.25s ease" }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 10 }}>
+                      {FEEDBACK_REASONS.map(r => {
+                        const on = selectedReasons.includes(r);
+                        return (
+                          <button key={r} onClick={() => toggleReason(r)} style={{
+                            padding: "6px 11px", background: on ? C.navy : C.white,
+                            color: on ? C.white : C.navy,
+                            border: `1.5px solid ${on ? C.navy : C.border}`,
+                            borderRadius: 14, cursor: "pointer", fontSize: 11, fontWeight: 500,
+                          }}>
+                            {on && "✓ "}{r}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <button onClick={submitDown} style={{
+                      width: "100%", padding: 11,
+                      background: C.navy, color: C.white,
+                      border: "none", borderRadius: 10,
+                      fontSize: 13, fontWeight: 600, cursor: "pointer",
+                    }}>Submit feedback</button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div style={{
+                display: "flex", alignItems: "center", gap: 8,
+                padding: "10px 14px", borderRadius: 10,
+                background: sentiment === "up" ? C.greenBg : C.redBg,
+                border: `1px solid ${sentiment === "up" ? C.green + "30" : C.red + "30"}`,
+              }}>
+                <span style={{ fontSize: 16 }}>{sentiment === "up" ? "👍" : "👎"}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: C.navy }}>Thanks — your feedback helps us improve</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
@@ -3973,13 +4086,58 @@ const DeliveryMethodScreen = ({ onSelect, onBack, insightIconProps, onInsightIco
 
 // ── CHAT BOTTOM SHEET ──
 
+const SimKeyboard = () => {
+  const rows = [
+    ["Q","W","E","R","T","Y","U","I","O","P"],
+    ["A","S","D","F","G","H","J","K","L"],
+    ["⇧","Z","X","C","V","B","N","M","⌫"],
+  ];
+  const keyStyle = (wide) => ({
+    flex: wide ? 1.5 : 1, height: 42, borderRadius: 5,
+    background: C.white, border: "none",
+    fontSize: wide ? 14 : 13, fontWeight: 500, color: C.navy,
+    boxShadow: "0 1px 0 rgba(0,0,0,0.35)",
+    cursor: "default", display: "flex", alignItems: "center", justifyContent: "center",
+  });
+  return (
+    <div style={{
+      position: "absolute", left: 0, right: 0, bottom: 74,
+      height: 260, background: "#d1d3d9",
+      zIndex: 22, padding: "8px 3px 4px",
+      display: "flex", flexDirection: "column", gap: 8,
+      animation: "fadeIn 0.18s ease",
+    }}>
+      {rows.map((row, ri) => (
+        <div key={ri} style={{ display: "flex", gap: 5, justifyContent: "center", padding: "0 4px" }}>
+          {row.map(k => (
+            <div key={k} style={keyStyle(k === "⇧" || k === "⌫")}>{k}</div>
+          ))}
+        </div>
+      ))}
+      <div style={{ display: "flex", gap: 5, padding: "0 4px" }}>
+        <div style={{ ...keyStyle(true), flex: 1.2, background: "#adb0b8" }}>123</div>
+        <div style={{ ...keyStyle(false), flex: 5, fontSize: 14 }}>space</div>
+        <div style={{ ...keyStyle(false), flex: 1.8, background: "#adb0b8", fontSize: 12 }}>return</div>
+      </div>
+    </div>
+  );
+};
+
 const ChatBottomSheet = ({ scenario, mode, onDismiss, insightState, feedback, onFeedback }) => {
   const [chatInput, setChatInput] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [localMessages, setLocalMessages] = useState([]);
   const [typing, setTyping] = useState(false);
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
   const scrollRef = useRef(null);
   const insight = scenario.insightDetail;
+
+  // Height constants — PhoneFrame is 812px, nav is 74px
+  const KB_H = 260;
+  const sheetBottom = keyboardOpen ? 74 + KB_H : 74;
+  const sheetHeight = expanded
+    ? (keyboardOpen ? 812 - sheetBottom - 20 : 730)
+    : (keyboardOpen ? 320 : 527);
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -4000,6 +4158,7 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, insightState, feedback, on
     const initialMsgs = contextMsg ? [contextMsg, userMsg] : [userMsg];
     setLocalMessages(initialMsgs);
     setExpanded(true);
+    setKeyboardOpen(false); // dismiss keyboard once sent
     setTyping(true);
     setChatInput("");
     setTimeout(() => {
@@ -4033,38 +4192,56 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, insightState, feedback, on
 
   return (
     <>
-      {/* Backdrop */}
-      <div onClick={onDismiss} style={{
+      {/* Backdrop — also dismisses keyboard */}
+      <div onClick={() => { setKeyboardOpen(false); onDismiss(); }} style={{
         position: "absolute", top: 0, left: 0, right: 0, bottom: 74,
         background: "rgba(0,0,0,0.3)", zIndex: 20,
         animation: "fadeIn 0.2s ease",
       }} />
-      {/* Sheet */}
+      {/* Simulated iOS keyboard — appears above nav bar when input is focused */}
+      {keyboardOpen && <SimKeyboard />}
+      {/* Sheet — explicit height in px so transitions are reliable */}
       <div style={{
-        position: "absolute", left: 0, right: 0, bottom: 74,
-        maxHeight: expanded ? "90%" : "65%",
-        transition: "max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+        position: "absolute", left: 0, right: 0,
+        bottom: sheetBottom,
+        height: sheetHeight,
+        transition: "height 0.4s cubic-bezier(0.22, 1, 0.36, 1), bottom 0.25s ease",
         background: C.white, borderRadius: "20px 20px 0 0",
         boxShadow: "0 -8px 30px rgba(0,0,0,0.15)",
-        zIndex: 21, padding: "0 16px 12px",
+        zIndex: 21, padding: 0,
+        overflow: "hidden",
         animation: "sheetExpand 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
         display: "flex", flexDirection: "column",
       }}>
-        {/* Drag handle + dismiss/collapse button */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "10px 0 10px", position: "relative", flexShrink: 0 }}>
-          <div style={{ width: 36, height: 4, borderRadius: 2, background: C.border }} />
+        {/* Sheet header — teal gradient with AI Insights label */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "12px 14px",
+          background: "linear-gradient(135deg, #17d7f4, #12acc3)",
+          borderRadius: "20px 20px 0 0",
+          flexShrink: 0,
+        }}>
+          {/* ✦ label */}
+          <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700 }}>✦</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: C.white, letterSpacing: 0.3 }}>
+              AI Insights
+            </span>
+          </div>
+          {/* Drag pill — centered-ish, translucent white */}
+          <div style={{ width: 32, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.45)" }} />
+          {/* Chevron */}
           <button
-            onClick={expanded ? () => { setExpanded(false); setLocalMessages([]); } : onDismiss}
+            onClick={onDismiss}
             style={{
-              position: "absolute", right: 4, top: 6,
               background: "none", border: "none", cursor: "pointer",
-              width: 28, height: 28, borderRadius: 14,
+              width: 32, height: 32, borderRadius: 16,
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: C.textMuted, fontSize: 18,
+              color: "rgba(255,255,255,0.9)", fontSize: 20, lineHeight: 1,
             }}>⌄</button>
         </div>
 
-        <div ref={scrollRef} style={{ flex: 1, overflow: "auto" }}>
+        <div ref={scrollRef} style={{ flex: 1, overflow: "auto", padding: "0 16px" }}>
 
           {/* ── EXPANDED: inline chat conversation ── */}
           {expanded && (
@@ -4173,9 +4350,6 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, insightState, feedback, on
                   }}>{e}</button>
                 ))}
               </div>
-              {/* Divider */}
-              <div style={{ height: 1, background: C.borderLight, marginBottom: 10 }} />
-              <div style={{ fontSize: 13, color: C.textMuted, marginBottom: 12 }}>Ask about this insight</div>
             </>
           )}
 
@@ -4214,11 +4388,13 @@ const ChatBottomSheet = ({ scenario, mode, onDismiss, insightState, feedback, on
         </div>
 
         {/* Chat input bar */}
-        <div style={{ display: "flex", gap: 8, alignItems: "center", paddingTop: 8, flexShrink: 0, borderTop: `1px solid ${C.borderLight}` }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "center", padding: "8px 16px 14px", flexShrink: 0, borderTop: `1px solid ${C.borderLight}` }}>
           <input
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             onKeyDown={handleKeyDown}
+            onFocus={() => { setKeyboardOpen(true); if (!expanded) setExpanded(false); }}
+            onBlur={() => setKeyboardOpen(false)}
             placeholder={expanded ? "Ask a follow-up..." : "Ask anything..."}
             style={{
               flex: 1, padding: "10px 16px",
@@ -4483,7 +4659,8 @@ export default function PangeaAIPrototype() {
   //          | reportCardView | messageThreadView | deliveryMethod | fullChat
   const [screen, setScreen] = useState("picker");
   const [scenario, setScenario] = useState(null);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSentModal, setShowSentModal] = useState(false);   // "Your money is on its way" — after Send payment
+  const [showSuccessModal, setShowSuccessModal] = useState(false); // CatDoneModal — after picking category on dashboard
   // Insight lifecycle: idle | loading | ready
   const [insightState, setInsightState] = useState("idle");
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -4565,8 +4742,8 @@ export default function PangeaAIPrototype() {
 
   const handleDismissSheetRecommended = () => {
     setShowBottomSheet(false);
-    setStripDismissed(true);
-    // Trigger receive pulse on the header icon
+    // Strip stays visible — it's the primary entry point (option 3)
+    // Only pulse the icon to reinforce the connection
     setIconReceive(true);
     setTimeout(() => setIconReceive(false), 600);
   };
@@ -4643,6 +4820,7 @@ export default function PangeaAIPrototype() {
     setScreen("picker");
     setScenario(null);
     setInsightState("idle");
+    setShowSentModal(false);
     setShowSuccessModal(false);
     setInsightViewed(false);
     setFeedback(null);
@@ -4658,17 +4836,22 @@ export default function PangeaAIPrototype() {
   };
 
   const handleCategorize = () => {
-    // Immediately kick off AI generation in background
+    // Kick off AI generation in background, go to dashboard, show CatDoneModal
     startGenerating(scenario);
-    setShowSuccessModal(true);
     setInsightViewed(false);
     setFeedback(null);
     setStripDismissed(false);
     setScreen("dashboard");
+    setShowSuccessModal(true); // CatDoneModal on dashboard
   };
 
   const handleSeeDashboard = () => {
-    setShowSuccessModal(false);
+    setShowSuccessModal(false); // dismiss CatDoneModal
+  };
+
+  const handleSentModalCategorize = () => {
+    setShowSentModal(false);
+    setScreen("categorize");
   };
 
   // Central router for tapping an insight widget — scenario decides destination.
@@ -4734,6 +4917,8 @@ export default function PangeaAIPrototype() {
         @keyframes dotPop { 0% { transform: scale(0); } 60% { transform: scale(1.3); } 100% { transform: scale(1); } }
         @keyframes sheetExpand { from { transform: translateY(40%); opacity: 0.8; } to { transform: translateY(0); opacity: 1; } }
         @keyframes dotBounce { 0%, 80%, 100% { transform: translateY(0); opacity: 0.4; } 40% { transform: translateY(-5px); opacity: 1; } }
+        @keyframes shimmerSweep { 0% { transform: translateX(-200%); } 100% { transform: translateX(400%); } }
+        @keyframes stageIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
         * { box-sizing: border-box; margin: 0; -webkit-tap-highlight-color: transparent; }
         button:hover { opacity: 0.92; }
         button:active { transform: scale(0.98); }
@@ -4776,7 +4961,7 @@ export default function PangeaAIPrototype() {
           <ConfirmTransferScreen
             scenario={scenario}
             onBack={() => setScreen(scenario?.uiPattern === "recommendedChat" ? "deliveryMethod" : "fxCalc")}
-            onSend={() => setScreen("categorize")}
+            onSend={() => setShowSentModal(true)}
             insightIconProps={insightIconProps}
           />
         )}
@@ -4788,6 +4973,14 @@ export default function PangeaAIPrototype() {
             onCancel={() => setScreen("fxCalc")}
             onCategorize={handleCategorize}
             insightIconProps={insightIconProps}
+          />
+        )}
+
+        {/* "Your money is on its way" full-screen modal — shown after Send payment, before Categorize */}
+        {showSentModal && scenario && (
+          <CategorizeSuccessModal
+            scenario={scenario}
+            onSeeDashboard={handleSentModalCategorize}
           />
         )}
 
@@ -4818,9 +5011,9 @@ export default function PangeaAIPrototype() {
               stripDismissed={stripDismissed}
             />
             {showSuccessModal && (
-              <CategorizeSuccessModal
+              <CatDoneModal
                 scenario={scenario}
-                onSeeDashboard={handleSeeDashboard}
+                onDismiss={handleSeeDashboard}
               />
             )}
           </>
