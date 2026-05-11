@@ -910,6 +910,40 @@ const scenarioRec = {
       },
     ],
   },
+  // Second insight — generated after a follow-up transfer
+  secondInsight: {
+    hook: "Your grocery budget is almost full — you've sent $380 of your $400 this month with 2 weeks left.",
+    keyStats: [
+      { label: "Budget used", value: "95%", direction: "up" },
+      { label: "Remaining", value: "$20", direction: null },
+    ],
+    findings: [
+      {
+        text: "This transfer brings your April grocery total to **$380**, leaving just **$20** of your $400 monthly budget. You have **15 days remaining** in the month.",
+      },
+      {
+        text: "Your sending pace this month is **8% faster** than March — you reached 95% of budget by week 3, compared to week 4 last month.",
+      },
+      {
+        text: "If you need to send again before May, consider **$20 or less** to stay within budget. Anything over would break your streak of staying on track.",
+      },
+    ],
+  },
+  // Pre-built insight log for the multi-insight demo
+  insightLog: [
+    {
+      id: "ins2",
+      date: "Apr 16, 2026",
+      context: "$100 · Rosa · Groceries",
+      isSecond: true,
+    },
+    {
+      id: "ins1",
+      date: "Apr 14, 2026",
+      context: "$100 · Rosa · Groceries",
+      isSecond: false,
+    },
+  ],
 };
 
 const scenarioRecChat = {
@@ -2120,7 +2154,7 @@ const CatDoneModal = ({ scenario, onDismiss }) => {
 
 // ── DASHBOARD SCREEN ──
 
-const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight, insightIconProps, stripDismissed }) => {
+const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightViewed, loadingProgress, loadingStage, onSkipWait, splitExpanded, onSplitToggle, onSplitDetail, showBottomSheet, onBottomSheetOpen, onBottomSheetDismiss, feedback, onFeedback, annotationPopover, onAnnotationTap, onAnnotationDismiss, onAnnotationFullInsight, insightIconProps, stripDismissed, currentInsight, hasMultipleInsights, showInsightLog, onViewAllInsights, onCloseLog, logExpandedIdx, onLogExpand }) => {
   const s = scenario;
   const d = s.dashboard;
   const maxChart = Math.max(...d.monthlyChart);
@@ -2491,6 +2525,13 @@ const DashboardScreen = ({ scenario, onInsight, onNav, insightState, insightView
           onFeedback={onFeedback}
           onDismiss={onBottomSheetDismiss}
           onFullInsight={onAnnotationFullInsight}
+          currentInsight={currentInsight}
+          hasMultipleInsights={hasMultipleInsights}
+          showInsightLog={showInsightLog}
+          onViewAllInsights={onViewAllInsights}
+          onCloseLog={onCloseLog}
+          logExpandedIdx={logExpandedIdx}
+          onLogExpand={onLogExpand}
         />
       )}
     </>
@@ -3551,8 +3592,8 @@ const RecommendedStrip = ({ scenario, onClick, onDismiss, fresh, insightState, l
   );
 };
 
-const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullInsight, insightState, loadingStage, loadingProgress }) => {
-  const insight = scenario.insightDetail;
+const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullInsight, insightState, loadingStage, loadingProgress, currentInsight: currentInsightProp, hasMultipleInsights, showInsightLog, onViewAllInsights, onCloseLog, logExpandedIdx, onLogExpand }) => {
+  const insight = currentInsightProp || scenario.insightDetail;
   const [expandedIdx, setExpandedIdx] = useState(-1);
   const [showReasons, setShowReasons] = useState(feedback?.sentiment === "down" && !feedback?.submitted);
   const [comment, setComment] = useState(feedback?.comment || "");
@@ -3596,10 +3637,11 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
         background: "rgba(0,0,0,0.3)", zIndex: 20,
         animation: "fadeIn 0.2s ease",
       }} />
-      {/* Sheet — flex column so header and footer are fixed, content scrolls */}
+      {/* Sheet — height expands to 95% for log view */}
       <div style={{
         position: "absolute", left: 0, right: 0, bottom: 74,
-        maxHeight: "65%",
+        maxHeight: showInsightLog ? "95%" : "65%",
+        transition: "max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
         background: C.white, borderRadius: "20px 20px 0 0",
         boxShadow: "0 -8px 30px rgba(0,0,0,0.15)",
         zIndex: 21,
@@ -3607,7 +3649,7 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
         display: "flex", flexDirection: "column",
         animation: "slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
       }}>
-        {/* Header — teal gradient, full-width, matches Chat sheet */}
+        {/* Header — teal gradient, full-width */}
         <div style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "12px 14px",
@@ -3616,8 +3658,18 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
           flexShrink: 0,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 7 }}>
+            {showInsightLog && (
+              <button onClick={onCloseLog} style={{
+                background: "rgba(255,255,255,0.2)", border: "none", cursor: "pointer",
+                width: 26, height: 26, borderRadius: 13,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                color: C.white, fontSize: 14, marginRight: 2,
+              }}>‹</button>
+            )}
             <span style={{ fontSize: 13, color: "rgba(255,255,255,0.9)", fontWeight: 700 }}>✦</span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: C.white, letterSpacing: 0.3 }}>AI Insights</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: C.white, letterSpacing: 0.3 }}>
+              {showInsightLog ? "All Insights" : "AI Insights"}
+            </span>
           </div>
           <div style={{ width: 32, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.45)" }} />
           <button onClick={onDismiss} style={{
@@ -3628,11 +3680,103 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
           }}>⌄</button>
         </div>
 
+        {/* "View all insights" entry row — only when multiple insights exist */}
+        {hasMultipleInsights && !showInsightLog && insightState !== "loading" && (
+          <button onClick={onViewAllInsights} style={{
+            background: C.tealLight, border: "none", cursor: "pointer",
+            padding: "8px 16px", flexShrink: 0,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            borderBottom: `1px solid ${C.border}`,
+          }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: C.teal }}>View all insights</span>
+            <span style={{ fontSize: 12, color: C.teal }}>2 total →</span>
+          </button>
+        )}
+
         {/* Scrollable content area */}
         <div style={{ flex: 1, overflow: "auto", padding: "16px 16px 0" }}>
 
+        {/* ── LOG VIEW: all insights newest-first ── */}
+        {showInsightLog && scenario.insightLog && (
+          <div style={{ paddingBottom: 16 }}>
+            {scenario.insightLog.map((entry, i) => {
+              const entryInsight = entry.isSecond ? scenario.secondInsight : scenario.insightDetail;
+              const isExpanded = logExpandedIdx === i;
+              return (
+                <div key={entry.id} style={{ marginBottom: 12 }}>
+                  {/* Date + context label */}
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: C.textSecondary }}>{entry.date}</span>
+                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: C.border, display: "inline-block" }} />
+                    <span style={{ fontSize: 11, color: C.textMuted }}>{entry.context}</span>
+                  </div>
+                  {/* Collapsed/expanded card */}
+                  <div style={{
+                    background: C.white, borderRadius: 14,
+                    border: `1px solid ${isExpanded ? C.teal + "40" : C.border}`,
+                    overflow: "hidden",
+                    transition: "border-color 0.2s ease",
+                  }}>
+                    {/* Card header row — always visible, tap to expand */}
+                    <button onClick={() => onLogExpand(isExpanded ? -1 : i)} style={{
+                      width: "100%", padding: "12px 14px",
+                      background: "none", border: "none", cursor: "pointer",
+                      display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10,
+                      textAlign: "left",
+                    }}>
+                      <span style={{ fontSize: 13, color: C.navy, fontWeight: 500, lineHeight: 1.45, flex: 1 }}>
+                        {entryInsight.hook}
+                      </span>
+                      <span style={{
+                        fontSize: 16, color: C.teal, flexShrink: 0, marginTop: 1,
+                        transform: isExpanded ? "rotate(90deg)" : "rotate(0deg)",
+                        transition: "transform 0.2s ease",
+                      }}>›</span>
+                    </button>
+                    {/* Expanded content */}
+                    {isExpanded && (
+                      <div style={{ padding: "0 14px 14px", animation: "fadeIn 0.25s ease" }}>
+                        {/* Stats */}
+                        {entryInsight.keyStats && (
+                          <div style={{
+                            display: "flex", gap: 10, marginBottom: 12,
+                            padding: "10px 12px",
+                            background: `linear-gradient(135deg, ${C.tealLight}, #E8F8F6)`,
+                            borderRadius: 10, border: `1px solid ${C.teal}20`,
+                          }}>
+                            {entryInsight.keyStats.map((stat, si) => (
+                              <div key={si} style={{ flex: 1, textAlign: "center" }}>
+                                <div style={{ fontSize: 17, fontWeight: 700, color: C.navy, display: "flex", alignItems: "center", justifyContent: "center", gap: 3 }}>
+                                  {stat.value}
+                                  {stat.direction === "up" && <span style={{ fontSize: 11, color: C.teal }}>↑</span>}
+                                </div>
+                                <div style={{ fontSize: 10, color: C.textMuted, marginTop: 2 }}>{stat.label}</div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {/* Findings */}
+                        {entryInsight.findings.map((f, fi) => (
+                          <div key={fi} style={{ display: "flex", gap: 8, marginBottom: 8, alignItems: "flex-start" }}>
+                            <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.teal, marginTop: 5, flexShrink: 0 }} />
+                            <div style={{ fontSize: 13, color: C.textSecondary, lineHeight: 1.55 }}>
+                              <Txt>{f.text}</Txt>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* ── NORMAL VIEW ── */}
+
         {/* Empty state — no insight yet */}
-        {insightState === "idle" && !insight && (
+        {!showInsightLog && insightState === "idle" && !insight && (
           <div style={{ padding: "20px 0", textAlign: "center" }}>
             <div style={{
               width: 48, height: 48, borderRadius: 24, margin: "0 auto 14px",
@@ -3648,7 +3792,7 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
         )}
 
         {/* Loading state — teal gradient + shimmer + staged text */}
-        {insightState === "loading" && (
+        {!showInsightLog && insightState === "loading" && (
           <div style={{
             margin: "0 -20px", padding: "16px 20px 20px",
             background: "linear-gradient(135deg, #17d7f4, #12acc3)",
@@ -3683,7 +3827,7 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
         )}
 
         {/* Ready/viewed — full insight content (also default when insightState is undefined) */}
-        {(insightState !== "loading" && !(insightState === "idle" && !insight)) && (<>
+        {!showInsightLog && (insightState !== "loading" && !(insightState === "idle" && !insight)) && (<>
 
         {/* Hook */}
         <div style={{ fontSize: 15, color: C.navy, lineHeight: 1.6, fontWeight: 500, marginBottom: 14 }}>
@@ -3743,12 +3887,12 @@ const BottomSheetOverlay = ({ scenario, feedback, onFeedback, onDismiss, onFullI
             </div>
           );
         })}
-
         </>)}
+
         </div>{/* end scrollable content */}
 
-        {/* Feedback footer — pinned, always visible, never cut off */}
-        {(insightState !== "loading" && !(insightState === "idle" && !insight)) && (
+        {/* Feedback footer — hidden in log view */}
+        {!showInsightLog && (insightState !== "loading" && !(insightState === "idle" && !insight)) && (
           <div style={{
             borderTop: `1px solid ${C.border}`,
             padding: "12px 16px 16px",
@@ -4661,6 +4805,10 @@ export default function PangeaAIPrototype() {
   const [scenario, setScenario] = useState(null);
   const [showSentModal, setShowSentModal] = useState(false);   // "Your money is on its way" — after Send payment
   const [showSuccessModal, setShowSuccessModal] = useState(false); // CatDoneModal — after picking category on dashboard
+  // Multi-insight state for ⭐ Recommended scenario
+  const [hasSecondInsight, setHasSecondInsight] = useState(false);
+  const [showInsightLog, setShowInsightLog] = useState(false);
+  const [logExpandedIdx, setLogExpandedIdx] = useState(-1);
   // Insight lifecycle: idle | loading | ready
   const [insightState, setInsightState] = useState("idle");
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -4822,6 +4970,9 @@ export default function PangeaAIPrototype() {
     setInsightState("idle");
     setShowSentModal(false);
     setShowSuccessModal(false);
+    setHasSecondInsight(false);
+    setShowInsightLog(false);
+    setLogExpandedIdx(-1);
     setInsightViewed(false);
     setFeedback(null);
     setShowBottomSheet(false);
@@ -4852,6 +5003,17 @@ export default function PangeaAIPrototype() {
   const handleSentModalCategorize = () => {
     setShowSentModal(false);
     setScreen("categorize");
+  };
+
+  const handleSimulateSecondTransfer = () => {
+    // Close sheet if open, restart generation, mark second insight as generated
+    setShowBottomSheet(false);
+    setShowInsightLog(false);
+    setLogExpandedIdx(-1);
+    setInsightViewed(false);
+    setStripDismissed(false);
+    setHasSecondInsight(true); // second insight data is pre-loaded
+    startGenerating(scenario);
   };
 
   // Central router for tapping an insight widget — scenario decides destination.
@@ -5009,6 +5171,13 @@ export default function PangeaAIPrototype() {
               onAnnotationFullInsight={() => { setAnnotationPopover(null); setInsightViewed(true); setScreen("insightView"); }}
               insightIconProps={insightIconProps}
               stripDismissed={stripDismissed}
+              currentInsight={scenario?.uiPattern === "recommended" && hasSecondInsight ? scenario?.secondInsight : scenario?.insightDetail}
+              hasMultipleInsights={scenario?.uiPattern === "recommended" && hasSecondInsight}
+              showInsightLog={showInsightLog}
+              onViewAllInsights={() => setShowInsightLog(true)}
+              onCloseLog={() => { setShowInsightLog(false); setLogExpandedIdx(-1); }}
+              logExpandedIdx={logExpandedIdx}
+              onLogExpand={setLogExpandedIdx}
             />
             {showSuccessModal && (
               <CatDoneModal
@@ -5203,8 +5372,16 @@ export default function PangeaAIPrototype() {
           <div>
             <strong style={{ color: "#94a3b8" }}>Quality gate:</strong> In production, weak insights would not surface — no card, no bell.
           </div>
+          {scenario?.uiPattern === "recommended" && insightState === "ready" && !hasSecondInsight && (
+            <button onClick={handleSimulateSecondTransfer} style={{
+              marginTop: 12, width: "100%", padding: "8px 10px",
+              background: "rgba(23,215,244,0.15)", color: "#17d7f4",
+              border: "1px solid rgba(23,215,244,0.35)", borderRadius: 8,
+              fontSize: 12, fontWeight: 600, cursor: "pointer",
+            }}>⚡ Simulate 2nd Transfer</button>
+          )}
           <button onClick={restart} style={{
-            marginTop: 12, width: "100%", padding: "8px 10px",
+            marginTop: 8, width: "100%", padding: "8px 10px",
             background: "rgba(0,180,166,0.2)", color: "#e2e8f0",
             border: `1px solid ${C.teal}40`, borderRadius: 8,
             fontSize: 12, fontWeight: 600, cursor: "pointer",
